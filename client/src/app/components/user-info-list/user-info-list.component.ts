@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-info-list',
@@ -10,6 +11,7 @@ import { DataService } from '../../services/data.service';
 
 export class UserInfoListComponent implements OnInit {
     users: User[];
+    subscriptionUsers: Subscription;
 
     constructor(private dataService: DataService) { }
 
@@ -17,7 +19,12 @@ export class UserInfoListComponent implements OnInit {
         this.getUsers();
     }
 
+    ngOnDestroy() {
+        this.subscriptionUsers.unsubscribe();
+    }
+
     getUsers() {
-        this.users = this.dataService.getUsers();
+      this.subscriptionUsers = this.dataService.getUsers()
+          .subscribe(users => this.users = users);
     }
 }

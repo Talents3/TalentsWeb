@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { routing } from'./app.routes';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserInfoListComponent } from './components/user-info-list/user-info-list.component';
@@ -18,7 +18,8 @@ import{ DataService } from './services/data.service';
   ],
   imports: [
     BrowserModule,
-    routing
+    routing,
+    HttpClientModule
   ],
   providers: [
     DataService
