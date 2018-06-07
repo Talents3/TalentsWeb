@@ -93,13 +93,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _app_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.routes */ "./src/app/app.routes.ts");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
-/* harmony import */ var _components_user_info_list_user_info_list_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/user-info-list/user-info-list.component */ "./src/app/components/user-info-list/user-info-list.component.ts");
-/* harmony import */ var _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/user-detail/user-detail.component */ "./src/app/components/user-detail/user-detail.component.ts");
-/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _app_routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.routes */ "./src/app/app.routes.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var _components_user_info_list_user_info_list_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/user-info-list/user-info-list.component */ "./src/app/components/user-info-list/user-info-list.component.ts");
+/* harmony import */ var _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/user-detail/user-detail.component */ "./src/app/components/user-detail/user-detail.component.ts");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/data.service */ "./src/app/services/data.service.ts");
+/* harmony import */ var _components_register_module_register_module_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/register-module/register-module.component */ "./src/app/components/register-module/register-module.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -115,26 +117,30 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_5__["NavbarComponent"],
-                _components_user_info_list_user_info_list_component__WEBPACK_IMPORTED_MODULE_6__["UserInfoListComponent"],
-                _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_7__["UserDetailComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_6__["NavbarComponent"],
+                _components_user_info_list_user_info_list_component__WEBPACK_IMPORTED_MODULE_7__["UserInfoListComponent"],
+                _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_8__["UserDetailComponent"],
+                _components_register_module_register_module_component__WEBPACK_IMPORTED_MODULE_10__["RegisterModuleComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _app_routes__WEBPACK_IMPORTED_MODULE_2__["routing"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
+                _app_routes__WEBPACK_IMPORTED_MODULE_3__["routing"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"]
             ],
             providers: [
-                _services_data_service__WEBPACK_IMPORTED_MODULE_8__["DataService"]
+                _services_data_service__WEBPACK_IMPORTED_MODULE_9__["DataService"]
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -157,6 +163,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _components_user_info_list_user_info_list_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/user-info-list/user-info-list.component */ "./src/app/components/user-info-list/user-info-list.component.ts");
 /* harmony import */ var _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/user-detail/user-detail.component */ "./src/app/components/user-detail/user-detail.component.ts");
+/* harmony import */ var _components_register_module_register_module_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/register-module/register-module.component */ "./src/app/components/register-module/register-module.component.ts");
+
 
 
 
@@ -173,6 +181,10 @@ var routes = [
     {
         path: 'users/:id',
         component: _components_user_detail_user_detail_component__WEBPACK_IMPORTED_MODULE_2__["UserDetailComponent"]
+    },
+    {
+        path: 'addUser',
+        component: _components_register_module_register_module_component__WEBPACK_IMPORTED_MODULE_3__["RegisterModuleComponent"]
     },
     {
         path: '**',
@@ -202,7 +214,7 @@ module.exports = "a.navbar-brand {\n    color: #e9c95f;\n    font-family: \"Comi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li><a routerLink = \"/problems\">Probelms <span class=\"sr-only\">(current)</span></a></li>\n        <li><a routerLink = \"/newProblem\">Add New Problem</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulties <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a routerLink=\"/problemsFilter/easy\">Easy</a></li>\n            <li><a routerLink=\"/problemsFilter/medium\">Medium</a></li>\n            <li><a routerLink=\"/problemsFilter/hard\">Hard</a></li>\n            <li><a routerLink=\"/problemsFilter/super\">Super</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a href=\"#\">Link</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li><a routerLink = \"/problems\">Probelms <span class=\"sr-only\">(current)</span></a></li>\n        <li><a routerLink = \"/newProblem\">Add New Problem</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulties <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a routerLink=\"/problemsFilter/easy\">Easy</a></li>\n            <li><a routerLink=\"/problemsFilter/medium\">Medium</a></li>\n            <li><a routerLink=\"/problemsFilter/hard\">Hard</a></li>\n            <li><a routerLink=\"/problemsFilter/super\">Super</a></li>\n          </ul>\n        </li>\n      </ul>\n      <form class=\"navbar-form navbar-left\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a a routerLink = \"/addUser\">Add User</a></li>\n        <li class=\"dropdown\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">Action</a></li>\n            <li><a href=\"#\">Another action</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a href=\"#\">Separated link</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n"
 
 /***/ }),
 
@@ -242,6 +254,106 @@ var NavbarComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], NavbarComponent);
     return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/register-module/register-module.component.css":
+/*!**************************************************************************!*\
+  !*** ./src/app/components/register-module/register-module.component.css ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/register-module/register-module.component.html":
+/*!***************************************************************************!*\
+  !*** ./src/app/components/register-module/register-module.component.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n    <form #formRef = \"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"userName\">User name</label>\n        <input name = \"userName\" id=\"userName\" class=\"form-control\"\n          type=\"text\" required placeholder=\"Please enter your name\"\n          [(ngModel)] = \"newUser.name\">\n      </div>\n      <div class=\"form-group\">\n        <label for=\"userEducation\">education</label>\n        <textarea name = \"userEducation\" id=\"userEducation\" class=\"form-control\"\n         placeholder=\"Please enter your education\"\n          [(ngModel)] = \"newUser.education\" rows=\"2\">\n        </textarea>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"userBlog\">blog</label>\n        <textarea name = \"userBlog\" id=\"userBlog\" class=\"form-control\"\n         placeholder=\"Please enter your blog\"\n          [(ngModel)] = \"newUser.blog\" rows=\"2\">\n        </textarea>\n      </div>\n      <div class=\"row\">\n        <div class = \"col-md-12\">\n          <button type=\"submit\" class=\"btn btn-primary pull-right\"\n            (click) = \"addUser()\"\n          > Add profile </button>\n        </div>\n      </div>\n    </form>\n  </div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/register-module/register-module.component.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/components/register-module/register-module.component.ts ***!
+  \*************************************************************************/
+/*! exports provided: RegisterModuleComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterModuleComponent", function() { return RegisterModuleComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/data.service */ "./src/app/services/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DEFAULT_USER = Object.freeze({
+    id: 0,
+    username: '',
+    password: '',
+    image: '',
+    backgroundImage: '',
+    age: 0,
+    adress: '',
+    phone: '',
+    email: '',
+    isMale: false,
+    description: '',
+    usAuthorization: false,
+    needVisaSponsor: false,
+    newGrads: false,
+    skills: [],
+    links: [],
+    certificates: [],
+    experiences: [],
+    educations: [],
+    blogs: [],
+});
+var RegisterModuleComponent = /** @class */ (function () {
+    function RegisterModuleComponent(dataService) {
+        this.dataService = dataService;
+        // create a shadow copy of problem and assign it to newProblem
+        // Object.assign() copies property values. If the source value is a
+        //reference to an object, it only copies that reference value.
+        this.newUser = Object.assign({}, DEFAULT_USER);
+    }
+    RegisterModuleComponent.prototype.ngOnInit = function () {
+    };
+    RegisterModuleComponent.prototype.addUser = function () {
+        // assign newProblem a new problem instance
+        // Otherwise newProblem have same reference as the one we added to the list
+        // then when next time add new problem, it will override the problem we
+        //have already add into the problem list.
+        this.dataService.addUser(this.newUser);
+        this.newUser = Object.assign({}, DEFAULT_USER);
+    };
+    RegisterModuleComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-register-module',
+            template: __webpack_require__(/*! ./register-module.component.html */ "./src/app/components/register-module/register-module.component.html"),
+            styles: [__webpack_require__(/*! ./register-module.component.css */ "./src/app/components/register-module/register-module.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+    ], RegisterModuleComponent);
+    return RegisterModuleComponent;
 }());
 
 

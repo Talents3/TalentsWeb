@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const userService = require('../services/userService');
+const loginService = require('../services/loginService');
+
+const passport = require('passport');
+const localStrategy = require('passport-local');
 
 //bussiness logic put in service
 //router helps us to find which service we need
@@ -20,8 +24,8 @@ router.get('/users/:id', function (req, res) {
     .then(user => res.json(user));
 });
 
-router.post('/users', jsonParser, (req, res) => {
-    userService.addUser(req.body)
+router.post('/register', jsonParser, (req, res) => {
+    loginService.register(req.body)
         .then(user => res.json(user),
             error => res.status(400).send('User already exists'));
 });

@@ -1,10 +1,49 @@
-const mongoose = require('mongoose');
-const userSchema = mongoose.Schema({
-    id: Number,
-    name: String,
-    education: String,
-    blog: String
-});
+var mongoose = require("mongoose");
+var passportLocalMongoose = require("passport-local-mongoose");
 
-const UserModel = mongoose.model('UserModel', userSchema);
-module.exports = UserModel;
+var UserSchema = new mongoose.Schema({
+    id: Number,
+    username: String,
+    password: String,
+    image: String,
+    backgroundImage: String,
+    age: Number,
+    adress: String,
+    phone: String,
+    email: String,
+    isMale: Boolean,
+    description: String,
+    usAuthorization: Boolean,
+    needVisaSponsor: Boolean,
+    newGrads: Boolean,
+    skills: [String],
+    links: [String],
+    certificates: [String],
+    experiences: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Experience"
+
+        }
+
+    ],
+    educations: [
+	    {
+	        type: mongoose.Schema.Types.ObjectId,
+            ref: "Education"
+
+	    }
+    ],
+    blogs: [
+      {
+      	    type: mongoose.Schema.Types.ObjectId,
+            ref: "Blog"
+
+      }
+    ]
+
+},{ usePushEach: true });
+
+UserSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("UserModel", UserSchema);
