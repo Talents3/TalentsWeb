@@ -9,6 +9,4 @@ export class Education {
   inProgress: boolean;
   transcripts: string;
   courses: Course[];
-
-  ]
 }
