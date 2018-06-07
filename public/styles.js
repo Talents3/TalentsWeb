@@ -539,7 +539,7 @@ module.exports = function (css) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/ruizhang/Downloads/Project628/TalentsWeb/client/node_modules/bootstrap/dist/css/bootstrap.min.css */"./node_modules/bootstrap/dist/css/bootstrap.min.css");
+module.exports = __webpack_require__(/*! /Users/gaoyouxing/Desktop/Web/TalentsWeb/client/node_modules/bootstrap/dist/css/bootstrap.min.css */"./node_modules/bootstrap/dist/css/bootstrap.min.css");
 
 
 /***/ })

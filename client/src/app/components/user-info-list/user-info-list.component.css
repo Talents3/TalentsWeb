@@ -1,0 +1,12 @@
+img {
+    border-radius: 50%;
+   
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    width: 100px;
+    height: 100px;
+};
+a {
+	padding-top: 10px;
+}
