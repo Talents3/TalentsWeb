@@ -19,10 +19,6 @@ app.use((req, res) => {
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://talents:Talents3@ds251210.mlab.com:51210/talents-web-user-db');
-
-//launch application,listen on port3000
-app.listen(3000, () => console.log('Example app listening on port3000!'));
-
 // passport configuration
 app.use(require("express-session")({
      secret: "I am youxing gao!",
@@ -39,3 +35,8 @@ app.use(function(req, res, next){
    res.locals.currentUser = req.user;
    next();
 });
+
+//launch application,listen on port3000
+app.listen(3000, () => console.log('Example app listening on port3000!'));
+
+
