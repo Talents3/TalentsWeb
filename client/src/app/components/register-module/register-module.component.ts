@@ -41,6 +41,7 @@ export class RegisterModuleComponent implements OnInit {
   ngOnInit() {
   }
 
+
   addUser() {
     // assign newProblem a new problem instance
     // Otherwise newProblem have same reference as the one we added to the list
@@ -48,5 +49,17 @@ export class RegisterModuleComponent implements OnInit {
     //have already add into the problem list.
     this.dataService.addUser(this.newUser);
     this.newUser = Object.assign({}, DEFAULT_USER);
+  }
+
+
+  check() {
+    if (document.getElementById('id_password1').value ==
+      document.getElementById('id_password2').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = '';
+    } else {
+      document.getElementById('message').style.color = 'red';
+      document.getElementById('message').innerHTML = 'not matching';
+    }
   }
 }
