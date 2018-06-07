@@ -1,6 +1,8 @@
 import { Routes , RouterModule } from '@angular/router';
 import { UserInfoListComponent } from './components/user-info-list/user-info-list.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { RegisterModuleComponent } from './components/register-module/register-module.component';
+
 const routes: Routes = [
     {
         path: '',
@@ -14,6 +16,10 @@ const routes: Routes = [
     {
         path: 'users/:id',
         component: UserDetailComponent
+    },
+    {
+        path: 'addUser',
+        component: RegisterModuleComponent
     },
     {
         path: '**',

@@ -1,5 +1,8 @@
 
 const UserModel = require('../models/userModel');
+const Experience = require('../models/experience');
+const Education = require('../models/education');
+const Blog = require('../models/blog');
 
 const getUsers = function() {
     // return new Promise((resolve, reject) => {
@@ -31,41 +34,11 @@ const getUser = function(id) {
     });
 }
 
-// add a user
-const addUser = function(newUser) {
-    // return new Promise((resolve, reject) => {
-    //     // check if the problem exists
-    //     if (problems.find(problem => problem.name === newProblem.name)) {
-    //         reject('problem already exists');
-    //     } else {
-    //         newProblem.id = problems.length + 1;
-    //         problems.push(newProblem);
-    //         resolve(newProblem);
-    //     }
-
-    // });
-    // check if the problem is already in the db
-    return new Promise((resolve, reject) => {
-    UserModel.findOne({name: newUser.name}, (err, data) => {
-        if (data) {
-            reject('User already exists');
-        } else {
-            // save to mongo db
-            UserModel.count({}, (err, count) => {
-                newUser.id = count + 1;
-                const mongoUser = new UserModel(newUser);
-                mongoUser.save();
-                resolve(mongoUser);
-            });
-        }
-        });
-    });
-}
 
 //modify a user
-const modifyUser = function(editedUser) {
+const addUserEducation = function(editedUser) {
   return new Promise((resolve, reject) => {
-        UserModel.findOne({name: editedUser.name}, (err, oldUser) => {
+        UserModel.findOne({id: editedUser.id}, (err, oldUser) => {
             if (!oldUser) {
                 reject('Userdoes not exist');
             } else {
@@ -80,9 +53,26 @@ const modifyUser = function(editedUser) {
     });
 }
 
+const modifyUserEducation = function(editedUser) {
+  return new Promise((resolve, reject) => {
+        UserModel.findOne({id: editedUser.id}, (err, oldUser) => {
+            if (!oldUser) {
+                reject('Userdoes not exist');
+            } else {
+            // update new info to mongo db
+                oldUser.education = editedUser.education;
+                oldUser.blog = editedUser.blog;
+                //TODO: add more when finish user model
+                oldUser.save();
+                resolve(oldUser);
+            }
+        });
+    });
+}
+
+
+
 module.exports = {
     getUsers,
-    getUser,
-    addUser,
-    modifyUser
+    getUser
 }
