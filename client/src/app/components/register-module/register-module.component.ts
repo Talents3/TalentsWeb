@@ -4,9 +4,25 @@ import { DataService } from '../../services/data.service';
 
 const DEFAULT_USER: User = Object.freeze({
   id: 0,
-  name: '',
-  education:'',
-  blog: ''
+  username: '',
+  password: '',
+  image: '',
+  backgroundImage: '',
+  age: 0,
+  adress:'',
+  phone: '',
+  email: '',
+  isMale: false,
+  description: '',
+  usAuthorization: false,
+  needVisaSponsor: false,
+  newGrads: false,
+  skills: [],
+  links: [],
+  certificates: [],
+  experiences: [],
+  educations: [],
+  blogs: [],
 });
 
 @Component({

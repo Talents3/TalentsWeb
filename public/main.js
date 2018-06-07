@@ -307,9 +307,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var DEFAULT_USER = Object.freeze({
     id: 0,
-    name: '',
-    education: '',
-    blog: ''
+    username: '',
+    password: '',
+    image: '',
+    backgroundImage: '',
+    age: 0,
+    adress: '',
+    phone: '',
+    email: '',
+    isMale: false,
+    description: '',
+    usAuthorization: false,
+    needVisaSponsor: false,
+    newGrads: false,
+    skills: [],
+    links: [],
+    certificates: [],
+    experiences: [],
+    educations: [],
+    blogs: [],
 });
 var RegisterModuleComponent = /** @class */ (function () {
     function RegisterModuleComponent(dataService) {
