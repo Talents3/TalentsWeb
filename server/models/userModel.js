@@ -1,16 +1,27 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 var UserSchema = new mongoose.Schema({
     id: Number,
-    username: String,
+    username: {
+      type: String,
+      required: true
+    },
     password: String,
+    hash: String,
+    salt: String,
     image: String,
     backgroundImage: String,
     age: Number,
     adress: String,
     phone: String,
-    email: String,
+    email: {
+      type: String,
+      unique: true,
+      required: true
+    },
     isMale: Boolean,
     description: String,
     usAuthorization: Boolean,
