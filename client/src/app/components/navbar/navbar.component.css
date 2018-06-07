@@ -1,4 +1,8 @@
+.navbar {
+  background-color: #57068c;
+}
+
 a.navbar-brand {
-    color: #e9c95f;
+    color: #ffff;
     font-family: "Comic Sans MS", cursive, sans-serif
 }

@@ -1,15 +1,110 @@
-<div class='container' *ngIf="user">
-  <div class="col-sm-12 col-md-4">
-    <div>
-      <h2>
-        {{user.id}}. {{user.name}}
-      </h2>
-      <p>
-        {{user.education}}
-      </p>
-      <p>
-        {{user.blog}}
-      </p>
+
+<nav class="floating-menu nav navbar-nav" id="floating-menu">
+  <button class="list-group-item menu-group-item active">Contact</button>
+  <button class="list-group-item menu-group-item">Education</button>
+  <button class="list-group-item menu-group-item">Experience
+  </button>
+  <button class="list-group-item menu-group-item"> Blogs</button>
+</nav>
+  <!-- now need to start to build the image and contact info division -->
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+          <!-- Left part-->
+          <div class="col-md-6">
+            <div class="column" align="center">
+              <img class="img-responsive rounded float-left" src="assets/images/profile_pic.jpg">
+              <div class="lead" align="center">Youxing Gao</div>
+              <div align="center">     <!-- hard code some data -->
+                <div>
+                  <h5 align="center">New York Area</h5>
+                  <div align="center">
+                    <a href="mailto:yg1497@nyu.edu">Email: yg1497@nyu.edu</a>
+                  </div>
+                    <div align="center">
+                  <a href="tel:6462098552" align="center"> Tel: 6462098552</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right part-->
+          <div class="col-md-6 info" id="experience">
+            <div class="column" align="center">
+              <!-- Personal education and working Experience display-->
+              <div>
+                <div class="lead" align="left">Just graduated from NYU</div>
+                <div class="container" align="left">
+                  <button class="list-group-item info-group-item row" align="center">
+                      <img class="icon rounded float-left" id="icon-element" src="assets/images/education-icon.png">
+                      <div id="detail-element">New York University</div>
+                  </button>
+                  <button class="list-group-item info-group-item row" align="center">
+                      <img class="icon rounded float-left" id="icon-element" src="assets/images/work-icon.png">
+                      <div id="detail-element">Amazon Ltd.</div>
+                  </button>
+                  <button class="list-group-item info-group-item row" align="center">
+                      <img class="icon rounded float-left" id="icon-element" src="assets/images/blog-icon.png">
+                      <div id="detail-element">Blogs</div>
+                  </button>
+                </div>
+              </div>
+              <!-- Tag area -->
+              <div class="container tags-area" align="left">
+                <div align="left">
+                  <div class= "lead" style="display: inline-block;" align="left">Tags</div>&nbsp;
+                  <button class="btn btn-outline-secondary btn-sm" align="center">edit</button>
+                </div>
+                <div class="tags-holder" align="left">
+                  <button type="button" class="btn btn-outline-primary btn-sm" align="left">Male</button>&nbsp;
+                  <button type="button" class="btn btn-outline-primary btn-sm" align="left">Foreign Student</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-  </div>
+
+    <div class="education-holder jumbotron" id="education-holder">
+      <div align="left">
+        <div class= "lead" style="display: inline-block;" align="left">Education</div>&nbsp;
+        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+      </div>
+      <!-- TODO:  -->
+      <div class="education" id="first-education">
+        <div class="lead">New York University</div>
+        <div>Master of Science in Computer Science</div>
+        <div>GPA:3.99</div>
+        <div>Core Course: Java, Database</div>
+      </div>
+      <hr/>
+    </div>
+
+    <div class="work-experience-holder jumbotron">
+      <div align="left">
+        <div class= "lead" style="display: inline-block;" align="left">Work Experience</div>&nbsp;
+        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+      </div>
+      <!-- TODO:  -->
+        <div class="work-experience" id="first-education">
+          <div class="lead">Google</div>
+          <div>Software Developer</div>
+          <div>August 2016 - August 2017  1 year</div>
+        </div>
+      <hr/>
+    </div>
+
+    <div class="project-experience-holder jumbotron">
+      <div align="left">
+        <div class= "lead" style="display: inline-block;" align="left">Project Experience</div>&nbsp;
+        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+      </div>
+      <!-- TODO:  -->
+      <div id="first-education">
+        <div class="lead">Alpha-Go Development</div>
+        <div>AI Developer</div>
+        <div>August 2016 - August 2017  1 year</div>
+      </div>
+      <hr/>
+    </div>
 </div>

@@ -1,0 +1,94 @@
+#icon-element {
+  display:inline-block;
+  width: 5%;
+  margin-left:0px;
+}
+#detail-element {
+  display:inline-block;
+  width: 90%;
+  padding-left: 20px;
+  margin-right: 0px;
+}
+
+#edit {
+  white-space: nowrap;
+  display:inline-block;
+}
+#experience {
+  margin-top: 20px;
+}
+.sticky {
+  top: 0;
+  width: 100%
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 30px;
+}
+.floating-menu {
+  padding: 0px;
+  width: 130px;
+  z-index: 100;
+  position: fixed;
+}
+.img-responsive {
+  border-radius:50%;
+  width: 40%;
+}
+.menu-group-item {
+
+}
+.info-group-item {
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+}
+.info {
+  margin-top: 50px;
+}
+.icon {
+  width: 5%;
+}
+.jumbotron {
+  background-color: lightblue;
+}
+.btn-outline-primary {
+  border-color: #57068c;
+  background-color: transparent;
+}
+.btn-outline-secondary {
+  float:right;
+  display: inline-block;
+  width: 10%;
+  border-color: #57068c;
+  background-color: transparent;
+}
+.tags-holder {
+  margin-top : 10px;
+}
+
+.tags-area {
+  margin-top: 20px;
+}
+.education-holder {
+  border: none;
+}
+.education {
+  background-color: transparent;
+  border: none;
+}
+.work-experience {
+  border: none;
+}
+.project {
+  border: none;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ffff;
+    margin: 1em 0;
+    padding: 0;
+}

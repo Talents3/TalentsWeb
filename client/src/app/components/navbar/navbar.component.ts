@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  title = "Title";
-  
+  title = "Talents3";
+
   constructor() { }
 
   ngOnInit() {
