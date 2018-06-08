@@ -1,5 +1,51 @@
-<div class="container">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+<div class="container" style="padding-top:3%; padding-left: 3%;padding-right: 3%;">
+	 <div class="row searchFilter"  >
+         <div class="col-sm-12" >
+          <div class="input-group" >
+           <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" >
+           <div class="input-group-btn" >
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >Category</span> <span class="caret" >&nbsp;</span></button>
+            <div class="dropdown-menu dropdown-menu-right" >
+               <ul class="category_filters" >
+                <li >
+                 <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio" ><label for="all" >All</label>
+                </li>
+                <li >
+                 <input type="radio" name="radios" id="Design" value="Design" ><label class="category-label" for="Design" >People</label>
+                </li>
+                <li >
+                 <input type="radio" name="radios" id="Marketing" value="Marketing" ><label class="category-label" for="Marketing" >Experience</label>
+                </li>
+                <li >
+                 <input type="radio" name="radios" id="Programming" value="Programming" ><label class="category-label" for="Programming" >Education</label>
+                </li>
+                <li >
+                 <input type="radio" name="radios" id="Sales" value="Sales" ><label class="category-label" for="Sales" >Skill</label>
+                </li>
+                <li >
+                 <input type="radio" name="radios" id="Support" value="Support" ><label class="category-label" for="Support" >Project</label>
+                </li>
+               </ul>
+            </div>
+            <button id="searchBtn" type="button" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+           </div>
+          </div>
+         </div>
+      </div>
+</div>
+
+   <div class="container" style="padding-left: 8%; padding-top: 5%; padding-right: 8%;">   
    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+     
+   
+
+
 
     <div class="col-md-3 col-sm-6" *ngFor="let user of users">
     	<div class="thumbnail">
@@ -9,7 +55,7 @@
 			  <img class="card-img-top" src="{{user.image}}" alt="Card image cap">
 			  <div class="card-body">
 			    <h5 class="card-title">{{user.username}}</h5>
-			    <p class="card-text">{{user.decription}}</p>
+			    <p class="card-text">{{user.description}}</p>
 			    <ul class="list-group">
 			    <li  *ngFor="let experience of user.experience | slice:0:2; let i = index" class="list-group-item"> {{experience.companyName}} : {{experience.title}}</li>
 			    </ul>

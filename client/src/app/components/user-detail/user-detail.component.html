@@ -4,7 +4,7 @@
   <button class="list-group-item menu-group-item">Education</button>
   <button class="list-group-item menu-group-item">Experience
   </button>
-  <button class="list-group-item menu-group-item"> Blogs</button>
+  <button class="list-group-item menu-group-item" [routerLink]="['/blogs']"> Blogs</button>
 </nav>
   <!-- now need to start to build the image and contact info division -->
 <div class="container">
@@ -13,16 +13,16 @@
           <!-- Left part-->
           <div class="col-md-6">
             <div class="column" align="center">
-              <img class="img-responsive rounded float-left" src="assets/images/profile_pic.jpg">
-              <div class="lead" align="center">Youxing Gao</div>
+              <img class="float-left" style=" border-radius: 50%; " src="{{user.image}}">
+              <div class="lead" align="center">{{user.username}}</div>
               <div align="center">     <!-- hard code some data -->
                 <div>
-                  <h5 align="center">New York Area</h5>
+                  <h5 align="center">{{user.adress}}</h5>
                   <div align="center">
-                    <a href="mailto:yg1497@nyu.edu">Email: yg1497@nyu.edu</a>
+                    <a href="mailto:yg1497@nyu.edu">Email: {{user.email}}</a>
                   </div>
                     <div align="center">
-                  <a href="tel:6462098552" align="center"> Tel: 6462098552</a>
+                  <a href="tel:6462098552" align="center"> Tel: {{user.phone}}</a>
                     </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
             <div class="column" align="center">
               <!-- Personal education and working Experience display-->
               <div>
-                <div class="lead" align="left">Just graduated from NYU</div>
+                <div class="lead" align="left">{{user.description}}</div>
                 <div class="container" align="left">
                   <button class="list-group-item info-group-item row" align="center">
                       <img class="icon rounded float-left" id="icon-element" src="assets/images/education-icon.png">
@@ -52,13 +52,22 @@
               <!-- Tag area -->
               <div class="container tags-area" align="left">
                 <div align="left">
-                  <div class= "lead" style="display: inline-block;" align="left">Tags</div>&nbsp;
-                  <button class="btn btn-outline-secondary btn-sm" align="center">edit</button>
+                  <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Tags</div>&nbsp;
+                 
                 </div>
                 <div class="tags-holder" align="left">
-                  <button type="button" class="btn btn-outline-primary btn-sm" align="left">Male</button>&nbsp;
-                  <button type="button" class="btn btn-outline-primary btn-sm" align="left">Foreign Student</button>
+                 
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.isMale" style="background-color:yellow; padding-left: 20px;" >Male</button>&nbsp;
+             
+            
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" style="background-color:red;padding-left: 20px;" *ngIf = "!user.isMale" >Female</button>&nbsp;
+
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm " align="left" *ngIf = "user.needVisaSponsor" style="background-color: #ff1a1a;padding-left: 20px; " >Need Sponsorship</button>&nbsp;
+  
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
                 </div>
+                 <button class="btn btn-outline-secondary btn-sm" align="right" >edit</button>
               </div>
             </div>
           </div>
@@ -67,12 +76,12 @@
 
     <div class="education-holder jumbotron" id="education-holder">
       <div align="left">
-        <div class= "lead" style="display: inline-block;" align="left">Education</div>&nbsp;
+        <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Education</div>&nbsp;
         <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
       </div>
       <!-- TODO:  -->
-      <div class="education" id="first-education">
-        <div class="lead">New York University</div>
+      <div class="education" id="first-education" *ngFor="let education of user.education">
+        <div class="lead">{{education.universityName}}</div>
         <div>Master of Science in Computer Science</div>
         <div>GPA:3.99</div>
         <div>Core Course: Java, Database</div>
