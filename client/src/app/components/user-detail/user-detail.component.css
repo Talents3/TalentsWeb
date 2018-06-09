@@ -17,10 +17,18 @@
 #experience {
   margin-top: 20px;
 }
+#companyName {
+  font-size: 20px;
+}
+#universityName {
+  font-size: 20px;
+}
+
 .sticky {
   top: 0;
   width: 100%
 }
+
 
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
 .sticky + .content {
@@ -35,6 +43,7 @@
 .img-responsive {
   border-radius:50%;
   width: 40%;
+  height: 40%;
 }
 .menu-group-item {
 
@@ -58,9 +67,8 @@
   background-color: transparent;
 }
 .btn-outline-secondary {
-  float:right;
   display: inline-block;
-  width: 10%;
+  width: 50px;
   border-color: #57068c;
   background-color: transparent;
 }
@@ -83,6 +91,11 @@
 }
 .project {
   border: none;
+}
+.lead {
+  display: inline-block;
+  font-weight: bold;
+  color: purple;
 }
 hr {
     display: block;
