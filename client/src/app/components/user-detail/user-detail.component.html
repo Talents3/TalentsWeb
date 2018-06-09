@@ -33,7 +33,7 @@
             <div class="column" align="center">
               <!-- Personal education and working Experience display-->
               <div>
-                <div class="lead" align="left">{{user.description}}</div>
+                <div class="userDescription" align="left">{{user.description}}</div>
                 <div class="container" align="left">
                   <button class="list-group-item info-group-item row" align="center">
                       <img class="icon rounded float-left" id="icon-element" src="assets/images/education-icon.png">
@@ -53,18 +53,18 @@
               <div class="container tags-area" align="left">
                 <div align="left">
                   <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Tags</div>&nbsp;
-                 
+
                 </div>
                 <div class="tags-holder" align="left">
-                 
+
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.isMale" style="background-color:yellow; padding-left: 20px;" >Male</button>&nbsp;
-             
-            
+
+
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" style="background-color:red;padding-left: 20px;" *ngIf = "!user.isMale" >Female</button>&nbsp;
 
                     <button type="button" disabled class="btn btn-outline-primary btn-sm " align="left" *ngIf = "user.needVisaSponsor" style="background-color: #ff1a1a;padding-left: 20px; " >Need Sponsorship</button>&nbsp;
-  
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>
+
+                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>&nbsp;
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
                 </div>
                  <button class="btn btn-outline-secondary btn-sm" align="right" >edit</button>
@@ -76,37 +76,46 @@
 
     <div class="education-holder jumbotron" id="education-holder">
       <div align="left">
-        <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Education</div>&nbsp;
-        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+        <div class= "lead" align="left">Education</div>
+        <div class="modificationButtons" style="float:right;">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+        </div>
       </div>
-      <!-- TODO:  -->
       <div class="education" id="first-education" *ngFor="let education of user.education">
-        <div class="lead">{{education.universityName}}</div>
-        <div>Master of Science in Computer Science</div>
+        <hr/>
+        <div id="universityName">{{education.universityName}}</div>
+        <div>{{education.degreeType}}</div>
+        <div>{{education.major}}</div>
         <div>GPA:3.99</div>
-        <div>Core Course: Java, Database</div>
+        <div *ngFor="let course of education.courses">Core Course: {{course.courseName}}  {{course.courseGrade}}</div>
       </div>
-      <hr/>
     </div>
 
     <div class="work-experience-holder jumbotron">
       <div align="left">
-        <div class= "lead" style="display: inline-block;" align="left">Work Experience</div>&nbsp;
-        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
-      </div>
-      <!-- TODO:  -->
-        <div class="work-experience" id="first-education">
-          <div class="lead">Google</div>
-          <div>Software Developer</div>
-          <div>August 2016 - August 2017  1 year</div>
+        <div class= "lead" align="left">Work Experience</div>
+        <div class="modificationButtons" style="float:right;">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
         </div>
-      <hr/>
+      </div>
+        <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">
+          <hr/>
+          <div id="companyName">{{experience.companyName}}</div>
+          <div id="experienceTitle">{{experience.title}}</div>
+          <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
+        </div>
+
     </div>
 
     <div class="project-experience-holder jumbotron">
       <div align="left">
-        <div class= "lead" style="display: inline-block;" align="left">Project Experience</div>&nbsp;
-        <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+        <div class= "lead" align="left">Project Experience</div>
+        <div class="modificationButtons" style="float:right;">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+        </div>
       </div>
       <!-- TODO:  -->
       <div id="first-education">
