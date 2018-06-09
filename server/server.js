@@ -5,6 +5,12 @@ const restRouter = require('./routes/rest');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+
 const User = require('./models/userModel');
 //Make server to serve static file.
 const path = require('path');
@@ -17,25 +23,36 @@ app.use((req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, '../public')});
 });
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://talents:Talents3@ds251210.mlab.com:51210/talents-web-user-db');
+var morgan = require('morgan');
+var mongoose = require('mongoose');
+var config = require('./config/database');
+mongoose.Promise = require('bluebird');
+mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
+  .then(() =>  console.log('connection succesful'))
+  .catch((err) => console.error(err));
+
+app.use(passport.initialize());
+
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 //launch application,listen on port3000
 app.listen(3000, () => console.log('Example app listening on port3000!'));
-
-// passport configuration
-app.use(require("express-session")({
-     secret: "I am youxing gao!",
-     resave: false,
-     saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-app.use(function(req, res, next){
-   res.locals.currentUser = req.user;
-   next();
-});

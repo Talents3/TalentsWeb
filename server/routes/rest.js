@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const userService = require('../services/userService');
-const loginService = require('../services/loginService');
+const authenticationService = require('../services/authenticationService');
 
 const passport = require('passport');
 const localStrategy = require('passport-local');
@@ -24,16 +24,24 @@ router.get('/users/:id', function (req, res) {
     .then(user => res.json(user));
 });
 
-router.post('/register', jsonParser, (req, res) => {
-    loginService.register(req.body)
-        .then(user => res.json(user),
-            error => res.status(400).send('User already exists'));
-});
-
 router.put('/users', jsonParser, (req, res) => {
     userService.modifyUser(req.body)
         .then(user => res.json(user),
             error => res.status(400).send('User does not exist'));
 });
+
+router.post('/register', jsonParser, (req, res) => {
+    authenticationService.register(req,res);
+});
+
+router.post('/login', jsonParser, (req, res) => {
+    authenticationService.login(req, res);
+});
+
+router.get('/logout', (res, req) => {
+    authenticationService.logout(req, res);
+});
+
+
 
 module.exports = router;

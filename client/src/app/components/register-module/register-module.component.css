@@ -1,0 +1,17 @@
+.form-group {
+  padding: 5px;
+  border: none;
+}
+
+.signup_form {
+  padding: 20px;
+}
+.form-signin {
+  background-color: lightblue;
+  width: 40%;
+  padding: 20px;
+  border-radius: 5px;
+}
+.btn-primary {
+  padding : 10px;
+}

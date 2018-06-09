@@ -1,31 +1,36 @@
-<div>
-    <form #formRef = "ngForm">
-      <div class="form-group">
-        <label for="userName">User name</label>
-        <input name = "userName" id="userName" class="form-control"
-          type="text" required placeholder="Please enter your name"
-          [(ngModel)] = "newUser.name">
-      </div>
-      <div class="form-group">
-        <label for="userEducation">education</label>
-        <textarea name = "userEducation" id="userEducation" class="form-control"
-         placeholder="Please enter your education"
-          [(ngModel)] = "newUser.education" rows="2">
-        </textarea>
-      </div>
-      <div class="form-group">
-        <label for="userBlog">blog</label>
-        <textarea name = "userBlog" id="userBlog" class="form-control"
-         placeholder="Please enter your blog"
-          [(ngModel)] = "newUser.blog" rows="2">
-        </textarea>
-      </div>
-      <div class="row">
-        <div class = "col-md-12">
-          <button type="submit" class="btn btn-primary pull-right"
-            (click) = "addUser()"
-          > Add profile </button>
+<div class="container" align="center">
+  <div class="jumbotron">
+  <div class="login_form">
+    <div class="inner">
+      <form class="form-signin" (ngSubmit)="signup()" #signupForm="ngForm">
+        <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              {{message}}
         </div>
-      </div>
-    </form>
+        <div class="text-center mb-4">
+          <h2 class="h3 mb-3 font-weight-normal">Sign Up for Talents3</h2>
+        </div>
+
+        <div class="form-group">
+          <input id="id_username" minlength="1" maxlength="25" name="username" type="text" placeholder="Enter Your Name" class="form-control" [(ngModel)]="signupData.username" required/>
+        </div>
+
+        <div class="form-group">
+          <input id="id_password1" name="password1" type="password" placeholder="Password" class="form-control" value="" (keyup)="check()" [(ngModel)]="signupData.password" required/>
+        </div>
+
+        <div class="form-group">
+          <input id="id_password2" name="password2" type="password" placeholder="Confirm Password" class="form-control" value="" (keyup)="check()" [(ngModel)]="confirmPassword" required/>
+          <span id='message'></span>
+        </div>
+
+        <div class="form-group">
+          <input id="id_email" type="email" name="email" placeholder="E-mail address" class="form-control" [(ngModel)]="signupData.email" required/>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!signupForm.form.valid">Sign Up</button>
+        <p class="mt-5 mb-3 text-muted text-center">copyright {{footer}} ©</p>
+      </form>
   </div>
+</div>
+</div>
+</div>
