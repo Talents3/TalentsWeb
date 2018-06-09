@@ -1,29 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user.model';
-import { DataService } from '../../services/data.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from "@angular/router";
+import { Observable } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
-const DEFAULT_USER: User = Object.freeze({
-  id: 0,
-  username: '',
-  password: '',
-  image: '',
-  backgroundImage: '',
-  age: 0,
-  adress:'',
-  phone: '',
-  email: '',
-  isMale: false,
-  description: '',
-  usAuthorization: false,
-  needVisaSponsor: false,
-  newGrads: false,
-  skills: [],
-  links: [],
-  certificates: [],
-  experiences: [],
-  educations: [],
-  blogs: [],
-});
 
 @Component({
   selector: 'app-register-module',
@@ -34,32 +16,32 @@ export class RegisterModuleComponent implements OnInit {
 // create a shadow copy of problem and assign it to newProblem
 // Object.assign() copies property values. If the source value is a
 //reference to an object, it only copies that reference value.
-  newUser: User = Object.assign({}, DEFAULT_USER);
+  signupData = { username:'', email: '' , password:''};
+  confirmPassword = '';
+  message = '';
 
-  constructor(private dataService: DataService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
 
-  addUser() {
-    // assign newProblem a new problem instance
-    // Otherwise newProblem have same reference as the one we added to the list
-    // then when next time add new problem, it will override the problem we
-    //have already add into the problem list.
-    this.dataService.addUser(this.newUser);
-    this.newUser = Object.assign({}, DEFAULT_USER);
+  check() {
+    console.log(this.confirmPassword);
+    console.log(this.signupData.password);
+    if (this.confirmPassword !== this.signupData.password) {
+      this.message = 'Password not match!!';
+    } else {
+      this.message = '';
+    }
   }
 
-
-  check() {
-    if (document.getElementById('id_password1').value ==
-      document.getElementById('id_password2').value) {
-        document.getElementById('message').style.color = 'green';
-        document.getElementById('message').innerHTML = '';
-    } else {
-      document.getElementById('message').style.color = 'red';
-      document.getElementById('message').innerHTML = 'not matching';
-    }
+  signup() {
+    this.authService.register(this.signupData).subscribe(resp => {
+      console.log(resp);
+      this.router.navigate(['login']);
+    }, err => {
+      this.message = err.error.msg;
+    });
   }
 }

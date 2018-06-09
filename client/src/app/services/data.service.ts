@@ -31,7 +31,7 @@ export class DataService {
   //   return this.users.find( (user) => user.id === id);
   // }
   getUser(id: number): Promise<User> {
-    //return this.problems.find( (problem) => problem.id === id );
+    
     return this.httpClient.get(`api/v1/users/${id}`)
       .toPromise()
       .then((res: any) => res)
