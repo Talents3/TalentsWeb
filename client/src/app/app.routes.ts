@@ -2,7 +2,7 @@ import { Routes , RouterModule } from '@angular/router';
 import { UserInfoListComponent } from './components/user-info-list/user-info-list.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
-
+import { LoginModuleComponent } from './components/login-module/login-module.component';
 const routes: Routes = [
     {
         path: '',
@@ -18,8 +18,14 @@ const routes: Routes = [
         component: UserDetailComponent
     },
     {
-        path: 'addUser',
-        component: RegisterModuleComponent
+        path: 'register',
+        component: RegisterModuleComponent,
+        data: { title: 'Sign Up' }
+    },
+    {
+        path: 'login',
+        component: LoginModuleComponent,
+        data: { title: 'Login' }
     },
     {
         path: '**',
