@@ -13,11 +13,11 @@ export class UserDetailComponent implements OnInit {
   user: User
 
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
-
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.user = this.dataService.getUser(+params['id']);
-    });
-  }
+    this.route.params.subscribe(params => {
+      this.dataService.getUser(+params['id'])
+       .then(user => this.user = user);
+    })
+  }
 
 }
