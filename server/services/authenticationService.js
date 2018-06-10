@@ -41,8 +41,12 @@ const login = function(req, res) {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (isMatch && !err) {
+
+          const payload = {
+            sub: user.email // mongodb internal id
+          };
           // if user is found and password is right create a token
-          var token = jwt.sign(user.toJSON(), config.secret);
+          var token = jwt.sign(payload, config.secret);
           // return the information including token as JSON
           res.json({success: true, token: token, email: req.body.email});
         } else {

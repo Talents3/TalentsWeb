@@ -27,44 +27,19 @@ export class DataService {
       return this._userSource.asObservable();
   }
 
-  // getUser(id: number): User {
-  //   return this.users.find( (user) => user.id === id);
-  // }
   getUser(id: number): Promise<User> {
-    
+
     return this.httpClient.get(`api/v1/users/${id}`)
       .toPromise()
       .then((res: any) => res)
       .catch(this.handleError);
   }
 
-  // getUserByName(name: String): User {
-  //   return this.users.find((user) => user.name === name);
-  // }
-
-  // addUser(user: User) {
-  //   user.id = this.users.length + 1;
-  //   this.users.push(user);
-  // }
-
-  addUser(user: User) {
-    // problem.id = this.problems.length + 1;
-    // this.problems.push(problem);
-    const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
-    return this.httpClient.post('api/v1/users', user, options)
-      .toPromise()
-      .then((res: any) => {
-        //update the _userSource
-        this.getUsers();
-
-        return res;
-      })
-      .catch(this.handleError);
-  }
-
   modifyUser(user: User) {
-    const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'})};
-    return this.httpClient.put('api/v1/users', user, options)
+    const options = { headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'bearer ' + localStorage.getItem('token')})};
+    return this.httpClient.put(`api/v1/users/${user.id}`, user, options)
       .toPromise()
       .then((res: any) => {
         this.getUsers();
