@@ -24,10 +24,13 @@ router.get('/users/:id', function (req, res) {
     .then(user => res.json(user));
 });
 
-router.put('/users', jsonParser, (req, res) => {
-    userService.modifyUser(req.body)
-        .then(user => res.json(user),
-            error => res.status(400).send('User does not exist'));
+router.put('/users/:id', jsonParser, (req, res) => {
+    const id = req.params.id;
+    userService.modifyUser(req, res, +id)
+      .then(user => res.json(user))
+      .catch(function(err) {
+        console.log("Failed:", err);
+      });
 });
 
 router.post('/register', jsonParser, (req, res) => {

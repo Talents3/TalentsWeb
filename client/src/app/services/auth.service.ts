@@ -8,7 +8,7 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
+  
   constructor(private httpClient: HttpClient) { }
 
   register(signupData): any {
