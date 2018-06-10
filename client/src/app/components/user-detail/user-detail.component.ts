@@ -20,4 +20,13 @@ export class UserDetailComponent implements OnInit {
     })
   }
 
+  openEditInfo(){
+  	var editOverlay = document.getElementById("infoEditOverlay");
+  	editOverlay.style.display = "block";
+  }
+  closeEditInfo(){
+  	var editOverlay = document.getElementById("infoEditOverlay");
+  	editOverlay.style.display = "none";
+  }
+
 }
