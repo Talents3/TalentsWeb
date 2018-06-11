@@ -37,6 +37,7 @@ const getUser = function(id) {
 }
 
 const modifyUser = function(req, res, id) {
+  console.log("begin Modify backend");
   return new Promise((resolve, reject) => {
         User.findOne({id: id}, (err, oldUser) => {
             if (!oldUser) {
@@ -70,8 +71,13 @@ const modifyUser = function(req, res, id) {
                   console.log('Verify succesful!!');
                 });
 
+                oldUser.username = editedUser.username;
+                oldUser.age = editedUser.age;
+                oldUser.isMale = editedUser.isMale;
+                oldUser.newGrads = editedUser.newGrads;
                 oldUser.description = editedUser.description;
                 oldUser.phone = editedUser.phone;
+
                 //TODO: add more when finish user model
                 oldUser.save();
                 resolve(oldUser);

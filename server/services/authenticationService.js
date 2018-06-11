@@ -43,12 +43,12 @@ const login = function(req, res) {
         if (isMatch && !err) {
 
           const payload = {
-            sub: user.email // mongodb internal id
+            sub: user.email // mongodb unique email
           };
           // if user is found and password is right create a token
           var token = jwt.sign(payload, config.secret);
           // return the information including token as JSON
-          res.json({success: true, token: token, email: req.body.email});
+          res.json({success: true, token: token, email: req.body.email, username: req.body.username});
         } else {
           res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
         }
