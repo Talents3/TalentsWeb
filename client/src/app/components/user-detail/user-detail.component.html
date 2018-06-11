@@ -8,25 +8,83 @@
 </nav>
 
 
-<!-- my editInfo overlay -->
+<!-- editIntro modal -->
+<div class="modal fade bd-example-modal-lg" id="editIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Edit Intro Card</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <form  id = "editIntroForm">
+          <div class="form-group">
+          	
+	            <label for="username" class="col-form-label" align = "left">Full Name:</label>
+	            <input type="text" class="editIntro form-control" name="username"   [(ngModel)]="editIntroCardData.username">
+	            <label for="age" class="col-form-label" align = "right">Age:</label>
+	            <input type="text" class="editIntro form-control" name="age" align="right"  [(ngModel)]="editIntroCardData.age">
+                <label for="phone" class="col-form-label" align = "left">Phone Number:</label>
+	            <input type="text" class="editIntro form-control" name="phone"   [(ngModel)]="editIntroCardData.phone">
+	            <label for="sex" class="col-form-label" align = "left">Sex:</label>
+	            <input type="text" class="editIntro form-control" name="sex"   [(ngModel)]="editIntroCardData.sex">
+                <label for="Grad" class="col-form-label" align = "left">New Grad?:</label>
+	            <input type="text" class="editIntro form-control" name="grad"   [(ngModel)]="editIntroCardData.newGrad">
 
-<div id="infoEditOverlay" class="overlay" style= "background-color: black; opacity: 0.7; filter: blur(20px); " (click)="closeEditInfo()">
- 
+
+          </div>
+          <div class="form-group">
+            <label for="description" class="col-form-label">One Line Description:</label>
+            <textarea class="editIntro form-control" name="description"  [(ngModel)]="editIntroCardData.description"></textarea>
+          </div>
+          <div class="modal-footer">
+          	<button type="submit" name = "editEducation" class="btn btn-primary" (click) = "editIntroCard()">Submit</button>
+          </div>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div> -->
+    </div>
+  </div>
 </div>
 
-<div id= "infoEditModal" class= "myModal">
-  
-
-</div>
-
-  <!-- <div class="overlay-content">
-    <form action="/action_page.php">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search">Submit</i></button>
-    </form> -->
  
 
   <!-- now need to start to build the image and contact info division -->
+
+<!-- Edit Education Modal -->
+<div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -91,7 +149,7 @@
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>&nbsp;
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
                 </div>
-                 <button class="btn btn-outline-secondary btn-sm" align="right"  (click) = "openEditInfo()" >edit</button>
+                 <button class="btn btn-outline-secondary btn-sm" align="right"  data-toggle="modal" data-target="#editIntroModal" >edit</button>
               </div>
             </div>
           </div>
@@ -103,7 +161,7 @@
         <div class= "lead" align="left">Education</div>
         <div class="modificationButtons" style="float:right;">
           <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal">edit</button>
         </div>
       </div>
       <div class="education" id="first-education" *ngFor="let education of user.education">
@@ -121,7 +179,7 @@
         <div class= "lead" align="left">Work Experience</div>
         <div class="modificationButtons" style="float:right;">
           <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" >edit</button>
         </div>
       </div>
         <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">

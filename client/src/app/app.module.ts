@@ -25,6 +25,7 @@ import { RegisterModuleComponent } from './components/register-module/register-m
     routing,
     HttpClientModule,
     FormsModule
+   
   ],
   providers: [
     DataService
