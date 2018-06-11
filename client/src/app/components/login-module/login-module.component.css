@@ -5,9 +5,11 @@ body {
 }
 
 .form-signin {
+  background-color: lightblue;
   max-width: 330px;
-  padding: 15px;
+  padding: 20px;
   margin: 0 auto;
+  border-radius: 5px;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -39,4 +41,7 @@ body {
 }
 .form-signin p {
   margin-top: 10px;
+}
+.information {
+  font-size: 15px;
 }
