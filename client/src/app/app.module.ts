@@ -25,6 +25,7 @@ import { LoginModuleComponent } from './components/login-module/login-module.com
     routing,
     HttpClientModule,
     FormsModule
+   
   ],
   providers: [
     DataService
