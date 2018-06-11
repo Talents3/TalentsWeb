@@ -35,7 +35,8 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  modifyUser(user: User) {
+  modifyUser(user) {
+    console.log("begin modify!");
     const options = { headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'bearer ' + localStorage.getItem('token')})};

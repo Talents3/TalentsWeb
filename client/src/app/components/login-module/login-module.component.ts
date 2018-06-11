@@ -26,7 +26,7 @@ export class LoginModuleComponent implements OnInit {
     this.authService.login(this.loginData).subscribe(resp => {
       this.data = resp;
       console.log(this.data);
-      this.authService.authenticateUser(this.data.token, this.data.email);
+      this.authService.authenticateUser(this.data.token, this.data.email, this.data.username);
       this.router.navigate(['users']);
     }, err => {
       this.message = err.error.msg;
