@@ -89,7 +89,7 @@
 
 
 
-<div class="container">
+<div class="container" *ngIf = "user">
     <div class="jumbotron">
         <div class="row">
           <!-- Left part-->
@@ -137,8 +137,8 @@
                   <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Tags</div>&nbsp;
 
                 </div>
-                <div class="tags-holder" align="left">
-
+                <div class="tags-holder" align="left" >
+                    
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.isMale" style="background-color:yellow; padding-left: 20px;" >Male</button>&nbsp;
 
 
