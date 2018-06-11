@@ -8,7 +8,7 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   constructor(private httpClient: HttpClient) { }
 
   register(signupData): any {
@@ -24,7 +24,7 @@ export class AuthService {
     localStorage.setItem('email', email);
   }
 
-  isUserAuthenticated(): boolean {
+  isLoggedIn(): boolean {
     return localStorage.getItem('token') !== null;
   }
 
