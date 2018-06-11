@@ -10,7 +10,7 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
 import { LoginModuleComponent } from './components/login-module/login-module.component';
 import{ DataService } from './services/data.service';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
-import { LoginModuleComponent } from './components/login-module/login-module.component';
+
 @NgModule({
   declarations: [
     AppComponent,
