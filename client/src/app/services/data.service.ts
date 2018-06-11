@@ -44,6 +44,7 @@ export class DataService {
       .toPromise()
       .then((res: any) => {
         this.getUsers();
+        localStorage.setItem('username', user.username);
         return res;
       })
       .catch(this.handleError);
