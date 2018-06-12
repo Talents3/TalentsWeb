@@ -17,11 +17,10 @@ export class UserDetailComponent implements OnInit {
     age: 0,
     description:'',
     isMale: false,
-    sex:'Female',
     phone: '',
     newGrads: false,
-    newGrad: '',
-    id: 0
+    id: 0,
+    needVisaSponsor: false
   };
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
@@ -36,18 +35,35 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.isMale = user.isMale;
             this.editIntroCardData.phone = user.phone;
             this.editIntroCardData.id = user.id;
-            if(user.isMale) this.editIntroCardData.sex = 'Male';
-            if(user.newGrads) this.editIntroCardData.newGrad = 'New Grad';
+            this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
+            this.editIntroCardData.newGrads = user.newGrads;
         });
     })
   }
 
 
-  editIntroCard(){
-      if(this.editIntroCardData.sex === "Female") this.editIntroCardData.isMale = false;
-      else if (this.editIntroCardData.sex === "Male") this.editIntroCardData.isMale = true;
-      if(this.editIntroCardData.newGrad === "New Grad") this.editIntroCardData.newGrads = true;
-      else  this.editIntroCardData.newGrads = false;
+   isMatched(){  // check whether this profile is matched with the logged in user
+     if (localStorage.getItem("email") === this.user.email) return true;
+     else return false;
+   }
+  setVisa(input: any): void{    // edit need visa status
+   if (input == "true") this.editIntroCardData.needVisaSponsor = true;
+   else this.editIntroCardData.needVisaSponsor = false;
+    
+  }
+
+  setNewGrad(input: any): void{
+    if(input == "true") this.editIntroCardData.newGrads = true;
+    else this.editIntroCardData.newGrads = false;
+  }
+
+  setIsMale(input: any): void{
+    if(input == "true") this.editIntroCardData.isMale = true;
+    else this.editIntroCardData.isMale = false;
+  }
+
+ editIntroCard(){
+      
       if(this.editIntroCardData.username != this.user.username){
         this.sendEditIntroData();
       } else if(this.editIntroCardData.age != this.user.age){
@@ -60,10 +76,13 @@ export class UserDetailComponent implements OnInit {
         this.sendEditIntroData();
       }else if (this.editIntroCardData.newGrads != this.user.newGrads){
         this.sendEditIntroData();
+      }else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor){
+        this.sendEditIntroData();
       }
   }
 
   sendEditIntroData() {
+     
      console.log(this.editIntroCardData);
      this.dataService.modifyUser(this.editIntroCardData);
      this.router.navigate([`users/${this.user.id}`]);

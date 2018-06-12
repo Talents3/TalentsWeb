@@ -77,6 +77,7 @@ const modifyUser = function(req, res, id) {
                 oldUser.newGrads = editedUser.newGrads;
                 oldUser.description = editedUser.description;
                 oldUser.phone = editedUser.phone;
+                oldUser.needVisaSponsor = editedUser.needVisaSponsor;
 
                 //TODO: add more when finish user model
                 oldUser.save();

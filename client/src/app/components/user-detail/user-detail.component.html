@@ -28,19 +28,36 @@
 	            <input type="text" class="editIntro form-control" name="age" align="right"  [(ngModel)]="editIntroCardData.age">
                 <label for="phone" class="col-form-label" align = "left">Phone Number:</label>
 	            <input type="text" class="editIntro form-control" name="phone"   [(ngModel)]="editIntroCardData.phone">
-	            <label for="sex" class="col-form-label" align = "left">Sex:</label>
-	            <input type="text" class="editIntro form-control" name="sex"   [(ngModel)]="editIntroCardData.sex">
-                <label for="Grad" class="col-form-label" align = "left">New Grad?:</label>
-	            <input type="text" class="editIntro form-control" name="grad"   [(ngModel)]="editIntroCardData.newGrad">
+	            
+                
 
 
           </div>
+          <label class="col-form-label" align = "left">Gender</label>
+          <select #selectElemIsMale (change)="setIsMale(selectElemIsMale.value)" >
+          	  <option>plese select</option>
+			  <option [value]="true">Male</option>
+			  <option [value]="false">Female</option>
+		  </select>
+		  <label class="col-form-label" align = "left">Are you  a new Grad?</label>
+		  <select #selectElemIsNewGrad (change)="setNewGrad(selectElemIsNewGrad.value)" >
+		  	  <option>plese select</option>
+			  <option [value]="true">New Grad</option>
+			  <option [value]="false">No</option>
+		  </select>
+		  <label class="col-form-label" align = "left">Do You Need Visa Sponsorship?</label>
+          <select #selectElem (change)="setVisa(selectElem.value)" >
+          	  <option>plese select</option>
+			  <option [value]="true">Yes I Do</option>
+			  <option [value]="false">No Need</option>
+		  </select>
+
           <div class="form-group">
             <label for="description" class="col-form-label">One Line Description:</label>
             <textarea class="editIntro form-control" name="description"  [(ngModel)]="editIntroCardData.description"></textarea>
           </div>
           <div class="modal-footer">
-          	<button type="submit" name = "editEducation" class="btn btn-primary" (click) = "editIntroCard()">Submit</button>
+          	<button type="submit" name = "editEducation" class="btn btn-primary" data-dismiss = "modal" (click) = "editIntroCard()">Submit</button>
           </div>
         </form>
       </div>
@@ -95,16 +112,21 @@
           <!-- Left part-->
           <div class="col-md-6">
             <div class="column" align="center">
-              <img class="float-left" style=" border-radius: 50%; " src="{{user.image}}">
+              <div *ngIf= "user.image">
+	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{user.image}}" >
+	          </div>
+	          <div *ngIf= "!user.image">   
+	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/temporary-logo.png">
+	          </div>
               <div class="lead" align="center">{{user.username}}</div>
-              <div align="center">     <!-- hard code some data -->
+              <div align="center">     
                 <div>
                   <h5 align="center">{{user.adress}}</h5>
                   <div align="center">
-                    <a href="mailto:yg1497@nyu.edu">Email: {{user.email}}</a>
+                    <a href="mailto:{{user.email}}">Email: {{user.email}}</a>
                   </div>
                     <div align="center">
-                  <a href="tel:6462098552" align="center"> Tel: {{user.phone}}</a>
+                  <a href="tel:{{user.phone}}" align="center"> Tel: {{user.phone}}</a>
                     </div>
                 </div>
               </div>
@@ -149,7 +171,7 @@
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>&nbsp;
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
                 </div>
-                 <button class="btn btn-outline-secondary btn-sm" align="right"  data-toggle="modal" data-target="#editIntroModal" >edit</button>
+                 <button class="btn btn-outline-secondary btn-sm" align="right"  data-toggle="modal" data-target="#editIntroModal"  *ngIf = "isMatched()">edit</button>
               </div>
             </div>
           </div>
@@ -160,8 +182,8 @@
       <div align="left">
         <div class= "lead" align="left">Education</div>
         <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal">edit</button>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()">edit</button>
         </div>
       </div>
       <div class="education" id="first-education" *ngFor="let education of user.education">
@@ -178,8 +200,8 @@
       <div align="left">
         <div class= "lead" align="left">Work Experience</div>
         <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" >edit</button>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
         </div>
       </div>
         <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">
@@ -195,8 +217,8 @@
       <div align="left">
         <div class= "lead" align="left">Project Experience</div>
         <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center">edit</button>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
         </div>
       </div>
       <!-- TODO:  -->
