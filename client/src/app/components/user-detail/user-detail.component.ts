@@ -3,7 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from "@angular/router";
 import { User } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
-
+import { Education } from '../../models/education.model';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -22,7 +23,7 @@ export class UserDetailComponent implements OnInit {
     id: 0,
     needVisaSponsor: false
   };
-
+  educations: Education[]
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -37,10 +38,14 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
+            this.educations = _.cloneDeep(user.education);
         });
     })
   }
+  deleteEducation(input: any): void{
+    console.log(input);
 
+  }
 
   isMatched() {  // check whether this profile is matched with the logged in user
      if (localStorage.getItem("email") === this.user.email) return true;
@@ -52,17 +57,17 @@ export class UserDetailComponent implements OnInit {
      else this.editIntroCardData.needVisaSponsor = false;
   }
 
-  setNewGrad(input: any): void {
+  setNewGrad(input: any): void {  // edit new grad
       if (input == "true") this.editIntroCardData.newGrads = true;
       else this.editIntroCardData.newGrads = false;
   }
 
-  setIsMale(input: any): void {
+  setIsMale(input: any): void { // edit gender
       if(input == "true") this.editIntroCardData.isMale = true;
       else this.editIntroCardData.isMale = false;
   }
 
- editIntroCard() {
+ editIntroCard() {  // checkout if intro card has been changed
 
       if(this.editIntroCardData.username != this.user.username) {
         this.sendEditIntroData();
@@ -81,7 +86,7 @@ export class UserDetailComponent implements OnInit {
       }
   }
 
-  sendEditIntroData() {
+  sendEditIntroData() {  // send modified intro card to backend server
 
        console.log(this.editIntroCardData);
        this.dataService.modifyUser(this.editIntroCardData)

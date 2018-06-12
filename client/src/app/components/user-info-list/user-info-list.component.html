@@ -51,8 +51,12 @@
     	<div class="thumbnail">
 
             <div class="card" style="background-color: white;" >
-
-			  <img class="card-img-top" src="{{user.image}}" alt="Card image cap">
+        <div *ngIf = "user.image">
+			     <img class="card-img-top" src="{{user.image}}" alt="Card image cap">
+        </div>
+        <div *ngIf = "!user.image">
+           <img class="card-img-top" src="assets/images/temporary-logo.png" alt="Card image cap">
+        </div>
 			  <div class="card-body">
 			    <h5 class="card-title">{{user.username}}</h5>
 			    <p class="card-text">{{user.description}}</p>
