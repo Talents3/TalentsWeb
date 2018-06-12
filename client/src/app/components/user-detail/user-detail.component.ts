@@ -42,51 +42,53 @@ export class UserDetailComponent implements OnInit {
   }
 
 
-   isMatched(){  // check whether this profile is matched with the logged in user
+  isMatched() {  // check whether this profile is matched with the logged in user
      if (localStorage.getItem("email") === this.user.email) return true;
      else return false;
-   }
-  setVisa(input: any): void{    // edit need visa status
-   if (input == "true") this.editIntroCardData.needVisaSponsor = true;
-   else this.editIntroCardData.needVisaSponsor = false;
-    
   }
 
-  setNewGrad(input: any): void{
-    if(input == "true") this.editIntroCardData.newGrads = true;
-    else this.editIntroCardData.newGrads = false;
+  setVisa(input: any): void {    // edit need visa status
+     if (input == "true") this.editIntroCardData.needVisaSponsor = true;
+     else this.editIntroCardData.needVisaSponsor = false;
   }
 
-  setIsMale(input: any): void{
-    if(input == "true") this.editIntroCardData.isMale = true;
-    else this.editIntroCardData.isMale = false;
+  setNewGrad(input: any): void {
+      if (input == "true") this.editIntroCardData.newGrads = true;
+      else this.editIntroCardData.newGrads = false;
   }
 
- editIntroCard(){
-      
-      if(this.editIntroCardData.username != this.user.username){
+  setIsMale(input: any): void {
+      if(input == "true") this.editIntroCardData.isMale = true;
+      else this.editIntroCardData.isMale = false;
+  }
+
+ editIntroCard() {
+
+      if(this.editIntroCardData.username != this.user.username) {
         this.sendEditIntroData();
-      } else if(this.editIntroCardData.age != this.user.age){
+      } else if(this.editIntroCardData.age != this.user.age) {
         this.sendEditIntroData();
-      }else if (this.editIntroCardData.description !=this.user.description){
+      } else if (this.editIntroCardData.description !=this.user.description){
         this.sendEditIntroData();
-      } else if (this.editIntroCardData.isMale != this.user.isMale){
+      } else if (this.editIntroCardData.isMale != this.user.isMale) {
         this.sendEditIntroData();
-      }else if (this.editIntroCardData.phone != this.user.phone){
+      } else if (this.editIntroCardData.phone != this.user.phone) {
         this.sendEditIntroData();
-      }else if (this.editIntroCardData.newGrads != this.user.newGrads){
+      } else if (this.editIntroCardData.newGrads != this.user.newGrads) {
         this.sendEditIntroData();
-      }else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor){
+      } else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor) {
         this.sendEditIntroData();
       }
   }
 
   sendEditIntroData() {
-     
-     console.log(this.editIntroCardData);
-     this.dataService.modifyUser(this.editIntroCardData);
-     this.router.navigate([`users/${this.user.id}`]);
-     //this.router.navigate(['users']);
+
+       console.log(this.editIntroCardData);
+       this.dataService.modifyUser(this.editIntroCardData)
+       .then(user => {
+          this.user = user;
+          this.router.navigateByUrl(`users/${this.user.id}`)
+       });
   }
 
 }

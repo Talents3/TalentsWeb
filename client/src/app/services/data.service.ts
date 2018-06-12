@@ -35,7 +35,7 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  modifyUser(user) {
+  modifyUser(user): Promise<User> {
     console.log("begin modify!");
     const options = { headers: new HttpHeaders({
       'Content-Type': 'application/json',
