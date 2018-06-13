@@ -74,30 +74,42 @@
   <!-- now need to start to build the image and contact info division -->
 
 <!-- Edit Education Modal -->
-<div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
+  <div class="modal-dialog" role="document" *ngIf="user.education">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h3 class="modal-title" id="exampleModalLabel">Edit Education Info</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form>
+      <div class="modal-body" *ngFor= "let education of educations">
+        <div >
+          <h5 class="modal-title" style="float:left;">{{education.universityName}}</h5>
+          <button type="button" style="float: right;" (click)= "deleteEducation(education)"> Delete</button>
+        </div>
+        <br/>
+        <form *ngIf="education">
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <label for="universityName" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" name="universityName" [(ngModel)]= "education.universityName">
+            <label for="startdate" class="col-form-label">Start Date:</label>
+            <input type="Date" class="form-control" name="startdate" [(ngModel)]= "education.startDate">
+            <label for="enddate" class="col-form-label">End Date:</label>
+            <input type="Date" class="form-control" name="enddate" [(ngModel)]= "education.endDate">
+            <label for="major" class="col-form-label">Major:</label>
+            <input type="text" class="form-control" name="major" [(ngModel)]= "education.major">
+            <label for="degree" class="col-form-label">Degree:</label>
+            <input type="text" class="form-control" name="degree" [(ngModel)]= "education.degreeType">
+            <label for="gpa" class="col-form-label">GPA:</label>
+            <input type="number" class="form-control" name="gpa" [(ngModel)]= "education.gpa">
           </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
+          
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
       </div>
     </div>
   </div>
@@ -114,7 +126,7 @@
             <div class="column" align="center">
               <div *ngIf= "user.image">
 	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{user.image}}" >
-	          </div>
+	            </div>
 	          <div *ngIf= "!user.image">   
 	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/temporary-logo.png">
 	          </div>
@@ -178,7 +190,7 @@
         </div>
     </div>
 
-    <div class="education-holder jumbotron" id="education-holder">
+    <div class="education-holder jumbotron" id="education-holder" *ngIf = "user.education">
       <div align="left">
         <div class= "lead" align="left">Education</div>
         <div class="modificationButtons" style="float:right;">
@@ -188,15 +200,26 @@
       </div>
       <div class="education" id="first-education" *ngFor="let education of user.education">
         <hr/>
-        <div id="universityName">{{education.universityName}}</div>
-        <div>{{education.degreeType}}</div>
-        <div>{{education.major}}</div>
-        <div>GPA:3.99</div>
-        <div *ngFor="let course of education.courses">Core Course: {{course.courseName}}  {{course.courseGrade}}</div>
+        <div >
+          <div id="universityName" style="float: left;">{{education.universityName}}</div><br/>
+          <div style="float: right; ">{{education.startDate}} --- {{education.endDate}}</div>
+        </div>
+        
+        <br/>
+        <div align="left" style="display: flex;" >
+          <div >{{education.major}}</div>
+          <div style="padding-left: 15px;">Degree: {{education.degreeType}}</div>
+          <div style="padding-left: 15px;">GPA: {{education.gpa}}</div>
+
+        </div>
+        <div  align="left" style="display: flex;">
+          <label>Core Courses:</label>
+          <div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div>
+        </div>
       </div>
     </div>
 
-    <div class="work-experience-holder jumbotron">
+    <div class="work-experience-holder jumbotron" *ngIf = "user.experience">
       <div align="left">
         <div class= "lead" align="left">Work Experience</div>
         <div class="modificationButtons" style="float:right;">
@@ -213,7 +236,7 @@
 
     </div>
 
-    <div class="project-experience-holder jumbotron">
+    <div class="project-experience-holder jumbotron" >
       <div align="left">
         <div class= "lead" align="left">Project Experience</div>
         <div class="modificationButtons" style="float:right;">

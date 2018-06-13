@@ -107,6 +107,7 @@
 }
 .jumbotron {
   background-color: lightblue;
+  
 }
 .btn-outline-primary {
   border-color: #57068c;
@@ -143,6 +144,7 @@
   font-weight: bold;
   color: purple;
 }
+
 hr {
     display: block;
     height: 1px;

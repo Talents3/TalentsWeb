@@ -1,7 +1,9 @@
 import { Course } from './course.model';
 
 export class Education {
+  userEmail: string;   
   universityName: string;
+  gpa: number;
   degreeType: string;
   major: string;
   startDate: string;
