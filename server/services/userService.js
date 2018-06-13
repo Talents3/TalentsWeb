@@ -1,4 +1,3 @@
-
 const User = require('../models/userModel');
 const Experience = require('../models/experience');
 const Education = require('../models/education');
@@ -21,12 +20,16 @@ const getUsers = function() {
     });
 }
 
+const getUsersByUniversity = function() {
+
+}
+
 const getUser = function(id) {
     // return new Promise((resolve, reject) => {
     //     resolve(problems.find(problem => problem.id === id));
     // });
     return new Promise((resolve, reject) => {
-        User.findOne({id: id}, (err, user) => {
+        User.findOne({id: id}).populate('educations').exec((err, user) => {
             if (err) {
                 reject(err);
             } else {
@@ -34,6 +37,17 @@ const getUser = function(id) {
             }
         });
     });
+}
+
+const getEmailById = function(id) {
+        User.findOne({id: id}, (err, user) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(user.email);
+                return user.email;
+            }
+        });
 }
 
 const modifyUser = function(req, res, id) {
@@ -90,5 +104,6 @@ const modifyUser = function(req, res, id) {
 module.exports = {
     getUsers,
     getUser,
-    modifyUser
+    modifyUser,
+    getEmailById
 }

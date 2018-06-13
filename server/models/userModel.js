@@ -41,7 +41,7 @@ var UserSchema = new mongoose.Schema({
     ],
     educations: [
 	    {
-	        type: mongoose.Schema.Types.ObjectId,
+  	        type: mongoose.Schema.Types.ObjectId,
             ref: "Education"
 
 	    }
