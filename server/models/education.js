@@ -1,7 +1,12 @@
 var mongoose = require("mongoose");
 
 var educationSchema = mongoose.Schema({
+         userEmail: {
+           type: String,
+           required: true
+         },
    		   universityName: String,
+         gpa: Number,
 	       degreeType: String,
 	       major: String,
 	       startDate: Date,
@@ -14,7 +19,6 @@ var educationSchema = mongoose.Schema({
                	courseCode: String,
                	courseGrade: String,
                }
- 
 	       ]
 });
 
