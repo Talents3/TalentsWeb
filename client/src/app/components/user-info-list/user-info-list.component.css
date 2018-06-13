@@ -1,6 +1,6 @@
 img {
     border-radius: 50%;
-   
+
     padding-top: 2px;
     padding-bottom: 2px;
 
@@ -11,8 +11,8 @@ a {
 	padding-top: 10px;
 };
 .searchFilter {
-  height: 800px; 
-  
+  height: 800px;
+
 }
  .searchFilter.btn {
     display: inline-block;
@@ -54,7 +54,7 @@ a {
   border: 1px solid #b20a11;
 }
 .searchFilter .label-icon {
-  display: none;  
+  display: none;
 }
 .searchFilter .glyphicon {
     margin-right: -15px;
@@ -81,18 +81,18 @@ a {
   .ct-header .ct-jumbotron .inner {
     max-width: 470px;
     min-height: 230px;
-  }  
+  }
 }
 @media (max-width: 1400px) {
   .ct-header-slider .item {
     background-size:contain;
     background-repeat: no-repeat;
     background-position: center top;
-  }  
+  }
 }
 @media (min-width: 769px) and (max-width: 1400px) {
   .ct-header-slider .item {
-    height: auto;  
+    height: auto;
   }
 }
 @media (max-width: 1260px) {
@@ -106,7 +106,7 @@ a {
   }
   #dots-container {
     bottom: 100px;
-  } 
+  }
 }
 @media (min-width: 768px){
   .ct-searchbar:before {
@@ -133,10 +133,10 @@ a {
     margin-top: -5px;
   }
   .searchFilter .btn {
-    min-width: 172px;  
+    min-width: 172px;
   }
   .searchFilter .label-icon {
-    display: inline-block;  
+    display: inline-block;
   }
   .searchFilter .glyphicon {
     margin-right: -5px;
@@ -154,7 +154,7 @@ a {
   }
 }
 @media (max-width: 768px){
-  .ct-header .ct-jumbotron {  
+  .ct-header .ct-jumbotron {
     width: 80%;
     margin: 20px 10px;
     top: 40%;
