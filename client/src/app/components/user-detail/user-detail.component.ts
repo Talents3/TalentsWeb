@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { User } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
 import { Education } from '../../models/education.model';
+import { Experience } from '../../models/experience.model';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-user-detail',
@@ -23,7 +24,12 @@ export class UserDetailComponent implements OnInit {
     id: 0,
     needVisaSponsor: false
   };
-  educations: Education[]
+  educations: Education[];
+  experiences: Experience[];
+  selectedExperience: Experience;
+  isEmptyExperience: boolean;
+  selectedEducation: Education;
+  isAddingEducation: boolean;
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -38,13 +44,62 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
-            this.educations = _.cloneDeep(user.education);
         });
     })
   }
-  deleteEducation(input: any): void{
-    console.log(input);
 
+  deleteEducation(): void{ //dete education button
+        console.log(this.selectedEducation);
+           // delete this education by parsing its id
+  }
+
+  editEducation(input: any): void{   //edit education button pressed
+    this.selectedEducation = _.cloneDeep(input);
+    this.isAddingEducation = false;
+
+  }
+  addEducation(): void{
+    var emptyEducation = {
+    userEmail: localStorage.getItem("email"),  
+    universityName: '',
+    gpa: 0,
+    degreeType: '',
+    major: '',
+    startDate: '',
+    endDate: '',
+    inProgress: false,
+    transcripts: '',
+    courses: []
+  }
+    
+   this.selectedEducation = emptyEducation;
+   this.isAddingEducation = true;
+
+  }
+  saveEducation(): void{
+       console.log(this.selectedEducation); // save this updated education
+  }
+
+
+  deleteExperience(input: any): void {
+    console.log(input);
+  }
+  editExperience(input: any): void {
+    this.isEmptyExperience = false;
+    this.selectedExperience = _.cloneDeep(input);
+    console.log(this.selectedExperience);
+  }
+  saveExperience(input:any): void {
+    console.log(input);
+  }
+  addExperience(): void {
+    this.emptyExperience = {
+      companyNmae: '',
+      startDate:'',
+      description:''
+    };
+    this.isEmptyExperience = true;
+    this.selectedExperience = this.emptyExperience;
   }
 
   isMatched() {  // check whether this profile is matched with the logged in user
