@@ -9,7 +9,7 @@
 
 
 <!-- editIntro modal -->
-<div class="modal fade bd-example-modal-lg" id="editIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -69,50 +69,51 @@
   <!-- now need to start to build the image and contact info division -->
 
   <!-- Edit Education Modal -->
-  <div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
-    <div class="modal-dialog" role="document" >
-      <div class="modal-content" *ngIf="selectedEducation">
-        <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel" *ngIf= "!isAddingEducation">Edit Education Info</h3>
-          <h3 class="modal-title" id="exampleModalLabel" *ngIf= "isAddingEducation">Add Education Info</h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body"  >
-          <div >
-            <h5 class="modal-title" style="float:left;">{{selectedEducation.universityName}}</h5>
-            
-          </div>
-          <br/>
-          <form >
-            <div class="form-group">
-              <label for="universityName" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" name="universityName" [(ngModel)]= "selectedEducation.universityName">
-              <label for="startdate" class="col-form-label">Start Date:</label>
-              <input type="Date" class="form-control" name="startdate" [(ngModel)]= "selectedEducation.startDate">
-              <label for="enddate" class="col-form-label">End Date:</label>
-              <input type="Date" class="form-control" name="enddate" [(ngModel)]= "selectedEducation.endDate">
-              <label for="major" class="col-form-label">Major:</label>
-              <input type="text" class="form-control" name="major" [(ngModel)]= "selectedEducation.major">
-              <label for="degree" class="col-form-label">Degree:</label>
-              <input type="text" class="form-control" name="degree" [(ngModel)]= "selectedEducation.degreeType">
-              <label for="gpa" class="col-form-label">GPA:</label>
-              <input type="number" class="form-control" name="gpa" [(ngModel)]= "selectedEducation.gpa">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer" *ngIf="selectedEducation">
-          <button type="button" style="background-color:#FF0000; float: left;" class="btn btn-primary" data-dismiss="modal" *ngIf= "!isAddingEducation" (click)= "deleteEducation()"> Delete</button>
-          <button type="button" style="float: right;" class="btn btn-primary" data-dismiss="modal" (click)= "saveEducation()">Save</button>
-        </div>
-      </div>
-    </div>
+
+  <div class="modal fade bd-example-modal-lg" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
+    <div class="modal-dialog" role="document" *ngIf="selectedEducation">
+      <div class="modal-content" *ngIf="selectedEducation">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel" *ngIf="!isAddingEducation">Edit Education</h3>
+          <h3 class="modal-title" id="exampleModalLabel" *ngIf="isAddingEducation">Add Education</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedEducation">
+          <div *ngIf="selectedEducation.universityName">
+            <h5 class="modal-title" style="float:left;">{{selectedEducation.universityName}}</h5>
+            <br/>
+            <br/>
+          </div>
+          <form *ngIf="selectedEducation">
+            <div class="form-group">
+              <label for="universityName" class="col-form-label">University Name:</label>
+              <input type="text" class="form-control" name="universityName" [(ngModel)]= "selectedEducation.universityName">
+              <label for="startDate" class="col-form-label">Start Date:</label>
+              <input type="Date" class="form-control" name="startDate" [(ngModel)]= "selectedEducation.startDate">
+              <label for="enddate" class="col-form-label">End Date:</label>
+              <input type="Date" class="form-control" name="enddate" [(ngModel)]= "selectedEducation.endDate">
+              <label for="major" class="col-form-label">Major:</label>
+              <input type="text" class="form-control" name="major" [(ngModel)]= "selectedEducation.major">
+              <label for="degree" class="col-form-label">Degree Type:</label>
+              <input type="text" class="form-control" name="degree" [(ngModel)]= "selectedEducation.degreeType">
+              <label for="gpa" class="col-form-label">GPA:</label>
+              <input type="number" class="form-control" name="gpa" [(ngModel)]= "selectedEducation.gpa">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#FF0000; float: left;" (click)= "deleteEducation(selectedEducation)" *ngIf="!isAddingEducation">Delete</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)= "saveEducation(selectedEducation)">Save</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <div class="modal fade" id="editExperienceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
   <div class="modal-dialog" role="document" *ngIf="selectedExperience">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="selectedExperience">
       <div class="modal-header">
         <h3 class="modal-title" id="exampleModalLabel">Edit Experience</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -218,25 +219,31 @@
         </div>
     </div>
 
-    <div class="education-holder jumbotron" id="education-holder" >
-      <div align="left">
-        <div class= "lead" align="left">Education</div>
-        <div class="modificationButtons" style="float:right;" *ngIf = "isMatched()">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center"data-toggle="modal" data-target="#editEducationModal"  (click)= "addEducation()" ><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;     
-        </div>
-      </div>
-      <div class="education" id="first-education" *ngFor="let education of user.educations">
-        <hr/>
-          <div id="universityName">{{education.universityName}}</div>
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)" style="float: right;"><img class="float-right" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
-          <div>Major: {{education.major}}  |  Degree: {{education.degreeType}}</div>
-          <div>{{education.startDate}} --- {{education.endDate}}</div>
-          <div>GPA: {{education.gpa}}</div>
-          <div>
-            <div>Core Courses:<div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div></div>
-          </div>
-       </div>
-    </div>
+    <div class="education-holder jumbotron" id="education-holder">
+      <div align="left">
+        <div class="lead" align="left">Education</div>
+        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+          <button type="button" class="btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="addEducation()">
+            <img class="float-left" style="width: 100%; height: 100%;" src="assets/images/add-icon.png">
+          </button>&nbsp;
+        </div>
+        <div class="education" id="first-education" *ngFor="let education of user.educations">
+          <hr/>
+            <div id="universityName">{{education.universityName}}</div>
+            <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+              <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="editEducation(education)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/edit-icon.png"></button>&nbsp;
+            </div>
+            <div>Major: {{education.major}} | Degree: {{education.degreeType}}</div>
+            <div>{{education.startDate}} --- {{education.endDate}}</div>
+            <div>GPA: {{education.gpa}}</div>
+            <div>
+              <div>Core Course:</div>
+              <div *ngFor="let course of education.courses" style="padding-left: 15px;"> {{course.courseName}} {{course.courseGrade}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
     <div class="work-experience-holder jumbotron">
       <div align="left">
