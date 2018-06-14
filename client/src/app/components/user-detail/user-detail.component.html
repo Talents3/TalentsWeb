@@ -21,17 +21,12 @@
       <div class="modal-body" >
         <form  id = "editIntroForm">
           <div class="form-group">
-          	
 	            <label for="username" class="col-form-label" align = "left">Full Name:</label>
 	            <input type="text" class="editIntro form-control" name="username"   [(ngModel)]="editIntroCardData.username">
 	            <label for="age" class="col-form-label" align = "right">Age:</label>
 	            <input type="text" class="editIntro form-control" name="age" align="right"  [(ngModel)]="editIntroCardData.age">
                 <label for="phone" class="col-form-label" align = "left">Phone Number:</label>
 	            <input type="text" class="editIntro form-control" name="phone"   [(ngModel)]="editIntroCardData.phone">
-	            
-                
-
-
           </div>
           <label class="col-form-label" align = "left">Gender</label>
           <select #selectElemIsMale (change)="setIsMale(selectElemIsMale.value)" >
@@ -69,52 +64,85 @@
   </div>
 </div>
 
- 
+
 
   <!-- now need to start to build the image and contact info division -->
 
-<!-- Edit Education Modal -->
-<div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
-  <div class="modal-dialog" role="document" *ngIf="user.education">
+  <!-- Edit Education Modal -->
+  <div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
+    <div class="modal-dialog" role="document" >
+      <div class="modal-content" *ngIf="selectedEducation">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel" *ngIf= "!isAddingEducation">Edit Education Info</h3>
+          <h3 class="modal-title" id="exampleModalLabel" *ngIf= "isAddingEducation">Add Education Info</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body"  >
+          <div >
+            <h5 class="modal-title" style="float:left;">{{selectedEducation.universityName}}</h5>
+            
+          </div>
+          <br/>
+          <form >
+            <div class="form-group">
+              <label for="universityName" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" name="universityName" [(ngModel)]= "selectedEducation.universityName">
+              <label for="startdate" class="col-form-label">Start Date:</label>
+              <input type="Date" class="form-control" name="startdate" [(ngModel)]= "selectedEducation.startDate">
+              <label for="enddate" class="col-form-label">End Date:</label>
+              <input type="Date" class="form-control" name="enddate" [(ngModel)]= "selectedEducation.endDate">
+              <label for="major" class="col-form-label">Major:</label>
+              <input type="text" class="form-control" name="major" [(ngModel)]= "selectedEducation.major">
+              <label for="degree" class="col-form-label">Degree:</label>
+              <input type="text" class="form-control" name="degree" [(ngModel)]= "selectedEducation.degreeType">
+              <label for="gpa" class="col-form-label">GPA:</label>
+              <input type="number" class="form-control" name="gpa" [(ngModel)]= "selectedEducation.gpa">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer" *ngIf="selectedEducation">
+          <button type="button" style="background-color:#FF0000; float: left;" class="btn btn-primary" data-dismiss="modal" *ngIf= "!isAddingEducation" (click)= "deleteEducation()"> Delete</button>
+          <button type="button" style="float: right;" class="btn btn-primary" data-dismiss="modal" (click)= "saveEducation()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="editExperienceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
+  <div class="modal-dialog" role="document" *ngIf="selectedExperience">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Edit Education Info</h3>
+        <h3 class="modal-title" id="exampleModalLabel">Edit Experience</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" *ngFor= "let education of educations">
-        <div >
-          <h5 class="modal-title" style="float:left;">{{education.universityName}}</h5>
-          <button type="button" style="float: right;" (click)= "deleteEducation(education)"> Delete</button>
+      <div class="modal-body" *ngIf="selectedExperience">
+        <div *ngIf="selectedExperience.companyName">
+          <h5 class="modal-title" style="float:left;">{{selectedExperience.companyName}}</h5>
+          <br/>
+          <br/>
         </div>
-        <br/>
-        <form *ngIf="education">
+        <form *ngIf="selectedExperience">
           <div class="form-group">
-            <label for="universityName" class="col-form-label">Name:</label>
-            <input type="text" class="form-control" name="universityName" [(ngModel)]= "education.universityName">
-            <label for="startdate" class="col-form-label">Start Date:</label>
-            <input type="Date" class="form-control" name="startdate" [(ngModel)]= "education.startDate">
-            <label for="enddate" class="col-form-label">End Date:</label>
-            <input type="Date" class="form-control" name="enddate" [(ngModel)]= "education.endDate">
-            <label for="major" class="col-form-label">Major:</label>
-            <input type="text" class="form-control" name="major" [(ngModel)]= "education.major">
-            <label for="degree" class="col-form-label">Degree:</label>
-            <input type="text" class="form-control" name="degree" [(ngModel)]= "education.degreeType">
-            <label for="gpa" class="col-form-label">GPA:</label>
-            <input type="number" class="form-control" name="gpa" [(ngModel)]= "education.gpa">
+            <label for="companyName" class="col-form-label">Company Name:</label>
+            <input type="text" class="form-control" name="companyName" [(ngModel)]= "selectedExperience.companyName">
+            <label for="startDate" class="col-form-label">Start Date:</label>
+            <input type="Date" class="form-control" name="startDate" [(ngModel)]= "selectedExperience.startDate">
+            <label for="title" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" name="title" [(ngModel)]= "selectedExperience.title">
           </div>
-          
         </form>
       </div>
       <div class="modal-footer">
-        
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#FF0000; float: left;" (click)= "deleteExperience(selectedExperience)" *ngIf="!isEmptyExperience">Delete</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)= "saveExperience(selectedExperience)">Save</button>
       </div>
     </div>
   </div>
 </div>
-
 
 
 
@@ -127,11 +155,11 @@
               <div *ngIf= "user.image">
 	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{user.image}}" >
 	            </div>
-	          <div *ngIf= "!user.image">   
-	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/temporary-logo.png">
+	          <div *ngIf= "!user.image">
+	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/defaultImage.png">
 	          </div>
               <div class="lead" align="center">{{user.username}}</div>
-              <div align="center">     
+              <div align="center">
                 <div>
                   <h5 align="center">{{user.adress}}</h5>
                   <div align="center">
@@ -172,7 +200,7 @@
 
                 </div>
                 <div class="tags-holder" align="left" >
-                    
+
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.isMale" style="background-color:yellow; padding-left: 20px;" >Male</button>&nbsp;
 
 
@@ -190,53 +218,48 @@
         </div>
     </div>
 
-    <div class="education-holder jumbotron" id="education-holder" *ngIf = "user.education">
-      <div align="left">
-        <div class= "lead" align="left">Education</div>
-        <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()">edit</button>
-        </div>
-      </div>
-      <div class="education" id="first-education" *ngFor="let education of user.education">
-        <hr/>
-        <div >
-          <div id="universityName" style="float: left;">{{education.universityName}}</div><br/>
-          <div style="float: right; ">{{education.startDate}} --- {{education.endDate}}</div>
-        </div>
-        
-        <br/>
-        <div align="left" style="display: flex;" >
-          <div >{{education.major}}</div>
-          <div style="padding-left: 15px;">Degree: {{education.degreeType}}</div>
-          <div style="padding-left: 15px;">GPA: {{education.gpa}}</div>
+    <div class="education-holder jumbotron" id="education-holder" >
+      <div align="left">
+        <div class= "lead" align="left">Education</div>
+        <div class="modificationButtons" style="float:right;" *ngIf = "isMatched()">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center"data-toggle="modal" data-target="#editEducationModal"  (click)= "addEducation()" ><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;     
+        </div>
+      </div>
+      <div class="education" id="first-education" *ngFor="let education of user.educations">
+        <hr/>
+          <div id="universityName" style="float: left;">{{education.universityName}}</div>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)"><img class="float-right" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
+          <div>Major: {{education.major}}  |  Degree: {{education.degreeType}}</div>
+          <div>{{education.startDate}} --- {{education.endDate}}</div>
+          <div>GPA: {{education.gpa}}</div>
+          <div>
+            <div>Core Courses:<div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div></div>
+         
+          </div>
 
-        </div>
-        <div  align="left" style="display: flex;">
-          <label>Core Courses:</label>
-          <div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div>
-        </div>
-      </div>
-    </div>
+      </div>
+    </div>
 
-    <div class="work-experience-holder jumbotron" *ngIf = "user.experience">
+    <div class="work-experience-holder jumbotron">
       <div align="left">
         <div class= "lead" align="left">Work Experience</div>
-        <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
+        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="addExperience(experience)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
         </div>
       </div>
-        <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">
-          <hr/>
-          <div id="companyName">{{experience.companyName}}</div>
-          <div id="experienceTitle">{{experience.title}}</div>
-          <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
+      <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">
+        <hr/>
+        <div id="companyName">{{experience.companyName}}</div>
+        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="editExperience(experience)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
         </div>
+        <div id="experienceTitle">{{experience.title}}</div>
+        <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
+      </div>
 
     </div>
 
-    <div class="project-experience-holder jumbotron" >
+    <div class="project-experience-holder jumbotron">
       <div align="left">
         <div class= "lead" align="left">Project Experience</div>
         <div class="modificationButtons" style="float:right;">
