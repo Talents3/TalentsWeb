@@ -28,8 +28,9 @@ export class UserDetailComponent implements OnInit {
   experiences: Experience[];
   selectedExperience: Experience;
   isEmptyExperience: boolean;
-  selectedEducation: Education;
+  selectedEducation: any;
   isAddingEducation: boolean;
+
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -48,9 +49,17 @@ export class UserDetailComponent implements OnInit {
     })
   }
 
-  deleteEducation(): void{ //dete education button
+  deleteEducation(): void {
         console.log(this.selectedEducation);
-           // delete this education by parsing its id
+        // delete this education by parsing its id
+        this.dataService.deleteEducation(this.selectedEducation._id)
+          .then(education => {
+              console.log("Delete: " + education);
+              this.dataService.getUser(this.user.id)
+                .then(user => {
+                    this.user = user;
+                })
+          })
   }
 
   editEducation(input: any): void{   //edit education button pressed
@@ -58,49 +67,74 @@ export class UserDetailComponent implements OnInit {
     this.isAddingEducation = false;
 
   }
-  addEducation(): void{
+
+  addEducation(): void {
     var emptyEducation = {
-    userEmail: localStorage.getItem("email"),  
-    universityName: '',
-    gpa: 0,
-    degreeType: '',
-    major: '',
-    startDate: '',
-    endDate: '',
-    inProgress: false,
-    transcripts: '',
-    courses: []
-  }
+        userEmail: localStorage.getItem("email"),  
+        universityName: '',
+        gpa: 0,
+        degreeType: '',
+        major: '',
+        startDate: '',
+        endDate: '',
+        inProgress: false,
+        transcripts: '',
+        courses: []
+    }
     
-   this.selectedEducation = emptyEducation;
-   this.isAddingEducation = true;
+     this.selectedEducation = emptyEducation;
+     this.isAddingEducation = true;
 
   }
-  saveEducation(): void{
-       console.log(this.selectedEducation); // save this updated education
-  }
+
+  saveEducation(): void {
+      console.log(this.selectedEducation); // save this updated education
+      if (this.isAddingEducation) {
+          this.dataService.addEducation(this.selectedEducation)
+            .then(education => {
+                console.log("Add education : " + education.universityName);
+                this.dataService.getUser(this.user.id)
+                  .then(user => {
+                    this.user = user;
+                  });
+            });
+      } else {
+          this.dataService.modifyEducation(this.selectedEducation)
+            .then(education => {
+                console.log("Modify education :" + education.universityName);
+                this.dataService.getUser(this.user.id)
+                  .then(user => {
+                    this.user = user;
+                  });
+            });
+      }
+  }
+  
 
 
   deleteExperience(input: any): void {
-    console.log(input);
+      console.log(input);
   }
+
   editExperience(input: any): void {
     this.isEmptyExperience = false;
     this.selectedExperience = _.cloneDeep(input);
     console.log(this.selectedExperience);
   }
+
   saveExperience(input:any): void {
     console.log(input);
   }
-  addExperience(): void {
-    var emptyExperience : Experience = {
-      companyName: '',
-      startDate:'',
-      description:''
-    };
-    this.isEmptyExperience = true;
-    this.selectedExperience = emptyExperience;
-  }
+  //
+  // addExperience(): void {
+  //   var emptyExperience : Experience = {
+  //     companyName: '',
+  //     startDate:'',
+  //     description:''
+  //   };
+  //   this.isEmptyExperience = true;
+  //   this.selectedExperience = emptyExperience;
+  // }
 
   isMatched() {  // check whether this profile is matched with the logged in user
      if (localStorage.getItem("email") === this.user.email) return true;
@@ -122,7 +156,7 @@ export class UserDetailComponent implements OnInit {
       else this.editIntroCardData.isMale = false;
   }
 
- editIntroCard() {  // checkout if intro card has been changed
+  editIntroCard() {  // checkout if intro card has been changed
 
       if(this.editIntroCardData.username != this.user.username) {
         this.sendEditIntroData();
