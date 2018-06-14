@@ -9,8 +9,8 @@ var educationSchema = mongoose.Schema({
          gpa: Number,
 	       degreeType: String,
 	       major: String,
-	       startDate: Date,
-	       endDate: Date,
+	       startDate: String,
+	       endDate: String,
 	       inProgress: Boolean,
 	       transcripts: String,
 	       courses: [

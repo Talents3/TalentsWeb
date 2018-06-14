@@ -2,19 +2,21 @@ const express = require('express');
 const app = express();
 
 const restRouter = require('./routes/rest');
-
+const authCheckerMiddleware = require('./middleware/auth_checker');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
 const User = require('./models/userModel');
 //Make server to serve static file.
 const path = require('path');
 
+
+app.use(bodyParser.json());
 app.use('/api/v1',restRouter);
 app.use(express.static(path.join(__dirname, '../public')));
 //If the url does not handled by router on the server side,
@@ -32,7 +34,6 @@ mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
   .catch((err) => console.error(err));
 
 app.use(passport.initialize());
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

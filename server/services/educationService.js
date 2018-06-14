@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const Education = require('../models/education');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+const authCheckerMiddleware = require('../middleware/auth_checker');
 
 const getEducations = function(userEmail) {
   return new Promise((resolve, reject) => {
@@ -37,92 +38,94 @@ const getEmailsByUniversity = function(universityName) {
 
 const getEducation = function(_id) {
   return new Promise((resolve, reject) => {
-      Education.findById(_id, (err, educations) => {
+      Education.findById(_id, (err, education) => {
           if (err) {
               reject(err);
           } else {
-              resolve(educations);
+              console.log(education)
+              resolve(education);
           }
       });
   });
 }
 
-const addEducation = function(req, res, id) {
-  
+const addEducation = function(req, res) {
+
   return new Promise((resolve, reject) => {
-      User.findOne({id: id}, (err, user) => {
-          if (err) {
+
+      User.findOne({email: req.body.userEmail}, (err, user) => {
+          if (!user) {
               reject('User Not Found');
-              return res.status(400).send('User does not exist');
+              return res.status(400).send('User Not Found');
           } else {
-              Education.findOne({universityName: req.body.universityName,
-                                  major: req.body.major,
-                                  startDate: req.body.startDate,
-                                  userEmail: req.body.userEmail}, (err, education) => {
-                  if (education) {
-                      reject('Education already exists');
-                  } else {
-                    const newEducation = new Education(req.body);
-                    newEducation.save();
-                    console.log(user.username);
-                    user.educations.push(newEducation);
-                    user.save();
-                    resolve(newEducation);
-                  }
-              });
-          }
+                Education.findOne({universityName: req.body.universityName,
+                                    major: req.body.major,
+                                    startDate: req.body.startDate,
+                                    userEmail: req.body.userEmail}, (err, education) => {
+                    if (education) {
+                        reject('Education already exists');
+                        return res.status(400).send('Education already exists');
+                    } else {
+                      const newEducation = new Education(req.body);
+                      newEducation.save();
+                      //console.log(user.username);
+                      user.educations.push(newEducation);
+                      user.save();
+                      resolve(newEducation);
+                    }
+                });
+              }
       });
   });
 }
 
 const modifyEducation = function(req, res, _id) {
-  console.log("begin Modify Education backend");
-  return new Promise((resolve, reject) => {
-        Education.findById(_id, (err, oldEducation) => {
-            if (!oldEducation) {
+    //console.log("begin Modify Education backend");
+    return new Promise((resolve, reject) => {
+          Education.findById(_id, (err, oldEducation) => {
+              if (!oldEducation) {
+                  reject('Education does not exist');
+                  return res.status(400).send('Education does not exist');
+              } else {
+
+                  var editedEducation = req.body;
+                  oldEducation.universityName = editedEducation.universityName;
+                  oldEducation.gpa = editedEducation.gpa;
+                  oldEducation.degreeType = editedEducation.degreeType;
+                  oldEducation.major = editedEducation.major;
+                  oldEducation.startDate = editedEducation.startDate;
+                  oldEducation.endDate = editedEducation.endDate;
+                  oldEducation.inProgress = editedEducation.inProgress;
+                  oldEducation.transcripts = editedEducation.transcripts;
+                  oldEducation.courses = editedEducation.courses;
+
+                  //TODO: add more when finish user model
+                  oldEducation.save();
+                  resolve(oldEducation);
+              }
+          });
+      });
+}
+
+
+const deleteEducation = function(req, res, _id) {
+    return new Promise((resolve, reject) => {
+          Education.findById(_id, (err, deleteEducation) => {
+            console.log(_id);
+            if (!deleteEducation) {
                 reject('Education does not exist');
-                return res.status(400).send('User does not exist');
             } else {
-                var editedEducation = req.body;
-                console.log('auth_checker: req: ' + req.headers);
-                if (!req.headers.authorization) {
-                  reject('Authorization header missing');
-                  return res.status(401).send('Authorization header missing');
-                }
-
-                const token = req.headers.authorization.split(' ')[1];
-                const email = oldEducation.userEmail;
-                console.log('auth_checker: token: ' + token);
-
-                jwt.verify(token, config.secret, (err, decoded) => {
-                  // the 401 code is for unauthorized status
-                  if (err) {
-                    reject('Token unvalid');
-                    return res.status(401).send('Token unvalid');
-                  }
-
-                  const decodeEmail = decoded.sub;
-                  if (decodeEmail !== email) {
-                    reject('Email authentication not match');
-                    return res.status(401).send('Email authentication not match');
-                  }
-
-                  console.log('Verify succesful!!');
+                User.findOne({email: deleteEducation.userEmail}, (err, user) => {
+                    if (!user) {
+                        reject('User Not Found');
+                        return res.status(400).send('User Not Found');
+                    } else {
+                        user.educations.pull(deleteEducation);
+                        user.save();
+                        deleteEducation.remove();
+                        resolve(deleteEducation);
+                    }
                 });
-
-                oldEducation.universityName = editedEducation.universityName;
-                oldEducation.gpa = editedEducation.gpa;
-                oldEducation.degreeType = editedEducation.degreeType;
-                oldEducation.major = editedEducation.major;
-                oldEducation.startDate = editedEducation.startDate;
-                oldEducation.endDate = editedEducation.endDate;
-                oldEducation.inProgress = editedEducation.inProgress;
-                oldEducation.transcripts = editedEducation.transcripts;
-                oldEducation.courses = editedEducation.courses;
-
-                //TODO: add more when finish user model
-                oldEducation.save();
-                resolve(oldEducation);
             }
         });
     });
@@ -133,5 +136,6 @@ module.exports = {
     getEducations,
     getEmailsByUniversity,
     modifyEducation,
-    addEducation
+    addEducation,
+    deleteEducation
 }
