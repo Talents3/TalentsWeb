@@ -29,7 +29,7 @@ const getUser = function(id) {
     //     resolve(problems.find(problem => problem.id === id));
     // });
     return new Promise((resolve, reject) => {
-        User.findOne({id: id}).populate('educations').exec((err, user) => {
+        User.findOne({id: id}).populate('educations').populate('experiences').exec((err, user) => {
             if (err) {
                 reject(err);
             } else {
