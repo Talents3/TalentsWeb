@@ -93,7 +93,7 @@ export class UserDetailComponent implements OnInit {
     console.log(input);
   }
   addExperience(): void {
-    this.emptyExperience = {
+    emptyExperience = {
       companyNmae: '',
       startDate:'',
       description:''

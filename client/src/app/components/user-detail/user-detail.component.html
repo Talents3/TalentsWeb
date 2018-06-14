@@ -222,27 +222,21 @@
       <div align="left">
         <div class= "lead" align="left">Education</div>
         <div class="modificationButtons" style="float:right;" *ngIf = "isMatched()">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center"data-toggle="modal" data-target="#editEducationModal"  (click)= "addEducation()" >add</button>&nbsp;     
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center"data-toggle="modal" data-target="#editEducationModal"  (click)= "addEducation()" ><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;     
         </div>
       </div>
       <div class="education" id="first-education" *ngFor="let education of user.educations">
         <hr/>
-        <div >
           <div id="universityName" style="float: left;">{{education.universityName}}</div>
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)">edit</button>
-          <br/>
-          <div style="float: right; ">{{education.startDate}} --- {{education.endDate}}</div>
-        </div>      
-        <br/>
-        <div align="left" style="display: flex;" >
-          <div >{{education.major}}</div>
-          <div style="padding-left: 15px;">Degree: {{education.degreeType}}</div>
-          <div style="padding-left: 15px;">GPA: {{education.gpa}}</div>
-        </div>
-        <div  align="left" style="display: flex;">
-          <label>Core Courses:</label>
-          <div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div>
-        </div>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)"><img class="float-right" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
+          <div>Major: {{education.major}}  |  Degree: {{education.degreeType}}</div>
+          <div>{{education.startDate}} --- {{education.endDate}}</div>
+          <div>GPA: {{education.gpa}}</div>
+          <div>
+            <div>Core Courses:<div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div></div>
+         
+          </div>
+
       </div>
     </div>
 

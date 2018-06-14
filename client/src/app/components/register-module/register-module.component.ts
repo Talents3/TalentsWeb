@@ -37,9 +37,13 @@ export class RegisterModuleComponent implements OnInit {
   }
 
   signup() {
-    this.authService.register(this.signupData).subscribe(resp => {
-      console.log(resp);
-      this.router.navigate(['login']);
+    this.authService.register(this.signupData).subscribe(res => {
+      console.log(res);
+      if (res.success){
+        this.router.navigate(['login']);
+      } else {
+        this.message = res.msg;
+      }
     }, err => {
       this.message = err.error.msg;
     });
