@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-
 const userService = require('../services/userService');
 const educationService = require('../services/educationService');
 const authenticationService = require('../services/authenticationService');
 
 const passport = require('passport');
 const localStrategy = require('passport-local');
+const authCheckerMiddleware = require('../middleware/auth_checker');
 
 //bussiness logic put in service
 //router helps us to find which service we need
@@ -28,7 +26,7 @@ router.get('/users/:id', function (req, res) {
 });
 
 //Modify User By Id
-router.put('/users/:id', jsonParser, (req, res) => {
+router.put('/users/:id', (req, res) => {
     const id = req.params.id;
     userService.modifyUser(req, res, +id)
       .then(user => res.json(user))
@@ -38,12 +36,12 @@ router.put('/users/:id', jsonParser, (req, res) => {
 });
 
 //SignUp a User / Add a User
-router.post('/register', jsonParser, (req, res) => {
+router.post('/register', (req, res) => {
     authenticationService.register(req,res);
 });
 
 //Login
-router.post('/login', jsonParser, (req, res) => {
+router.post('/login', (req, res) => {
     authenticationService.login(req, res);
 });
 
@@ -62,27 +60,37 @@ router.get('/users/:id/educations', (req, res) => {
     });
 });
 
+//router.use('/educations', authCheckerMiddleware);
+
 //Get a Education by EducationID
-router.get('/users/:id/educations/:_id', (req, res) => {
+router.get('/educations/:_id', (req, res) => {
     const _id = req.params._id;
     educationService.getEducation(_id)
     .then(education => res.json(education));
 });
 
 //Add a Education
-router.post('/users/:id/educations', jsonParser, (req, res) => {
-    const id = req.params.id;
-    educationService.addEducation(req, res, +id)
+router.post('/educations', authCheckerMiddleware.checkUserEmail, (req, res) => {
+    educationService.addEducation(req, res)
       .then(education => res.json(education))
-      .catch(function(err) {
+      .catch((err) => {
         console.log("Failed:", err);
       });
 });
 
 //Modify a User's Education by UserID and EducationID
-router.put('/users/:id/educations/:_id', jsonParser, (req, res) => {
+router.put('/educations/:_id', authCheckerMiddleware.checkUserEmail, (req, res) => {
     const _id = req.params._id;
     educationService.modifyEducation(req, res, _id)
+      .then(education => res.json(education))
+      .catch(function(err) {
+        console.log("Failed:", err);
+      });
+})
+
+router.delete('/educations/:_id', authCheckerMiddleware.checkDeleteEducation, (req, res) => {
+    const _id = req.params._id;
+    educationService.deleteEducation(req, res, _id)
       .then(education => res.json(education))
       .catch(function(err) {
         console.log("Failed:", err);
