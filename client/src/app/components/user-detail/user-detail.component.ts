@@ -93,13 +93,13 @@ export class UserDetailComponent implements OnInit {
     console.log(input);
   }
   addExperience(): void {
-    emptyExperience = {
-      companyNmae: '',
+    var emptyExperience : Experience = {
+      companyName: '',
       startDate:'',
       description:''
     };
     this.isEmptyExperience = true;
-    this.selectedExperience = this.emptyExperience;
+    this.selectedExperience = emptyExperience;
   }
 
   isMatched() {  // check whether this profile is matched with the logged in user
@@ -146,8 +146,11 @@ export class UserDetailComponent implements OnInit {
        console.log(this.editIntroCardData);
        this.dataService.modifyUser(this.editIntroCardData)
        .then(user => {
-          this.user = user;
-          this.router.navigateByUrl(`users/${this.user.id}`)
+         this.dataService.getUser(user.id)
+         .then(newUser => {
+           this.user = newUser;
+           this.router.navigateByUrl(`users/${this.user.id}`)
+         });
        });
   }
 

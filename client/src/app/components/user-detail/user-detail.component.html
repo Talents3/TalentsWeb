@@ -227,17 +227,15 @@
       </div>
       <div class="education" id="first-education" *ngFor="let education of user.educations">
         <hr/>
-          <div id="universityName" style="float: left;">{{education.universityName}}</div>
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)"><img class="float-right" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
+          <div id="universityName">{{education.universityName}}</div>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" *ngIf = "isMatched()" (click)= "editEducation(education)" style="float: right;"><img class="float-right" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
           <div>Major: {{education.major}}  |  Degree: {{education.degreeType}}</div>
           <div>{{education.startDate}} --- {{education.endDate}}</div>
           <div>GPA: {{education.gpa}}</div>
           <div>
             <div>Core Courses:<div *ngFor="let course of education.courses"  style="padding-left: 15px;"> {{course.courseName}}  {{course.courseGrade}}</div></div>
-         
           </div>
-
-      </div>
+       </div>
     </div>
 
     <div class="work-experience-holder jumbotron">
