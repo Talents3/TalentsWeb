@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
+import { Education } from '../models/education.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,45 @@ export class DataService {
         return res;
       })
       .catch(this.handleError);
+  }
+
+  addEducation(education): Promise<Education> {
+      console.log('add Education');
+      const options = { headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')})};
+      return this.httpClient.post('api/v1/educations', education, options)
+        .toPromise()
+        .then((res: any) => {
+          return res;
+        })
+        .catch(this.handleError);
+  }
+
+  deleteEducation(_id): Promise<Education> {
+      console.log("deleteEducation");
+      const options = { headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')})};
+      return this.httpClient.delete(`api/v1/educations/${_id}`, options)
+        .toPromise()
+        .then((res: any) => {
+          return res;
+        })
+        .catch(this.handleError);
+  }
+
+  modifyEducation(education): Promise<Education> {
+      console.log('add Education');
+      const options = { headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')})};
+      return this.httpClient.put(`api/v1/educations/${education._id}`, education, options)
+        .toPromise()
+        .then((res: any) => {
+          return res;
+        })
+        .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
