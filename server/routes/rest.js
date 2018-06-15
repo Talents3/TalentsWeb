@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userService = require('../services/userService');
 const educationService = require('../services/educationService');
+const searchService = require('../services/searchService');
 const authenticationService = require('../services/authenticationService');
 
 const passport = require('passport');
@@ -99,12 +100,33 @@ router.delete('/educations/:_id', authCheckerMiddleware.checkDeleteEducation, (r
 
 //......................................................//
 // For Filter Search
-
-router.get('users/educations/:universityName', (req, res) => {
+// Search Users By universityName
+router.get('/users/educations/:universityName', (req, res) => {
     const universityName = req.params.universityName;
-    educationService.getEmailsByUniversity(universityName)
-      .then(emails => res.json(emails))
+    searchService.getUsersByUniversity(universityName)
+      .then(users => {res.json(users)});
 })
+
+// Search Users By Name
+router.get('/users/name/:name', (req, res) => {
+    const name = req.params.name;
+    searchService.getUsersByName(name)
+      .then(users => res.json(users))
+      .catch(err => console.log("Failed: " + err));
+})
+
+
+// Search Users By Experience(companyName or title)
+router.get('/users/experiences/:info', (req, res) => {
+    const info = req.params.info;
+    searchService.getUsersByExperience(info)
+      .then(users => res.json(users))
+      .catch(err => console.log("Failed: " + err));
+})
+
+
+
+
 
 
 module.exports = router;
