@@ -26,7 +26,7 @@ export class UserDetailComponent implements OnInit {
   };
   educations: Education[];
   experiences: Experience[];
-  selectedExperience: Experience;
+  selectedExperience: any;
   isEmptyExperience: boolean;
   selectedEducation: any;
   isAddingEducation: boolean;
@@ -109,11 +109,18 @@ export class UserDetailComponent implements OnInit {
             });
       }
   }
-  
 
-
-  deleteExperience(input: any): void {
-      console.log(input);
+  deleteExperience(): void {
+    console.log(this.selectedExperience);
+            // delete this education by parsing its id
+    this.dataService.deleteExperience(this.selectedExperience._id)
+                    .then(experience => {
+                      console.log("Delete: " + experience);
+                      this.dataService.getUser(this.user.id)
+                                      .then(user => {
+                                        this.user = user;
+                                      });
+                    });
   }
 
   editExperience(input: any): void {
@@ -123,18 +130,44 @@ export class UserDetailComponent implements OnInit {
   }
 
   saveExperience(input:any): void {
-    console.log(input);
+    console.log(this.selectedExperience); // save this updated education
+          if (this.isEmptyExperience) {
+              this.dataService.addExperience(this.selectedExperience)
+                .then(experience => {
+                    console.log("Add experience : " + experience.companyName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          } else {
+              this.dataService.modifyExperience(this.selectedExperience)
+                .then(experience => {
+                    console.log("Modify experience :" + experience.companyName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          }
   }
   //
-  // addExperience(): void {
-  //   var emptyExperience : Experience = {
-  //     companyName: '',
-  //     startDate:'',
-  //     description:''
-  //   };
-  //   this.isEmptyExperience = true;
-  //   this.selectedExperience = emptyExperience;
-  // }
+  addExperience(): void {
+    var emptyExperience = {
+      userEmail: localStorage.getItem("email"),  
+      universityName: '',
+      gpa: 0,
+      degreeType: '',
+      major: '',
+      startDate: '',
+      endDate: '',
+      inProgress: false,
+      transcripts: '',
+      courses: []
+    }
+    this.selectedExperience = emptyExperience;
+    this.isEmptyExperience = true;
+  }
 
   isMatched() {  // check whether this profile is matched with the logged in user
      if (localStorage.getItem("email") === this.user.email) return true;
