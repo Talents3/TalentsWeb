@@ -60,6 +60,29 @@ app.post('/api/v1/upload',upload.single('photo'), function (req, res) {
       }
 });
 
+// upload transcript
+app.post('/api/v1/transcripts',upload.single('transcript'), function (req, res) {
+    if (!req.file) {
+        console.log("No file received");
+        return res.send({
+          success: false
+        });
+    
+      } else {
+      	
+        console.log('file received');
+        return res.send({
+          success: true,
+          filename: req.file.filename
+        })
+      }
+});
+  
+// send transcript files to front end
+app.get('/getTranscripts/:filename', function (req, res) {
+	const filename = req.params.filename;
+     res.sendFile(__dirname + '/uploads/' + filename);
+});
 // send files to front end
 app.get('/api/v1/getImages/:filename', function (req, res) {
 	const filename = req.params.filename;

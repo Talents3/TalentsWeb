@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';// for file uploading
 
 const URL = 'http://localhost:3000/api/v1/upload/';   //hard code an address
-
+const TRANSURL = 'http://localhost:3000/api/v1/transcripts/'
 
 @Component({
   selector: 'app-user-detail',
@@ -31,6 +31,7 @@ export class UserDetailComponent implements OnInit {
     needVisaSponsor: false
   };
   IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image 
+  Transcripts = 'http://localhost:3000/api/v1/getTranscripts/'; // transcripts
   educations: Education[];
   experiences: Experience[];
   selectedExperience: any;
@@ -38,6 +39,7 @@ export class UserDetailComponent implements OnInit {
   selectedEducation: any;
   isAddingEducation: boolean;
   uploader: FileUploader ;
+  transcriptUploader: FileUploader;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
@@ -54,13 +56,23 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
-            this.editIntroCardData.image = user.image;
-            this.uploader =   new FileUploader({url: URL , itemAlias: 'photo'});
-            
+            this.editIntroCardData.image = user.image;    
         });
     });
 
   }
+  initTranscriptUPloader(){
+    this.transcriptUploader = new FileUploader({url:TRANSURL , itemAlias: 'transcript'});
+    this.transcriptUploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+     this.transcriptUploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+         var obj = JSON.parse(response);
+         this.selectedEducation.transcripts = obj.filename;
+         console.log(this.editIntroCardData.image);
+         console.log('ImageUpload:uploaded:', response);
+         alert('File uploaded successfully');
+       
+     };   // upload transcript file method
+  }  
 
   deleteEducation(): void {
         console.log(this.selectedEducation);
@@ -78,6 +90,7 @@ export class UserDetailComponent implements OnInit {
   editEducation(input: any): void{   //edit education button pressed
     this.selectedEducation = _.cloneDeep(input);
     this.isAddingEducation = false;
+    this.initTranscriptUPloader();
 
   }
 
@@ -97,6 +110,7 @@ export class UserDetailComponent implements OnInit {
     
      this.selectedEducation = emptyEducation;
      this.isAddingEducation = true;
+     this.initTranscriptUPloader();
 
   }
 
@@ -166,6 +180,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   initUploader(){   // after click on editIntro button init uploader
+     this.uploader =   new FileUploader({url: URL , itemAlias: 'photo'});
      this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
      this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
          var obj = JSON.parse(response);
@@ -175,7 +190,7 @@ export class UserDetailComponent implements OnInit {
          alert('File uploaded successfully');
        
      };   // upload file method
-
+  }
   addExperience(): void {
     var emptyExperience = {
       userEmail: localStorage.getItem("email"),  
