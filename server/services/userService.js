@@ -29,7 +29,7 @@ const getUser = function(id) {
     //     resolve(problems.find(problem => problem.id === id));
     // });
     return new Promise((resolve, reject) => {
-        User.findOne({id: id}).populate('educations').exec((err, user) => {
+        User.findOne({id: id}).populate('educations').populate('experiences').exec((err, user) => {
             if (err) {
                 reject(err);
             } else {
@@ -92,6 +92,7 @@ const modifyUser = function(req, res, id) {
                 oldUser.description = editedUser.description;
                 oldUser.phone = editedUser.phone;
                 oldUser.needVisaSponsor = editedUser.needVisaSponsor;
+                oldUser.image = editedUser.image;   // for storing image
 
                 //TODO: add more when finish user model
                 oldUser.save();

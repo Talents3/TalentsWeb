@@ -6,6 +6,11 @@ import { DataService } from '../../services/data.service';
 import { Education } from '../../models/education.model';
 import { Experience } from '../../models/experience.model';
 import * as _ from 'lodash';
+import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';// for file uploading
+
+const URL = 'http://localhost:3000/api/v1/upload/';   //hard code an address
+
+
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -22,17 +27,21 @@ export class UserDetailComponent implements OnInit {
     phone: '',
     newGrads: false,
     id: 0,
+    image: '',
     needVisaSponsor: false
   };
+  IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image 
   educations: Education[];
   experiences: Experience[];
-  selectedExperience: Experience;
+  selectedExperience: any;
   isEmptyExperience: boolean;
   selectedEducation: any;
   isAddingEducation: boolean;
+  uploader: FileUploader ;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
+    
     this.route.params.subscribe(params => {
       this.dataService.getUser(+params['id'])
        .then(user => {
@@ -45,8 +54,12 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
+            this.editIntroCardData.image = user.image;
+            this.uploader =   new FileUploader({url: URL , itemAlias: 'photo'});
+            
         });
-    })
+    });
+
   }
 
   deleteEducation(): void {
@@ -109,11 +122,18 @@ export class UserDetailComponent implements OnInit {
             });
       }
   }
-  
 
-
-  deleteExperience(input: any): void {
-      console.log(input);
+  deleteExperience(): void {
+    console.log(this.selectedExperience);
+            // delete this education by parsing its id
+    this.dataService.deleteExperience(this.selectedExperience._id)
+                    .then(experience => {
+                      console.log("Delete: " + experience);
+                      this.dataService.getUser(this.user.id)
+                                      .then(user => {
+                                        this.user = user;
+                                      });
+                    });
   }
 
   editExperience(input: any): void {
@@ -123,18 +143,56 @@ export class UserDetailComponent implements OnInit {
   }
 
   saveExperience(input:any): void {
-    console.log(input);
+    console.log(this.selectedExperience); // save this updated education
+          if (this.isEmptyExperience) {
+              this.dataService.addExperience(this.selectedExperience)
+                .then(experience => {
+                    console.log("Add experience : " + experience.companyName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          } else {
+              this.dataService.modifyExperience(this.selectedExperience)
+                .then(experience => {
+                    console.log("Modify experience :" + experience.companyName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          }
   }
-  //
-  // addExperience(): void {
-  //   var emptyExperience : Experience = {
-  //     companyName: '',
-  //     startDate:'',
-  //     description:''
-  //   };
-  //   this.isEmptyExperience = true;
-  //   this.selectedExperience = emptyExperience;
-  // }
+
+  initUploader(){   // after click on editIntro button init uploader
+     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+         var obj = JSON.parse(response);
+         this.editIntroCardData.image = obj.filename;
+         console.log(this.editIntroCardData.image);
+         console.log('ImageUpload:uploaded:', response);
+         alert('File uploaded successfully');
+       
+     };   // upload file method
+
+  addExperience(): void {
+    var emptyExperience = {
+      userEmail: localStorage.getItem("email"),  
+      universityName: '',
+      gpa: 0,
+      degreeType: '',
+      major: '',
+      startDate: '',
+      endDate: '',
+      inProgress: false,
+      transcripts: '',
+      courses: []
+    }
+    this.selectedExperience = emptyExperience;
+    this.isEmptyExperience = true;
+
+  }
 
   isMatched() {  // check whether this profile is matched with the logged in user
      if (localStorage.getItem("email") === this.user.email) return true;
@@ -172,7 +230,9 @@ export class UserDetailComponent implements OnInit {
         this.sendEditIntroData();
       } else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor) {
         this.sendEditIntroData();
-      }
+      } else if (this.editIntroCardData.image != this.user.image){
+        this.sendEditIntroData();
+      } else console.log("did not modify your intro card:",this.user.image);
   }
 
   sendEditIntroData() {  // send modified intro card to backend server

@@ -21,6 +21,14 @@
       <div class="modal-body" >
         <form  id = "editIntroForm">
           <div class="form-group">
+              <div class="row" align="left" *ngIf = "uploader" style="margin: 0px;">
+                <input type="file" class = "left" name="photo" ng2FileSelect [uploader]="uploader" />     <!-- upload a image file -->
+                <button type="button" class="btn btn-primary" 
+                    (click)="uploader.uploadAll()" 
+                    [disabled]="!uploader.getNotUploadedItems().length" >
+                        Upload Profile Image
+                </button>
+              </div>
 	            <label for="username" class="col-form-label" align = "left">Full Name:</label>
 	            <input type="text" class="editIntro form-control" name="username"   [(ngModel)]="editIntroCardData.username">
 	            <label for="age" class="col-form-label" align = "right">Age:</label>
@@ -31,8 +39,8 @@
           <label class="col-form-label" align = "left">Gender</label>
           <select #selectElemIsMale (change)="setIsMale(selectElemIsMale.value)" >
           	  <option>plese select</option>
-			  <option [value]="true">Male</option>
-			  <option [value]="false">Female</option>
+			  <option [value]="true"> Male</option>
+			  <option [value]="false"> Female</option>
 		  </select>
 		  <label class="col-form-label" align = "left">Are you  a new Grad?</label>
 		  <select #selectElemIsNewGrad (change)="setNewGrad(selectElemIsNewGrad.value)" >
@@ -148,13 +156,13 @@
 
 
 <div class="container" *ngIf = "user">
-    <div class="jumbotron">
-        <div class="row">
+    <div class="jumbotron" >
+        <div class="row" >
           <!-- Left part-->
           <div class="col-md-6">
-            <div class="column" align="center">
+            <div class="column" align="center" style="float: left;">
               <div *ngIf= "user.image">
-	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{user.image}}" >
+	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{IMAGEDIR  + user.image}}" >
 	            </div>
 	          <div *ngIf= "!user.image">
 	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/defaultImage.png">
@@ -174,26 +182,27 @@
             </div>
           </div>
           <!-- Right part-->
-          <div class="col-md-6 info" id="experience">
-            <div class="column" align="center">
+          <div class="col-md-6 " >
+            <div class="userDescription" align="center" style="font-weight: bold; font-size: large;">{{user.description}}</div>
+            <div class="column info" align="center">
               <!-- Personal education and working Experience display-->
-              <div>
-                <div class="userDescription" align="left" style="font-weight: bold; font-size: large;">{{user.description}}</div>
+
+
                 <div class="container" align="left">
-                  <button class="list-group-item info-group-item row" align="center">
+                  <button class="list-group-item info-group-item " align="left">
                       <img class="icon rounded float-left" id="icon-element" src="assets/images/education-icon.png">
                       <div id="detail-element">New York University</div>
                   </button>
-                  <button class="list-group-item info-group-item row" align="center">
+                  <button class="list-group-item info-group-item" align="left">
                       <img class="icon rounded float-left" id="icon-element" src="assets/images/work-icon.png">
                       <div id="detail-element">Amazon Ltd.</div>
                   </button>
-                  <button class="list-group-item info-group-item row" align="center">
+                <!--   <button class="list-group-item info-group-item row" align="center">
                       <img class="icon rounded float-left" id="icon-element" src="assets/images/blog-icon.png">
                       <div id="detail-element">Blogs</div>
-                  </button>
+                  </button> -->
                 </div>
-              </div>
+
               <!-- Tag area -->
               <div class="container tags-area" align="left">
                 <div align="left">
@@ -212,72 +221,76 @@
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>&nbsp;
                     <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
                 </div>
-                 <button class="btn btn-outline-secondary btn-sm" align="right"  data-toggle="modal" data-target="#editIntroModal"  *ngIf = "isMatched()">edit</button>
+
+              </div>
+            </div>
+          </div>
+          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editIntroModal"  *ngIf = "isMatched()" style="float: right;"  (click) = "initUploader()"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/edit-icon.png"></button>&nbsp;
+        </div>
+    </div>
+
+    <div class="education-holder jumbotron" id="education-holder">
+      <div class="row" >
+        <div align="left">
+          <div class="lead" align="left">Education</div>
+          <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+            <button type="button" class="btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="addEducation()">
+              <img class="float-left" style="width: 100%; height: 100%;" src="assets/images/add-icon.png">
+            </button>&nbsp;
+          </div>
+          <div class="education" id="first-education" *ngFor="let education of user.educations">
+            <hr/>
+              <div id="universityName">{{education.universityName}}</div>
+              <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+                <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="editEducation(education)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/edit-icon.png"></button>&nbsp;
+              </div>
+              <div>{{education.startDate}} --- {{education.endDate}}</div>
+              <div>Major: {{education.major}}  |  Degree: {{education.degreeType}}  |  GPA: {{education.gpa}}</div>
+              <div style="display: flex;">
+                <div >Core Course:</div>
+                <div *ngFor="let course of education.courses" style="padding-left: 15px;"> {{course.courseName}} {{course.courseGrade}}</div>
               </div>
             </div>
           </div>
         </div>
     </div>
 
-    <div class="education-holder jumbotron" id="education-holder">
-      <div align="left">
-        <div class="lead" align="left">Education</div>
-        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
-          <button type="button" class="btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="addEducation()">
-            <img class="float-left" style="width: 100%; height: 100%;" src="assets/images/add-icon.png">
-          </button>&nbsp;
-        </div>
-        <div class="education" id="first-education" *ngFor="let education of user.educations">
-          <hr/>
-            <div id="universityName">{{education.universityName}}</div>
-            <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
-              <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editEducationModal" (click)="editEducation(education)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/edit-icon.png"></button>&nbsp;
-            </div>
-            <div>Major: {{education.major}} | Degree: {{education.degreeType}}</div>
-            <div>{{education.startDate}} --- {{education.endDate}}</div>
-            <div>GPA: {{education.gpa}}</div>
-            <div>
-              <div>Core Course:</div>
-              <div *ngFor="let course of education.courses" style="padding-left: 15px;"> {{course.courseName}} {{course.courseGrade}}</div>
-            </div>
+    <div class="work-experience-holder jumbotron">
+      <div class="row">
+        <div align="left">
+          <div class= "lead" align="left">Work Experience</div>
+          <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="addExperience(experience)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
           </div>
         </div>
-      </div>
-
-
-    <div class="work-experience-holder jumbotron">
-      <div align="left">
-        <div class= "lead" align="left">Work Experience</div>
-        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="addExperience(experience)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
+        <div class="work-experience" id="first-education" *ngFor="let experience of user.experiences">
+          <hr/>
+          <div id="companyName">{{experience.companyName}}</div>
+          <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="editExperience(experience)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
+          </div>
+          <div id="experienceTitle">{{experience.title}}</div>
+          <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
         </div>
-      </div>
-      <div class="work-experience" id="first-education" *ngFor="let experience of user.experience">
-        <hr/>
-        <div id="companyName">{{experience.companyName}}</div>
-        <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="editExperience(experience)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
-        </div>
-        <div id="experienceTitle">{{experience.title}}</div>
-        <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
-      </div>
-
+     </div>
     </div>
 
     <div class="project-experience-holder jumbotron">
-      <div align="left">
-        <div class= "lead" align="left">Project Experience</div>
-        <div class="modificationButtons" style="float:right;">
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
-          <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
+      <div class="row">
+        <div align="left">
+          <div class= "lead" align="left">Project Experience</div>
+          <div class="modificationButtons" style="float:right;">
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
+          </div>
         </div>
+        <!-- TODO:  -->
+        <div id="first-education">
+          <div class="lead">Alpha-Go Development</div>
+          <div>AI Developer</div>
+          <div>August 2016 - August 2017  1 year</div>
+        </div>
+        <hr/>
       </div>
-      <!-- TODO:  -->
-      <div id="first-education">
-        <div class="lead">Alpha-Go Development</div>
-        <div>AI Developer</div>
-        <div>August 2016 - August 2017  1 year</div>
-      </div>
-      <hr/>
     </div>
 </div>

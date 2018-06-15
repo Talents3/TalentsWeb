@@ -21,7 +21,7 @@ const register = function(req, res) {
       newUser.save(function(err) {
         if (err) {
           console.log(err);
-          return res.json({success: false, msg: 'Username already exists.'});
+          return res.json({success: false, msg: 'User email already exists.'});
         }
         res.json({success: true, msg: 'Successful created new user.'});
       });

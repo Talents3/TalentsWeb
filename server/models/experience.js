@@ -1,10 +1,14 @@
 var mongoose = require("mongoose");
 
 var experienceSchema = mongoose.Schema({
+          userEmail: {
+            type: String,
+            required: true
+          },
    		    companyName: String,
           title: String,
-          startDate: Date,
-          endDate: Date,
+          startDate: String,
+          endDate: String,
           description: String,
 });
 

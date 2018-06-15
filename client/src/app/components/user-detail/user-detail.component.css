@@ -100,14 +100,20 @@
   border: none;
 }
 .info {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .icon {
   width: 5%;
 }
 .jumbotron {
   background-color: lightblue;
+  margin-left: 5%; 
+  margin-right: 5%;
 
+}
+.row {
+  margin-right: 5%;
+  margin-left:  5%;
 }
 .btn-outline-primary {
   border-color: #57068c;
