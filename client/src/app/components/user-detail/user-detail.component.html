@@ -1,10 +1,10 @@
 
-<nav class="floating-menu nav navbar-nav" id="floating-menu">
-  <button class="list-group-item menu-group-item active">Contact</button>
-  <button class="list-group-item menu-group-item">Education</button>
-  <button class="list-group-item menu-group-item">Experience
-  </button>
-  <button class="list-group-item menu-group-item" [routerLink]="['/blogs']"> Blogs</button>
+<nav class="floating-menu nav navbar-nav" id="navbar-example1">
+  <a class="nav-link list-group-item list-group-item-action" href = "#introCard-holder">Contact</a>
+  <a class="nav-link list-group-item list-group-item-action" href = "#education-holder">Education</a>
+  <a class="nav-link list-group-item list-group-item-actionm" href = "#experience-holder">Experience
+  </a>
+  <a class="nav-link list-group-item list-group-item-action" href = "#project-holder"> Project</a>
 </nav>
 
 
@@ -95,7 +95,15 @@
             <br/>
           </div>
           <form *ngIf="selectedEducation">
-            <div class="form-group">
+            <div class="form-group">   <!-- transcript upload button -->
+              <div class="row" align="left" *ngIf = "transcriptUploader" style="margin: 0px;">
+                <input type="file" class = "left" name="transcrpt" ng2FileSelect [uploader]="transcriptUploader" />     <!-- upload a image file -->
+                <button type="button" class="btn btn-primary" 
+                    (click)="transcriptUploader.uploadAll()" 
+                    [disabled]="!transcriptUploader.getNotUploadedItems().length" >
+                        Upload Transcript
+                </button>
+              </div>
               <label for="universityName" class="col-form-label">University Name:</label>
               <input type="text" class="form-control" name="universityName" [(ngModel)]= "selectedEducation.universityName">
               <label for="startDate" class="col-form-label">Start Date:</label>
@@ -155,8 +163,9 @@
 
 
 
-<div class="container" *ngIf = "user">
-    <div class="jumbotron" >
+<div class="container" *ngIf = "user" data-spy="scroll" data-target="#navbar-example1" data-offset="0">
+    <div class="jumbotron"  >
+        <h6 id = "introCard-holder"></h6>
         <div class="row" >
           <!-- Left part-->
           <div class="col-md-6">
@@ -229,7 +238,8 @@
         </div>
     </div>
 
-    <div class="education-holder jumbotron" id="education-holder">
+    <div class="education-holder jumbotron" >
+      <h6 id="education-holder"></h6>
       <div class="row" >
         <div align="left">
           <div class="lead" align="left">Education</div>
@@ -250,12 +260,14 @@
                 <div >Core Course:</div>
                 <div *ngFor="let course of education.courses" style="padding-left: 15px;"> {{course.courseName}} {{course.courseGrade}}</div>
               </div>
+              <p *ngIf="education.transcripts"><a style="font-size: medium;" href = "{{ 'http://localhost:3000/getTranscripts/' + education.transcripts }}"> Transcript</a></p>   <!-- read transcript -->
             </div>
           </div>
         </div>
     </div>
 
-    <div class="work-experience-holder jumbotron">
+    <div class="work-experience-holder jumbotron" >
+      <h6 id = "experience-holder" ></h6>
       <div class="row">
         <div align="left">
           <div class= "lead" align="left">Work Experience</div>
@@ -275,7 +287,7 @@
      </div>
     </div>
 
-    <div class="project-experience-holder jumbotron">
+    <div class="project-experience-holder jumbotron" id = "project-holder">
       <div class="row">
         <div align="left">
           <div class= "lead" align="left">Project Experience</div>
