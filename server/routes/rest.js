@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userService = require('../services/userService');
 const educationService = require('../services/educationService');
+const experienceService = require('../services/experienceService');
 const authenticationService = require('../services/authenticationService');
 
 const passport = require('passport');
@@ -97,6 +98,45 @@ router.delete('/educations/:_id', authCheckerMiddleware.checkDeleteEducation, (r
       });
 })
 
+//router.use('/experiences', authCheckerMiddleware);
+router.post('/experiences', authCheckerMiddleware.checkUserEmail, (req, res) => {
+    experienceService.addExperience(req, res)
+    .then(experience => res.json(experience))
+    .catch((err) => {
+      console.log("Unable to add experience due to: ", err);
+    });
+});
+
+router.put('/experiences/:_id', authCheckerMiddleware.checkUserEmail, (req, res) => {
+  const _id = req.params._id;
+  experienceService.modifyExperience(req, res, _id)
+  .then(experience => res.json(experience))
+  .catch(function(err) {
+    console.log(err);
+  });
+});
+
+router.delete('/experiences/:_id', authCheckerMiddleware.checkDeleteExperience, (req, res) => {
+  const _id = req.params._id;
+  experienceService.deleteExperience(req, res, _id)
+  .then(experience => res.json(experience))
+  .catch(function(err) {
+    console.log(err);
+  });
+});
+
+
+router.get('users/:id/experiences', (req, res) => {
+  const id = req.params.id;
+  userService.getUser(id)
+  .then(user => experienceService.getExperience(user.email).then(experiences => res.json(experiences)));
+});
+
+router.get('/experiences/:_id', (req, res) => {
+  const _id = req.params._id;
+  experienceService.getExperience(_id)
+  .then(experience => res.json(experience));
+})
 //......................................................//
 // For Filter Search
 

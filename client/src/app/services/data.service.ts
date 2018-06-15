@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { Education } from '../models/education.model';
+import { Experience } from '../models/experience.model';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,55 @@ export class DataService {
           return res;
         })
         .catch(this.handleError);
+  }
+
+  addExperience(experience): Promise<Experience> {
+    console.log("add Experience");
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.httpClient.post(`api/v1/experiences`, experience, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
+  }
+
+
+  deleteExperience(_id): Promise<Experience> {
+    console.log("delete Experience");
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.httpClient.delete(`api/v1/experiences/${_id}`, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
+  }
+
+  modifyExperience(experience): Promise<Experience> {
+    console.log("add Experience");
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.httpClient.put(`api/v1/experiences/${experience._id}`, experience, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

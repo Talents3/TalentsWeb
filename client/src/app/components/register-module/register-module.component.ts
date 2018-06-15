@@ -19,7 +19,7 @@ export class RegisterModuleComponent implements OnInit {
   signupData = { username:'', email: '' , password:''};
   confirmPassword = '';
   message = '';
-
+  isValidEmail = false;
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -31,6 +31,15 @@ export class RegisterModuleComponent implements OnInit {
     console.log(this.signupData.password);
     if (this.confirmPassword !== this.signupData.password) {
       this.message = 'Password not match!!';
+    } else {
+      this.message = '';
+    }
+  }
+
+  checkIfEmail(signupForm) {
+    signupForm._directives[3].valid;
+    if (signupForm._directives[3].valid == false){
+      this.message = 'Invalid Password!';
     } else {
       this.message = '';
     }

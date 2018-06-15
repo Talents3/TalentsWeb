@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const Education = require('../models/education');
+const Experience = require('../models/experience');
 
 //For router.put/post
 const checkUserEmail = (req, res, next) => {
@@ -65,7 +66,40 @@ const checkDeleteEducation = (req, res, next) => {
     });
 }
 
+const checkDeleteExperience = (req, res, next) => {
+    //console.log('auth_checker: req: ' + req.headers);
+    Experience.findById(req.params._id, (err, experience) => {
+      if (!experience) {
+          return next('Experience does not exist');
+      } else {
+          const email = experience.userEmail;
+          if (!req.headers.authorization) {
+            return next('Authorization header missing');
+          }
+
+          const token = req.headers.authorization.split(' ')[1];
+
+          jwt.verify(token, config.secret, (err, decoded) => {
+            // the 401 code is for unauthorized status
+            if (err) {
+              return next('Token unvalid');
+            }
+
+            const decodeEmail = decoded.sub;
+            if (decodeEmail !== email) {
+              return next('Email authentication not match');
+            }
+
+            console.log('Verify succesful!!');
+          });
+
+          return next();
+        }
+    });
+}
+
 module.exports = {
     checkUserEmail,
-    checkDeleteEducation
+    checkDeleteEducation,
+    checkDeleteExperience
 }
