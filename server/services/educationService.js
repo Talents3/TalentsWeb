@@ -1,8 +1,5 @@
 const User = require('../models/userModel');
 const Education = require('../models/education');
-const jwt = require('jsonwebtoken');
-const config = require('../config/database');
-const authCheckerMiddleware = require('../middleware/auth_checker');
 
 const getEducations = function(userEmail) {
   return new Promise((resolve, reject) => {
@@ -11,26 +8,6 @@ const getEducations = function(userEmail) {
               reject(err);
           } else {
               resolve(educations);
-          }
-      });
-  });
-}
-
-const getEmailsByUniversity = function(universityName) {
-  return new Promise((resolve, reject) => {
-      var emails = [];
-      Education.find({universityName: universityName}, (err, educations) => {
-          if (err) {
-              reject(err);
-          } else {
-              educations.forEach((education) => {
-                  if (!emails.includes(education.email)) {
-                      emails.push(education.email);
-                  }
-              })
-
-              console.log(emails);
-              resolve(email);
           }
       });
   });
@@ -134,7 +111,6 @@ const deleteEducation = function(req, res, _id) {
 module.exports = {
     getEducation,
     getEducations,
-    getEmailsByUniversity,
     modifyEducation,
     addEducation,
     deleteEducation
