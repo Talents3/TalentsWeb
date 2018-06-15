@@ -116,7 +116,7 @@ router.put('/experiences/:_id', authCheckerMiddleware.checkUserEmail, (req, res)
   });
 });
 
-router.delete('/experiences/:_id', authCheckerMiddleware.checkUserEmail, (req, res) => {
+router.delete('/experiences/:_id', authCheckerMiddleware.checkDeleteExperience, (req, res) => {
   const _id = req.params._id;
   experienceService.deleteExperience(req, res, _id)
   .then(experience => res.json(experience))
