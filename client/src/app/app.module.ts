@@ -10,7 +10,7 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
 import { LoginModuleComponent } from './components/login-module/login-module.component';
 import{ DataService } from './services/data.service';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
-
+import { FileSelectDirective } from 'ng2-file-upload'; // for file upload
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +18,8 @@ import { RegisterModuleComponent } from './components/register-module/register-m
     UserInfoListComponent,
     UserDetailComponent,
     RegisterModuleComponent,
-    LoginModuleComponent
+    LoginModuleComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,

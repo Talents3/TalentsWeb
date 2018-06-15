@@ -15,9 +15,57 @@ const User = require('./models/userModel');
 //Make server to serve static file.
 const path = require('path');
 
+// for file uploading
+const multer = require('multer');
+const fs = require('fs');
+const DIR = './uploads';
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      
+      cb(null, DIR );
+    },
+    filename: (req, file, cb) => {
+
+      cb(null, file.fieldname + '-' + Date.now()  +  '-' + file.originalname);
+    }
+});
+let upload = multer({storage: storage});
+
+
+
+
+// end here
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true})); 
+
+
 app.use('/api/v1',restRouter);
+// upload images
+app.post('/api/v1/upload',upload.single('photo'), function (req, res) {
+    if (!req.file) {
+        console.log("No file received");
+        return res.send({
+          success: false
+        });
+    
+      } else {
+      	
+        console.log('file received');
+        return res.send({
+          success: true,
+          filename: req.file.filename
+        })
+      }
+});
+
+// send files to front end
+app.get('/api/v1/getImages/:filename', function (req, res) {
+	const filename = req.params.filename;
+     res.sendFile(__dirname + '/uploads/' + filename);
+});
+
 app.use(express.static(path.join(__dirname, '../public')));
 //If the url does not handled by router on the server side,
 //then the server send index.html from the public folder
@@ -41,6 +89,7 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
 
 // error handlers
 
