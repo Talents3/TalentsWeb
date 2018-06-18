@@ -35,11 +35,12 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  getMoreUsers(): void {
-      this.httpClient.get(`api/v1/users/nums/${this._userSource.value.length}`)
+  getMoreUsers(): Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/nums/${this._userSource.value.length}`)
       .toPromise()
       .then((users: any) => {
         this._userSource.next(this._userSource.value.concat(users));
+        return users;
       })
       .catch(this.handleError);
   }
