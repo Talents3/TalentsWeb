@@ -3,6 +3,8 @@ import { UserInfoListComponent } from './components/user-info-list/user-info-lis
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
 import { LoginModuleComponent } from './components/login-module/login-module.component';
+import { AboutModuleComponent } from './components/about-module/about-module.component';
+
 const routes: Routes = [
     {
         path: '',
@@ -26,6 +28,10 @@ const routes: Routes = [
         path: 'login',
         component: LoginModuleComponent,
         data: { title: 'Login' }
+    },
+    {
+        path: 'about',
+        component: AboutModuleComponent
     },
     {
         path: '**',
