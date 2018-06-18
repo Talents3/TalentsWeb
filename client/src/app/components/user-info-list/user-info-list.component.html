@@ -114,7 +114,6 @@
 								<ng-template #defaultExperience>
 				    			<li  class="list-group-item">Experience</li>
 								</ng-template>
-
 								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
 				    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
@@ -130,5 +129,4 @@
 	    </div>
 		</div>
 	</div>
-
-<</div>
+</div>
