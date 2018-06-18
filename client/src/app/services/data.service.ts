@@ -15,25 +15,32 @@ export class DataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  // getUsers() : User[] {
-  //   return this.users;
-  // }
   getUsers(): Observable<User[]> {
-    this.httpClient.get('api/v1/users')
-      .toPromise()
-      .then((res: any) => {
-        this._userSource.next(res);
-      })
-      .catch(this.handleError);
+    if (this._userSource.value.length == 0) {
+      this.httpClient.get('api/v1/users')
+        .toPromise()
+        .then((res: any) => {
+          this._userSource.next(res);
+        })
+        .catch(this.handleError);
+    }
 
-      return this._userSource.asObservable();
+    return this._userSource.asObservable();
   }
 
   getUser(id: number): Promise<User> {
-
     return this.httpClient.get(`api/v1/users/${id}`)
       .toPromise()
       .then((res: any) => res)
+      .catch(this.handleError);
+  }
+
+  getMoreUsers(): void {
+      this.httpClient.get(`api/v1/users/nums/${this._userSource.value.length}`)
+      .toPromise()
+      .then((users: any) => {
+        this._userSource.next(this._userSource.value.concat(users));
+      })
       .catch(this.handleError);
   }
 
