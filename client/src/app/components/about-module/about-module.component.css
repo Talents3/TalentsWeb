@@ -1,0 +1,53 @@
+img {
+    border-radius: 50%;
+
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    width: 100px;
+    height: 100px;
+};
+a {
+	padding-top: 10px;
+};
+
+#authorCards {
+  width: 200px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+
+.card {
+  background-color: #ffff;
+  color: #778899;
+  font-weight: 300;
+}
+.bg-gray {
+  background-color: #E3E7EA;
+}
+.text-xxxl {
+  font-size: 32px;
+  line-height: 1.25;
+  font-family:'Courier New';
+}
+.text-sm {
+  font-family:'Courier New';
+}
+.text-xs {
+  text-align: justify;
+  font-family:'Courier New';
+}
+.card-lg {
+  padding: 10px;
+}
+@media (min-width: 992px){
+.col-md-3 {
+    width: 30%;
+  }
+}

@@ -10,7 +10,8 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
 import { LoginModuleComponent } from './components/login-module/login-module.component';
 import{ DataService } from './services/data.service';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
-import { FileSelectDirective } from 'ng2-file-upload'; // for file upload
+import { FileSelectDirective } from 'ng2-file-upload';
+import { AboutModuleComponent } from './components/about-module/about-module.component';// for file upload
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,14 +20,15 @@ import { FileSelectDirective } from 'ng2-file-upload'; // for file upload
     UserDetailComponent,
     RegisterModuleComponent,
     LoginModuleComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    AboutModuleComponent
   ],
   imports: [
     BrowserModule,
     routing,
     HttpClientModule,
     FormsModule
-   
+
   ],
   providers: [
     DataService
