@@ -6,28 +6,38 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 const getUsers = function() {
-    // return new Promise((resolve, reject) => {
-    //     resolve(users);
-    // });
+
     return new Promise((resolve, reject) => {
-        User.find({}, (err, users) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(users);
-            }
-        });
-    });
+        User.find({})
+            .limit(config.initialNumOfUsers)
+            .exec((err, users) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(users);
+                }
+            })
+    })
 }
 
-const getUsersByUniversity = function() {
-
+const getMoreUsers = function(curNum) {
+    const usersPerPage = 5;
+    console.log("curNum: " + curNum);
+    return new Promise((resolve, reject) => {
+        User.find({})
+            .skip(curNum)
+            .limit(config.numsPerPage)
+            .exec((err, users) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(users);
+                }
+            })
+    })
 }
 
 const getUser = function(id) {
-    // return new Promise((resolve, reject) => {
-    //     resolve(problems.find(problem => problem.id === id));
-    // });
     return new Promise((resolve, reject) => {
         User.findOne({id: id}).populate('educations').populate('experiences').exec((err, user) => {
             if (err) {
@@ -105,6 +115,7 @@ const modifyUser = function(req, res, id) {
 module.exports = {
     getUsers,
     getUser,
+    getMoreUsers,
     modifyUser,
     getEmailById
 }

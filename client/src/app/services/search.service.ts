@@ -11,27 +11,38 @@ import { Experience } from '../models/experience.model';
 })
 export class SearchService {
 
+  private _searchUserSource = new BehaviorSubject<User[]>([]);
+  private _emptyUsers: User[] = [];
+
   constructor(private httpClient: HttpClient) { }
 
-  getUsersByName(name): Promise<User[]> {
-    return this.httpClient.get(`api/v1/users/name/${name}`)
+  getSearchUsers(): Observable<User[]> {
+    return this._searchUserSource.asObservable();
+  }
+
+  getUsersByName(name): void {
+    this.httpClient.get(`api/v1/users/name/${name}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((res: any) => res)
+      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
       .catch(this.handleError);
   }
 
-  getUsersByEducation(universityName):  Promise<User[]> {
-    return this.httpClient.get(`api/v1/users/educations/${universityName}`)
+  getUsersByEducation(universityName): void {
+    this.httpClient.get(`api/v1/users/educations/${universityName}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((res: any) => res)
+      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
       .catch(this.handleError);
   }
 
-  getUsersByExperience(info):  Promise<User[]> {
-    return this.httpClient.get(`api/v1/users/experiences/${info}`)
+  getUsersByExperience(info):  void {
+    this.httpClient.get(`api/v1/users/experiences/${info}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((res: any) => res)
+      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
       .catch(this.handleError);
+  }
+
+  resetSearchSource(): void {
+      this._searchUserSource.next(this._emptyUsers);
   }
 
   private handleError(error: any): Promise<any> {
