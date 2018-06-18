@@ -1,6 +1,18 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+const TempUser = require('../models/tempUserModel');
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'talents3Web@gmail.com',
+    pass: 'talents3Web@'
+  }
+});
+
+
 
 const register = function(req, res) {
   console.log(req.body);
@@ -8,24 +20,29 @@ const register = function(req, res) {
     //console.log(req);
     res.json({success: false, msg: 'Please pass username, email and password.'});
   } else {
-    var newUser = new User({
+    var newUser = new TempUser({
       username: req.body.username,
       email: req.body.email,
       password: req.body.password
     });
 
-    User.count({}, (err, count) => {
-      newUser.id = count + 1;
-      console.log(newUser.id);
-      // save the user
-      newUser.save(function(err) {
-        if (err) {
-          console.log(err);
-          return res.json({success: false, msg: 'User email already exists.'});
-        }
-        res.json({success: true, msg: 'Successful created new user.'});
+          // save the user
+      User.findOne({email: newUser.email}, (err, user) => {
+          if (err) {
+              return res.json({success: false, msg: 'database error.'});
+          } else if (user) {
+
+              return res.json({success: false, msg: 'User email already exists.'});
+          } else {
+              newUser.save(function(err) {
+                if (err) {
+                  console.log(err);
+                  return res.json({success: false, msg: 'User email already registered, please verify you email!'});
+                }
+                res.json({success: true, msg: 'Successful! Please activate it in your email! '});
+              });
+          }
       });
-    });
   }
 }
 
@@ -57,7 +74,63 @@ const login = function(req, res) {
   });
 };
 
+const verifyEmail = function (req, res) {
+     var password = req.params.url;
+     TempUser.findOne({password: password}, (err, user) => {
+        if (err) {
+            console.log(err);
+            res.end();
+        } else if (!user) {
+            res.status(400).send({success: false, msg: 'Verify Email expired'});
+            return;
+        } else {
+            var newUser = new User({
+              email: user.email,
+              username: user.username,
+              password: user.password
+            });
+            User.count({}, (err, count) => {
+                if (err) {
+                    console.log("error: " + err);
+                    return res.json({success: false, msg: 'failed'})
+                } 
+
+                newUser.id = count + 1;
+                var username = user.username;
+                var email = user.email;
+                var mailOptions = {
+                    from: 'talents3Web@gmail.com',
+                    to: email,
+                    subject: 'Confirmed your account',
+                    html: '<h1>Dear ' + username + '</h1> <p> Welcome to use talents3, we are trying to make your life easier!</p> <p> Sincerely,</p><p>Talents3 Team</p>'
+                  };
+          
+            
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                });
+
+                newUser.save(err => {
+                    if (err) {
+                        console.log('error: ' + err);
+                        return res.json({success: false, msg: 'User already exists'})
+                    }
+
+                    user.remove();
+                    res.redirect('http://localhost:3000/login');
+                });
+
+            });
+        }
+     })
+}
+
 module.exports = {
     register,
-    login
+    login,
+    verifyEmail
 }

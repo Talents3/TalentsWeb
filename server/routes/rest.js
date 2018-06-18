@@ -11,6 +11,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const authCheckerMiddleware = require('../middleware/auth_checker');
 
+
 //bussiness logic put in service
 //router helps us to find which service we need
 
@@ -45,12 +46,16 @@ router.put('/users/:id', (req, res) => {
       });
 });
 
-// Authentication Route ===========================================================
+
 //SignUp a User / Add a User
 router.post('/register', (req, res) => {
     authenticationService.register(req,res);
 });
 
+router.get('/email-verification/:url', (req, res) => {
+    authenticationService.verifyEmail(req, res);
+
+})
 //Login
 router.post('/login', (req, res) => {
     authenticationService.login(req, res);
