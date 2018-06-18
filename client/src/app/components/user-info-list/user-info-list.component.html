@@ -37,71 +37,95 @@
       </div>
 </div>
 
-   <div class="container" style="padding-left: 8%; padding-top: 5%; padding-right: 8%;">
+<div class="container" style="padding-left: 8%; padding-top: 5%; padding-right: 8%;">
    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+		<div *ngIf="!isSearchMode">
+	    <div class="col-md-3 col-sm-6" *ngFor="let user of users">
+	    	<div class="thumbnail">
+	        <div class="card">
+						<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
+						<ng-template #userImage>
+	  					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
+						</ng-template>
+						<ng-template #defaultImage>
+							<img class="card-img-top" src="assets/images/defaultImage.png">
+						</ng-template>
 
+				  	<div class="card-body">
+							<p class="card-text">{{user.username}}</p>
+				    	<h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
+								<ng-template #userDescription>
+									<p class="card-text">{{user.description}}</p>
+								</ng-template>
+								<ng-template #defaultDescription>
+									<p class="card-text">Description</p>
+								</ng-template>
+				    	<ul class="list-group">
+								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
+								<ng-template #userExperience>
+				    			<li  *ngFor="let experience of user.experience | slice:0:1; let i = index" class="list-group-item"> {{experience.companyName}}</li>
+								</ng-template>
+								<ng-template #defaultExperience>
+				    			<li  class="list-group-item">Experience</li>
+								</ng-template>
 
+								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
+								<ng-template #userEducation>
+				    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
+								</ng-template>
+								<ng-template #defaultEducation>
+				    			<li  class="list-group-item">Education</li>
+								</ng-template>
+				    	</ul>
+				    	<a [routerLink]="['/users', user.id]" class="btn btn-primary" >Profile</a>
+				  	</div>
+			    </div>
+	      </div>
+	    </div>
+		</div>
+		<div *ngIf="isSearchMode">
+	    <div class="col-md-3 col-sm-6" *ngFor="let user of searchUsers">
+	    	<div class="thumbnail">
+	        <div class="card">
+						<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
+						<ng-template #userImage>
+	  					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
+						</ng-template>
+						<ng-template #defaultImage>
+							<img class="card-img-top" src="assets/images/defaultImage.png">
+						</ng-template>
 
+				  	<div class="card-body">
+							<p class="card-text">{{user.username}}</p>
+				    	<h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
+								<ng-template #userDescription>
+									<p class="card-text">{{user.description}}</p>
+								</ng-template>
+								<ng-template #defaultDescription>
+									<p class="card-text">Description</p>
+								</ng-template>
+				    	<ul class="list-group">
+								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
+								<ng-template #userExperience>
+				    			<li  *ngFor="let experience of user.experience | slice:0:1; let i = index" class="list-group-item"> {{experience.companyName}}</li>
+								</ng-template>
+								<ng-template #defaultExperience>
+				    			<li  class="list-group-item">Experience</li>
+								</ng-template>
 
-
-    <div class="col-md-3 col-sm-6" *ngFor="let user of users">
-    	<div class="thumbnail">
-        <div class="card">
-					<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
-					<ng-template #userImage>
-  					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
-					</ng-template>
-					<ng-template #defaultImage>
-						<img class="card-img-top" src="assets/images/defaultImage.png">
-					</ng-template>
-
-			  	<div class="card-body">
-						<p class="card-text">{{user.username}}</p>
-			    	<h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
-							<ng-template #userDescription>
-								<p class="card-text">{{user.description}}</p>
-							</ng-template>
-							<ng-template #defaultDescription>
-								<p class="card-text">Description</p>
-							</ng-template>
-			    	<ul class="list-group">
-							<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
-							<ng-template #userExperience>
-			    			<li  *ngFor="let experience of user.experience | slice:0:1; let i = index" class="list-group-item"> {{experience.companyName}}</li>
-							</ng-template>
-							<ng-template #defaultExperience>
-			    			<li  class="list-group-item">Experience</li>
-							</ng-template>
-
-							<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
-							<ng-template #userEducation>
-			    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
-							</ng-template>
-							<ng-template #defaultEducation>
-			    			<li  class="list-group-item">Education</li>
-							</ng-template>
-			    	</ul>
-			    	<a [routerLink]="['/users', user.id]" class="btn btn-primary" >Profile</a>
-			  	</div>
-
-		    </div>
-
-
-
-<!--
-	        <h4 align="left"> {{user.username}}</h4>
-	        <div class="row">
-	            <div class = "col align-self-start"  >
-	            	<img src="{{user.image}}"  >
-	            </div>
-	            <div  class="col align-self-start">
-	            	<li  *ngFor="let experience of user.experience"> {{experience.companyName}} : {{experience.title}}</li>
-	            </div>
-	        </div>
-		    <a   [routerLink]="['/users', user.id]">
-		      <strong class="title">Profile</strong>
-		    </a> -->
-        </div>
-    </div>
-  </div>
+								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
+								<ng-template #userEducation>
+				    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
+								</ng-template>
+								<ng-template #defaultEducation>
+				    			<li  class="list-group-item">Education</li>
+								</ng-template>
+				    	</ul>
+				    	<a [routerLink]="['/users', user.id]" class="btn btn-primary" >Profile</a>
+				  	</div>
+			    </div>
+	      </div>
+	    </div>
+		</div>
+	</div>
 </div>
