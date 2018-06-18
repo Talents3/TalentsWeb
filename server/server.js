@@ -132,4 +132,4 @@ app.use(function(req, res, next) {
 // });
 
 //launch application,listen on port3000
-app.listen(3000, () => console.log('Example app listening on port3000!'));
+app.listen(process.env.PORT, process.env.IP, () => console.log('Example app listening !'));
