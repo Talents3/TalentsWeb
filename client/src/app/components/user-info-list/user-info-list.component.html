@@ -47,9 +47,9 @@
 
 
 
-    <div class="col-md-3 col-sm-6" *ngFor="let user of users">
-    	<div class="thumbnail">
-        <div class="card">
+    <div class="col-md-3 col-sm-6" *ngFor="let user of users" >
+    	<div class="thumbnail" >
+        <div class="card" >
 					<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
 					<ng-template #userImage>
   					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
@@ -65,7 +65,7 @@
 								<p class="card-text">{{user.description}}</p>
 							</ng-template>
 							<ng-template #defaultDescription>
-								<p class="card-text">Description</p>
+								<p class="card-text" >Description</p>
 							</ng-template>
 			    	<ul class="list-group">
 							<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
