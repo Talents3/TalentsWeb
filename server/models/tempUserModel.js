@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var bcrypt = require('bcrypt-nodejs');
 var nev = require('email-verification')(mongoose);
-
+var urlencode = require('urlencode');
 var TempUserSchema = new mongoose.Schema({
      username: {
       type: String,
@@ -52,7 +52,7 @@ TempUserSchema.pre('save', function (next) {
                 }
                 user.password = hash;
                
-                var URL = user.password;
+                var URL = urlencode(user.password,'gbk');
          		nev.sendVerificationEmail(user.email, URL, function(err, info) {
                   if (err)
                 // handle error...
