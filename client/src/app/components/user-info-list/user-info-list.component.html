@@ -3,12 +3,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-
+<div class="alert alert-danger alert-dismissible" role="alert" *ngIf="!isSearchInputValid">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			Please don't put '/' into Search Input !
+</div>
 <div class="container" style="padding-top:3%; padding-left: 3%;padding-right: 3%;">
 	 <div class="row searchFilter"  >
          <div class="col-sm-12" >
           <div class="input-group" >
-           <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" [(ngModel)] = "searchTerm">
+           <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" (keyup)="checkSearchInputValid()" [(ngModel)] = "searchTerm">
            <div class="input-group-btn" >
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >{{searchType}} &nbsp;</span> <span class="caret" >&nbsp;</span></button>
             <div class="dropdown-menu dropdown-menu-right" >
@@ -30,11 +33,18 @@
                 </li>
                </ul>
             </div>
-            <button id="searchBtn" type="button" class="btn btn-secondary btn-search" (click) = "getSearchUsers()" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+            <button id="searchBtn" type="button" class="btn btn-secondary btn-search" [disabled]="!isSearchInputValid" (click) = "getSearchUsers()" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
            </div>
           </div>
          </div>
       </div>
+</div>
+
+<br/>
+
+<div class="alert alert-danger alert-dismissible" role="alert" *ngIf="isSearchResultEmpty">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			Search Results No found
 </div>
 
 <div class="container" style="padding-left: 8%; padding-top: 5%; padding-right: 8%;">

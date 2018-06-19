@@ -23,6 +23,8 @@ export class UserInfoListComponent implements OnInit {
     debounceGetMoreSearchResults = _.debounce(() => this.getMoreSearchResult(), 500, {});
     isSearchMode: boolean;
     isReachTheEnd: boolean;
+    isSearchInputValid: boolean;
+    isSearchResultEmpty: boolean;
 
     constructor(private dataService: DataService, private searchService: SearchService) { }
 
@@ -41,6 +43,8 @@ export class UserInfoListComponent implements OnInit {
     ngOnInit() {
         this.isReachTheEnd = false;
         this.isSearchMode = false;
+        this.isSearchInputValid = true;
+        this.isSearchResultEmpty = false;
         this.subscriptionUsers = this.dataService.getUsers()
             .subscribe(users => this.users = users);
 
@@ -71,7 +75,36 @@ export class UserInfoListComponent implements OnInit {
         }
 
         this.isSearchMode = true;
-        this.getMoreSearchResult();
+        this.isSearchResultEmpty = false;
+
+        switch(this.searchType) {
+            case "People" : {
+                this.searchService.getUsersByName(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+
+            case "Education" : {
+                this.searchService.getUsersByEducation(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+
+            case "Experience" : {
+                this.searchService.getUsersByExperience(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+        }
     }
 
     setSearchType(searchType: any) {
@@ -125,5 +158,11 @@ export class UserInfoListComponent implements OnInit {
         }
     }
 
-
+    checkSearchInputValid() {
+        if (this.searchTerm.indexOf("/") !== -1) {
+            this.isSearchInputValid = false;
+        } else {
+            this.isSearchInputValid = true;
+        }
+    }
 }
