@@ -103,7 +103,7 @@ const modifyUser = function(req, res, id) {
                 oldUser.phone = editedUser.phone;
                 oldUser.needVisaSponsor = editedUser.needVisaSponsor;
                 oldUser.image = editedUser.image;   // for storing image
-
+                oldUser.address = editedUser.address;
                 //TODO: add more when finish user model
                 oldUser.save();
                 resolve(oldUser);
