@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var bcrypt = require('bcrypt-nodejs');
 var nev = require('email-verification')(mongoose);
-
+var urlencode = require('urlencode');
 var TempUserSchema = new mongoose.Schema({
      username: {
       type: String,
@@ -17,10 +17,11 @@ var TempUserSchema = new mongoose.Schema({
       required: true
     }
 
-});
+},{timestamps: true});
+TempUserSchema.index({createdAt: 1},{expireAfterSeconds: 10});
 
 nev.configure({
-    verificationURL: 'http://localhost:3000/api/v1/email-verification/${URL}',
+    verificationURL: 'http://talents3.com/api/v1/email-verification/${URL}',
   
     transportOptions: {
         service: 'Gmail',
@@ -52,7 +53,7 @@ TempUserSchema.pre('save', function (next) {
                 }
                 user.password = hash;
                
-                var URL = user.password;
+                var URL = urlencode(user.password,'gbk');
          		nev.sendVerificationEmail(user.email, URL, function(err, info) {
                   if (err)
                 // handle error...

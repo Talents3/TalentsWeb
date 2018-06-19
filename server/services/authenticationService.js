@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const TempUser = require('../models/tempUserModel');
 var nodemailer = require('nodemailer');
+var urlencode = require('urlencode');
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -75,7 +76,7 @@ const login = function(req, res) {
 };
 
 const verifyEmail = function (req, res) {
-     var password = req.params.url;
+     var password = urlencode.decode(req.params.url, 'gbk');
      TempUser.findOne({password: password}, (err, user) => {
         if (err) {
             console.log(err);
@@ -121,7 +122,7 @@ const verifyEmail = function (req, res) {
                     }
 
                     user.remove();
-                    res.redirect('http://localhost:3000/login');
+                    res.redirect('http://talents3.com/login');
                 });
 
             });
