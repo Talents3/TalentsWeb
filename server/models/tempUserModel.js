@@ -21,7 +21,7 @@ var TempUserSchema = new mongoose.Schema({
 TempUserSchema.index({createdAt: 1},{expireAfterSeconds: 10});
 
 nev.configure({
-    verificationURL: 'http://localhost:3000/api/v1/email-verification/${URL}',
+    verificationURL: 'http://talents3.com/api/v1/email-verification/${URL}',
   
     transportOptions: {
         service: 'Gmail',

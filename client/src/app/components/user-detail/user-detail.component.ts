@@ -8,8 +8,8 @@ import { Experience } from '../../models/experience.model';
 import * as _ from 'lodash';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';// for file uploading
 
-const URL = 'http://localhost:3000/api/v1/upload/';   //hard code an address
-const TRANSURL = 'http://localhost:3000/api/v1/transcripts/'
+const URL = 'http://talents3.com/api/v1/upload/';   //hard code an address
+const TRANSURL = 'http://talents3.com/api/v1/transcripts/'
 
 @Component({
   selector: 'app-user-detail',
@@ -30,8 +30,8 @@ export class UserDetailComponent implements OnInit {
     image: '',
     needVisaSponsor: false
   };
-  IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image 
-  Transcripts = 'http://localhost:3000/api/v1/getTranscripts/'; // transcripts
+  IMAGEDIR = 'http://talents3.com/api/v1/getImages/'; // image 
+  Transcripts = 'http://talents3.com/api/v1/getTranscripts/'; // transcripts
   educations: Education[];
   experiences: Experience[];
   selectedExperience: any;
