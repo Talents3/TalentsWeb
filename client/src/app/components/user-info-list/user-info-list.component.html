@@ -63,7 +63,7 @@
 						<div class="avatar">
 							<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
 							<ng-template #userImage>
-		  					<img src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="">
+		  					<img src="{{'http://talents3.com/api/v1/getImages/' + user.image}}" alt="">
 							</ng-template>
 							<ng-template #defaultImage>
 								<img src="assets/images/defaultImage.png">
