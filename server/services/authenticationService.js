@@ -8,8 +8,8 @@ var urlencode = require('urlencode');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'talents3Web@gmail.com',
-    pass: 'talents3Web@'
+    user: config.emailAccount,
+    pass: config.emailPassword
   }
 });
 
@@ -94,7 +94,7 @@ const verifyEmail = function (req, res) {
                 if (err) {
                     console.log("error: " + err);
                     return res.json({success: false, msg: 'failed'})
-                } 
+                }
 
                 newUser.id = count + 1;
                 var username = user.username;
@@ -105,8 +105,8 @@ const verifyEmail = function (req, res) {
                     subject: 'Confirmed your account',
                     html: '<h1>Dear ' + username + '</h1> <p> Welcome to use talents3, we are trying to make your life easier!</p> <p> Sincerely,</p><p>Talents3 Team</p>'
                   };
-          
-            
+
+
                 transporter.sendMail(mailOptions, function(error, info){
                     if (error) {
                       console.log(error);
