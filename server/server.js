@@ -35,6 +35,63 @@ let upload = multer({storage: storage});
 
 
 
+//app.use(schedule.schedule());  //use shedule
+var nodemailer = require('nodemailer');
+var config = require('./config/database');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: config.emailAccount,
+    pass: config.emailPassword
+  }
+});
+var schedule = require('node-schedule');
+var y = { ccName: '🐷', receiverName: 'rui', bccAddress: 'yg1497@nyu.edu', receiverAddress: 'rz1113@nyu.edu'};
+var j = schedule.scheduleJob('0 * * * * *', function(x){
+    var mailOptions = {
+                    from: 'talents3Web@gmail.com',
+                    to: x.receiverAddress, 
+                    bcc: x.bccAddress,
+                    subject: 'Testing email',
+                    text: 'Dear ' + x.receiverName + ',',
+                    html: {path: 'http://localhost:3000/getViews/5'}                 
+                     };
+    transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                });
+ 
+  
+}.bind(null, y));
+j.cancel();
+
+
+app.set("view engine", "ejs");
+
+app.get('/getViews/:id', function(req,res){
+   const id = +req.params.id;
+   console.log("hit it",id);
+   User.findOne({id: id}).populate('educations').populate('experiences').exec((err, finduser) => {
+       if(err){
+       	console.log(err);
+       }
+       else {
+
+       	res.render("profileView", {user: finduser});
+	   }
+   });
+   
+
+});
+
+// end here
+
+
+
 // end here
 
 app.use(bodyParser.json());
@@ -98,7 +155,7 @@ app.use((req, res) => {
 
 var morgan = require('morgan');
 var mongoose = require('mongoose');
-var config = require('./config/database');
+
 mongoose.Promise = require('bluebird');
 
 
@@ -132,4 +189,4 @@ app.use(function(req, res, next) {
 // });
 
 //launch application,listen on port3000
-app.listen(80, () => console.log('Example app listening !'));
+app.listen(3000, () => console.log('Example app listening !'));
