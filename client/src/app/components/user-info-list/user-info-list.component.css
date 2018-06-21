@@ -15,6 +15,13 @@ a {
 
 }
 
+body {
+    background-image: url('/assets/images/bulewall.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
  .searchFilter.btn {
     display: inline-block;
@@ -372,7 +379,7 @@ a {
 }
 
 .card.hovercard .cardheader {
-    background-image: url('/assets/images/background.png');
+    background-image: url('/assets/images/mountain.jpg');
     background-size: cover;
     height: 100px;
 }

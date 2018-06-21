@@ -1,6 +1,9 @@
-
+body {
+  margin-bottom: 0px;
+}
 .navbar {
   background-color: #57068c;
+  margin-bottom: 0px;
 }
 
 a.navbar-brand {

@@ -1,12 +1,4 @@
-
-<nav class="floating-menu nav navbar-nav" id="navbar-example1">
-  <a class="nav-link list-group-item list-group-item-action" href = "#introCard-holder">Contact</a>
-  <a class="nav-link list-group-item list-group-item-action" href = "#education-holder">Education</a>
-  <a class="nav-link list-group-item list-group-item-actionm" href = "#experience-holder">Experience
-  </a>
-  <a class="nav-link list-group-item list-group-item-action" href = "#project-holder"> Project</a>
-</nav>
-
+<body>
 
 <!-- editIntro modal -->
 <div class="modal fade" id="editIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -23,8 +15,8 @@
           <div class="form-group">
               <div class="row" align="left" *ngIf = "uploader" style="margin: 0px;">
                 <input type="file" class = "left" name="photo" ng2FileSelect [uploader]="uploader" />     <!-- upload a image file -->
-                <button type="button" class="btn btn-primary" 
-                    (click)="uploader.uploadAll()" 
+                <button type="button" class="btn btn-primary"
+                    (click)="uploader.uploadAll()"
                     [disabled]="!uploader.getNotUploadedItems().length" >
                         Upload Profile Image
                 </button>
@@ -98,8 +90,8 @@
             <div class="form-group">   <!-- transcript upload button -->
               <div class="row" align="left" *ngIf = "transcriptUploader" style="margin: 0px;">
                 <input type="file" class = "left" name="transcrpt" ng2FileSelect [uploader]="transcriptUploader" />     <!-- upload a image file -->
-                <button type="button" class="btn btn-primary" 
-                    (click)="transcriptUploader.uploadAll()" 
+                <button type="button" class="btn btn-primary"
+                    (click)="transcriptUploader.uploadAll()"
                     [disabled]="!transcriptUploader.getNotUploadedItems().length" >
                         Upload Transcript
                 </button>
@@ -161,78 +153,41 @@
   </div>
 </div>
 
-
-
 <div class="container" *ngIf = "user" data-spy="scroll" data-target="#navbar-example1" data-offset="0">
-    <div class="jumbotron"  >
+    <div class="jumbotron">
         <h6 id = "introCard-holder"></h6>
         <div class="row" >
           <!-- Left part-->
           <div class="col-md-6">
-            <div class="column" align="center" style="float: left;">
+            <div class="column" style="float: left;">
               <div *ngIf= "user.image">
-	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{IMAGEDIR  + user.image}}" >
+	              <img class="center" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{IMAGEDIR  + user.image}}" >
 	            </div>
-	          <div *ngIf= "!user.image">
-	              <img class="float-left" style=" border-radius: 50%; width: 50%;height: 50%; " src="assets/images/defaultImage.png">
-	          </div>
-              <div class="lead" align="center">{{user.username}}</div>
-              <div align="center">
-                <div>
-                  <h5 align="center">{{user.adress}}</h5>
-                  <div align="center">
-                    <a href="mailto:{{user.email}}">Email: {{user.email}}</a>
-                  </div>
-                    <div align="center">
-                  <a href="tel:{{user.phone}}" align="center"> Tel: {{user.phone}}</a>
-                    </div>
-                </div>
+  	          <div *ngIf= "!user.image">
+  	              <img class="center" style="border-radius: 50%; width: 50%;height: 50%; " src="assets/images/defaultImage.png">
+  	          </div>
+              <div class="userName" >
+                  {{user.username}}
+              </div>
+              <div class="tags">
+                  <span class="badge badge-pill badge-primary" style="background-color: #5693d2" *ngIf = "user.isMale">Male</span>
+                  <span class="badge badge-pill badge-danger" style="background-color: #ef3333" *ngIf = "!user.isMale">Female</span>
+                  <span class="badge badge-pill badge-success" style="background-color: #33efaa" *ngIf = "user.newGrads">New Grad</span>
+                  <span class="badge badge-pill badge-warning" style="background-color: #efac33" *ngIf = "user.usAuthorization">Legally Work</span>
+                  <span class="badge badge-pill badge-info" style="background-color: #efac33" *ngIf = "user.needVisaSponsor">Need Sponsorship</span>
               </div>
             </div>
           </div>
           <!-- Right part-->
-          <div class="col-md-6 " >
-            <div class="userDescription" align="center" style="font-weight: bold; font-size: large;">{{user.description}}</div>
-            <div class="column info" align="center">
-              <!-- Personal education and working Experience display-->
-
-
-                <div class="container" align="left">
-                  <button class="list-group-item info-group-item " align="left">
-                      <img class="icon rounded float-left" id="icon-element" src="assets/images/education-icon.png">
-                      <div id="detail-element">New York University</div>
-                  </button>
-                  <button class="list-group-item info-group-item" align="left">
-                      <img class="icon rounded float-left" id="icon-element" src="assets/images/work-icon.png">
-                      <div id="detail-element">Amazon Ltd.</div>
-                  </button>
-                <!--   <button class="list-group-item info-group-item row" align="center">
-                      <img class="icon rounded float-left" id="icon-element" src="assets/images/blog-icon.png">
-                      <div id="detail-element">Blogs</div>
-                  </button> -->
-                </div>
-
-              <!-- Tag area -->
-              <div class="container tags-area" align="left">
-                <div align="left">
-                  <div class= "lead" style="display: inline-block;" align="left" style="font-weight: bold; color: purple">Tags</div>&nbsp;
-
-                </div>
-                <div class="tags-holder" align="left" >
-
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.isMale" style="background-color:yellow; padding-left: 20px;" >Male</button>&nbsp;
-
-
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" style="background-color:red;padding-left: 20px;" *ngIf = "!user.isMale" >Female</button>&nbsp;
-
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm " align="left" *ngIf = "user.needVisaSponsor" style="background-color: #ff1a1a;padding-left: 20px; " >Need Sponsorship</button>&nbsp;
-
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.usAuthorization" style="background-color: #ffbf00;padding-left: 20px; " >Legally Work</button>&nbsp;
-                    <button type="button" disabled class="btn btn-outline-primary btn-sm" align="left" *ngIf = "user.newGrads" style="background-color: #00ff00; padding-left: 20px;" >New Grad</button>
-                </div>
-
-              </div>
-            </div>
+          <div class="col-md-6">
+            <div class="description">Description</div>
+            <hr>
+            <div class="userDescription">{{user.description}}</div>
+            <ul>
+              <li><p><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span><a href="mailto:{{user.email}}">{{user.email}}</a></p></li>
+              <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span><a href="tel:{{user.phone}}">{{user.phone}}</a></p></li>
+              <li><p><span class="glyphicon glyphicon-map-marker one" style="width:50px;"></span>{{user.address}}</p></li>
+            </ul>
           </div>
           <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editIntroModal"  *ngIf = "isMatched()" style="float: right;"  (click) = "initUploader()"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/edit-icon.png"></button>&nbsp;
         </div>
@@ -306,3 +261,4 @@
       </div>
     </div>
 </div>
+</body>
