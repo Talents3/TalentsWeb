@@ -1,23 +1,6 @@
 <body>
 
 <!-- editIntro modal -->
-<ng-template #courseContent>
-  <div class="courseContent" *ngIf="addedCourses[index]">
-              <input type="text" class="form-control" id="courseContent" name="courseName" placeholder="course name" [(ngModel)]= "addedCourses[index].courseName">&nbsp;&nbsp;
-              <input type="text" class="form-control" id="courseContent" name="courseCode" placeholder="course code" [(ngModel)]= "addedCourses[index].courseCode">&nbsp;&nbsp;
-              <input type="text" class="form-control" id="courseContent" name="courseGrade" placeholder="course grade" [(ngModel)]= "addedCourses[index].courseGrade">&nbsp;
-              <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteCourse(addedCourses[index])"><img class="float-left" style="width: 50%;height: 50%; " src="assets/images/delete-icon.png"></button>
-  </div>
-</ng-template>
-
-<ng-template #skillContent>
-  <div class="skillContent" *ngIf="addedSkills[skillIndex]">
-              <input type="text" class="form-control" id="skillContent" name="skillName" placeholder="skill name" [(ngModel)]= "addedSkills[skillIndex].skillName">&nbsp;&nbsp;
-              <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteSkill(addedSkills[skillIndex])"><img class="float-left" style="width: 50%;height: 50%; " src="assets/images/delete-icon.png"></button>
-  </div>
-</ng-template>
-
-
 <div class="modal fade" id="editIntroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -43,7 +26,7 @@
               <label for="address" class="col-form-label" align = "left">City and Country:</label>
               <input type="text" class="editIntro form-control" name="address"   [(ngModel)]="editIntroCardData.address">
 	            <label for="age" class="col-form-label" align = "right">Age:</label>
-	            <input type="number" class="editIntro form-control" name="age" align="right"  min = "1" max = "120"  
+	            <input type="number" class="editIntro form-control" name="age" align="right"  min = "1" max = "120"
            [(ngModel)]="editIntroCardData.age">
                 <label for="phone" class="col-form-label" align = "left">Phone Number:</label>
 	            <input type="text" class="editIntro form-control" name="phone"  maxlength="10" size="13"  [(ngModel)]="editIntroCardData.phone">
@@ -140,9 +123,14 @@
                             <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteCourse(selectedEducation.courses[index])"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
                 </div>
               </div>
-              <div #courseContainer>
+              <div *ngFor="let addedCourse of addedCourses;let index = index;">
+                <div class="courseContent">
+                            <input type="text" class="form-control" id="courseContent" name="addedCourseName-{{index}}" placeholder="course name" [(ngModel)]= "addedCourse.courseName">&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="courseContent" name="addedCourseCode-{{index}}" placeholder="course code" [(ngModel)]= "addedCourse.courseCode">&nbsp;&nbsp;
+                            <input type="text" class="form-control" id="courseContent" name="addedCourseGrade-{{index}}" placeholder="course grade" [(ngModel)]= "addedCourse.courseGrade">&nbsp;
+                            <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteAddedCourse(addedCourse)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
+                </div>
               </div>
-
             </div>
           </form>
         </div>
@@ -186,15 +174,67 @@
                           <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteSkill(selectedExperience.skills[index])"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
               </div>
             </div>
-            <div #skillContainer>
+            <div *ngFor="let addedSkill of addedSkills; let index = index;">
+              <div class="skillContent">
+                          <input type="text" class="form-control" id="skillContent" name="addedSkillName-{{index}}" placeholder="skill name" [(ngModel)]= "addedSkill.skillName">&nbsp;&nbsp;
+                          <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteAddedSkill(addedSkill)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
+              </div>
             </div>
-
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#FF0000; float: left;" (click)= "deleteExperience(selectedExperience)" *ngIf="!isEmptyExperience">Delete</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)= "saveExperience(selectedExperience)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="user">
+  <div class="modal-dialog" role="document" *ngIf="selectedProject">
+    <div class="modal-content" *ngIf="selectedProject">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Edit Project Experience</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="selectedProject">
+        <div *ngIf="selectedProject.projectName">
+          <h5 class="modal-title" style="float:left;">{{selectedProject.projectName}}</h5>
+          <br/>
+          <br/>
+        </div>
+        <form *ngIf="selectedProject">
+          <div class="form-group">
+            <label for="projectName" class="col-form-label">Project Name:</label>
+            <input type="text" class="form-control" name="projectName" [(ngModel)]= "selectedProject.projectName">
+            <label for="startDate" class="col-form-label">Project Start Date:</label>
+            <input type="date" class="form-control" name="startDate" [(ngModel)]= "selectedProject.startDate">
+            <label for="endDate" class="col-form-label">Project End Date:</label>
+            <input type="date" class="form-control" name="endDate" [(ngModel)]= "selectedProject.endDate">
+            <label for="skills" class="col-form-label">Skills:</label>
+            <button type="button" class=" btn btn-outline-secondary btn-sm float-right" align="center" (click)="addProjectSkill()"><img class="float-right" style="width: 50%;height: 50%; " src="assets/images/add-icon.png"></button>&nbsp;
+            <div *ngFor="let selectedSkill of selectedProject.skills;let index = index;">
+              <div class="skillContent">
+                          <input type="text" class="form-control" id="skillContent" name="skillName-{{index}}" placeholder="skill name" [(ngModel)]= "selectedSkill.skillName">&nbsp;&nbsp;
+                          <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteProjectSkill(selectedProject.skills[index])"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
+              </div>
+            </div>
+            <div *ngFor="let addedSkill of addedSkills; let index = index;">
+              <div class="skillContent">
+                          <input type="text" class="form-control" id="skillContent" name="addedSkillName-{{index}}" placeholder="skill name" [(ngModel)]= "addedSkill.skillName">&nbsp;&nbsp;
+                          <button class=" btn btn-outline-secondary btn-sm" align="center" (click)="deleteAddedProjectSkill(addedSkill)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/delete-icon.png"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#FF0000; float: left;" (click)= "deleteProject(selectedProject)" *ngIf="!isEmptyProject">Delete</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)= "saveProject(selectedProject)">Save</button>
       </div>
     </div>
   </div>
@@ -282,12 +322,11 @@
     </div>
 
     <div class="work-experience-holder jumbotron" >
-      <h6 id = "experience-holder" ></h6>
       <div class="row">
         <div align="left">
           <div class= "lead" align="left">Work Experience</div>
           <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
-            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="addExperience(experience)"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="addExperience()"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
           </div>
         </div>
         <div class="work-experience" id="first-education" *ngFor="let experience of user.experiences">
@@ -312,18 +351,23 @@
       <div class="row">
         <div align="left">
           <div class= "lead" align="left">Project Experience</div>
-          <div class="modificationButtons" style="float:right;">
-            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">add</button>&nbsp;
-            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" *ngIf = "isMatched()">edit</button>
+          <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editProjectModal" (click)="addProject()"><img class="float-left" style="width: 100%;height: 100%; " src="assets/images/add-icon.png"></button>&nbsp;
           </div>
         </div>
-        <!-- TODO:  -->
-        <div id="first-education">
-          <div class="lead">Alpha-Go Development</div>
-          <div>AI Developer</div>
-          <div>August 2016 - August 2017  1 year</div>
+        <div class="project-experience" id="first-education" *ngFor="let project of user.projects">
+          <hr/>
+          <div id="projectName">{{project.projectName}}</div>
+          <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
+            <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editProjectModal" (click)="editProject(project)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
+          </div>
+          <div id="projectStartDate">{{project.startDate}}</div>&nbsp;
+          <div id="projectEndDate">{{project.endDate}}</div>&nbsp;
+          <div style="display: flex;">
+            <div >Core Skills:</div>
+            <div *ngFor="let skill of project.skills" style="padding-left: 15px;"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>
+          </div>
         </div>
-        <hr/>
       </div>
     </div>
 </div>

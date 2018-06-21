@@ -5,6 +5,7 @@ const userService = require('../services/userService');
 const educationService = require('../services/educationService');
 const searchService = require('../services/searchService');
 const experienceService = require('../services/experienceService');
+const projectService = require('../services/projectService');
 const authenticationService = require('../services/authenticationService');
 
 const passport = require('passport');
@@ -140,6 +141,37 @@ router.delete('/experiences/:_id', authCheckerMiddleware.checkDeleteExperience, 
     const _id = req.params._id;
     experienceService.deleteExperience(req, res, _id)
     .then(experience => res.json(experience))
+    .catch(function(err) {
+      console.log(err);
+    });
+});
+
+
+// Project Route ===============================================================
+// Add Proejct
+router.post('/projects', authCheckerMiddleware.checkUserEmail, (req, res) => {
+  projectService.addProject(req, res)
+  .then(project => res.json(project))
+  .catch((err) => {
+    console.log("Unable to add project due to: ", err);
+  })
+})
+
+//Modify Project
+router.put('/projects/:_id', authCheckerMiddleware.checkUserEmail, (req, res) => {
+  const _id = req.params._id;
+  projectService.modifyProject(req, res, _id)
+  .then(project => res.json(project))
+  .catch(function(err) {
+    console.log(err);
+  });
+});
+
+//Delete and Project
+router.delete('/projects/:_id', authCheckerMiddleware.checkDeleteProject, (req, res) => {
+    const _id = req.params._id;
+    projectService.deleteProject(req, res, _id)
+    .then(project => res.json(project))
     .catch(function(err) {
       console.log(err);
     });

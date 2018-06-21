@@ -98,8 +98,41 @@ const checkDeleteExperience = (req, res, next) => {
     });
 }
 
+const checkDeleteProject = (req, res, next) => {
+    //console.log('auth_checker: req: ' + req.headers);
+    Project.findById(req.params._id, (err, project) => {
+      if (!project) {
+          return next('Project does not exist');
+      } else {
+          const email = project.userEmail;
+          if (!req.headers.authorization) {
+            return next('Authorization header missing');
+          }
+
+          const token = req.headers.authorization.split(' ')[1];
+
+          jwt.verify(token, config.secret, (err, decoded) => {
+            // the 401 code is for unauthorized status
+            if (err) {
+              return next('Token unvalid');
+            }
+
+            const decodeEmail = decoded.sub;
+            if (decodeEmail !== email) {
+              return next('Email authentication not match');
+            }
+
+            console.log('Verify succesful!!');
+          });
+
+          return next();
+        }
+    });
+}
+
 module.exports = {
     checkUserEmail,
     checkDeleteEducation,
-    checkDeleteExperience
+    checkDeleteExperience,
+    checkDeleteProject
 }
