@@ -3,7 +3,8 @@ body {
 }
 .navbar {
   background-color: #57068c;
-  margin-bottom: 0px;
+  margin-bottom: 1px;
+  border-radius: 0px;
 }
 
 a.navbar-brand {
