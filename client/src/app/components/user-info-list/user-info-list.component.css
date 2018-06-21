@@ -1,15 +1,14 @@
 img {
     border-radius: 50%;
-
     padding-top: 2px;
     padding-bottom: 2px;
+    object-fit: cover;
 
-    width: 100px;
-    height: 100px;
 };
 a {
 	padding-top: 10px;
 };
+
 .searchFilter {
   height: 800px;
 
@@ -20,8 +19,8 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100%;
 }
-
 
  .searchFilter.btn {
     display: inline-block;
@@ -74,14 +73,15 @@ body {
   margin: 15px 0 0 -25px;
 }
 .searchFilter .dropdown-menu-right {
-    right: 170px;
-    min-width: 175px;
+  right: 170px;
+  min-width: 175px;
+  margin-right: 0;
   top: 90%;
 }
 .searchFilter .dropdown-menu .category_filters li {
   list-style-type: none;
   padding: 2px 10px;
-  font-size: 18px;
+  font-size: 14px;
 }
 .searchFilter .dropdown-menu .category_filters label {
   margin-left: 15px;

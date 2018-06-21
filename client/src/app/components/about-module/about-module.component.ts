@@ -11,6 +11,10 @@ export class AboutModuleComponent implements OnInit {
 
   users: User[] = [];
   usersId : Array<number>;
+  ruiDescription: string = 'description';
+  haiyangDescription: string = 'description';
+  youxingDescription: string = 'description';
+  teamDescription: string = 'team description team description team description team description';
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
