@@ -20,7 +20,7 @@ var TempUserSchema = new mongoose.Schema({
     }
 
 },{timestamps: true});
-TempUserSchema.index({createdAt: 1},{expireAfterSeconds: 10});
+TempUserSchema.index({createdAt: 1},{expireAfterSeconds: 3600 * 24});
 
 nev.configure({
     verificationURL: 'http://talents3.com/api/v1/email-verification/${URL}',
