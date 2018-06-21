@@ -10,6 +10,7 @@ const getUsers = function() {
     return new Promise((resolve, reject) => {
         User.find({})
             .limit(config.initialNumOfUsers)
+            .populate('educations').populate('experiences')
             .exec((err, users) => {
                 if (err) {
                     reject(err);
@@ -27,6 +28,7 @@ const getMoreUsers = function(curNum) {
         User.find({})
             .skip(curNum)
             .limit(config.numsPerPage)
+            .populate('educations').populate('experiences')
             .exec((err, users) => {
                 if (err) {
                     reject(err);

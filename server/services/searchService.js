@@ -9,6 +9,7 @@ const getEmailsByUniversity = function(universityName, num) {
       Education.find({universityName: {$regex : universityName, $options: 'i'}})
                .skip(num)
                .limit(config.numsPerPage)
+               .populate('educations').populate('experiences')
                .exec((err, educations) => {
                   if (err) {
                       reject(err);
@@ -29,14 +30,16 @@ const getUsersByUniversity = function(universityName, num) {
   return new Promise((resolve, reject) => {
       getEmailsByUniversity(universityName, num)
         .then(emails => {
-            User.find({email: {$in: emails}}, (err, users) => {
-                if (!users) {
-                    reject("Users no found");
-                    return;
-                } else {
-                    resolve(users);
-                }
-            });
+            User.find({email: {$in: emails}})
+                .populate('educations').populate('experiences')
+                .exec((err, users) => {
+                    if (!users) {
+                        reject("Users no found");
+                        return;
+                    } else {
+                        resolve(users);
+                    }
+                });  
         })
         .catch(error => {
             console.log(error);
@@ -91,14 +94,16 @@ const getUsersByExperience = function(info, num) {
   return new Promise((resolve, reject) => {
       getEmailsByExperience(info, num)
         .then(emails => {
-            User.find({email: {$in: emails}}, (err, users) => {
-                if (!users) {
-                    reject("Users no found");
-                    return;
-                } else {
-                    resolve(users);
-                }
-            });
+            User.find({email: {$in: emails}})
+                .populate('educations').populate('experiences')
+                .exec((err, users) => {
+                    if (!users) {
+                        reject("Users no found");
+                        return;
+                    } else {
+                        resolve(users);
+                    }
+                })
         })
         .catch(error => {
             console.log(error);
