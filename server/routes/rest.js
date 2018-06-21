@@ -188,5 +188,13 @@ router.get('/users/experiences/:info/nums/:num', (req, res) => {
       .catch(err => console.log("Failed: " + err));
 })
 
+router.get('/users/experiences/:skill/nums/:num', (req, res) => {
+    const info = req.params.skill;
+    const num = req.params.num;
+    searchService.getUsersBySkill(info, +num)
+      .then(users => res.json(users))
+      .catch(err => console.log("Failed: " + err));
+})
+
 
 module.exports = router;

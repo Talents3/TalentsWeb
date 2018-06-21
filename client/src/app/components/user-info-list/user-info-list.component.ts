@@ -148,12 +148,20 @@ export class UserInfoListComponent implements OnInit {
             }
 
             case "Experience" : {
+
                 this.searchService.getUsersByExperience(this.searchTerm).then(users => {
                     if (users.length == 0) {
                         this.isReachTheEnd = true;
                     }
                 })
+
                 break;
+            }
+
+            case "Skill" : {
+                this.searchService.getUserBySkill(this.searchTerm);
+
+                
             }
         }
     }
