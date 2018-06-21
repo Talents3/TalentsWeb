@@ -21,6 +21,7 @@ export class UserDetailComponent implements OnInit {
   user: User
   editIntroCardData = {
     username: '',
+    address: '',
     age: 0,
     description:'',
     isMale: false,
@@ -56,7 +57,8 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
-            this.editIntroCardData.image = user.image;    
+            this.editIntroCardData.image = user.image;
+            this.editIntroCardData.address = user.address;    
         });
     });
 
@@ -246,6 +248,8 @@ export class UserDetailComponent implements OnInit {
       } else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor) {
         this.sendEditIntroData();
       } else if (this.editIntroCardData.image != this.user.image){
+        this.sendEditIntroData();
+      } else if (this.editIntroCardData.address != this.user.address){
         this.sendEditIntroData();
       } else console.log("did not modify your intro card:",this.user.image);
   }

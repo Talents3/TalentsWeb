@@ -23,10 +23,13 @@
               </div>
 	            <label for="username" class="col-form-label" align = "left">Full Name:</label>
 	            <input type="text" class="editIntro form-control" name="username"   [(ngModel)]="editIntroCardData.username">
+              <label for="address" class="col-form-label" align = "left">City and Country:</label>
+              <input type="text" class="editIntro form-control" name="address"   [(ngModel)]="editIntroCardData.address">
 	            <label for="age" class="col-form-label" align = "right">Age:</label>
-	            <input type="text" class="editIntro form-control" name="age" align="right"  [(ngModel)]="editIntroCardData.age">
+	            <input type="number" class="editIntro form-control" name="age" align="right"  min = "1" max = "120"  
+           [(ngModel)]="editIntroCardData.age">
                 <label for="phone" class="col-form-label" align = "left">Phone Number:</label>
-	            <input type="text" class="editIntro form-control" name="phone"   [(ngModel)]="editIntroCardData.phone">
+	            <input type="text" class="editIntro form-control" name="phone"  maxlength="10" size="13"  [(ngModel)]="editIntroCardData.phone">
           </div>
           <label class="col-form-label" align = "left">Gender</label>
           <select #selectElemIsMale (change)="setIsMale(selectElemIsMale.value)" >
@@ -49,10 +52,10 @@
 
           <div class="form-group">
             <label for="description" class="col-form-label">One Line Description:</label>
-            <textarea class="editIntro form-control" name="description"  [(ngModel)]="editIntroCardData.description"></textarea>
+            <textarea class="editIntro form-control" name="description" maxlength="80" placeholder="Type your description within 80 characters" [(ngModel)]="editIntroCardData.description"></textarea>
           </div>
           <div class="modal-footer">
-          	<button type="submit" name = "editEducation" class="btn btn-primary" data-dismiss = "modal" (click) = "editIntroCard()">Submit</button>
+          	<button type="submit" name = "editEducation" class="btn btn-primary" data-dismiss = "modal" (click) = "editIntroCard()">Save</button>
           </div>
         </form>
       </div>
@@ -97,7 +100,7 @@
                 </button>
               </div>
               <label for="universityName" class="col-form-label">University Name:</label>
-              <input type="text" class="form-control" name="universityName" [(ngModel)]= "selectedEducation.universityName">
+              <input type="text" class="form-control" name="universityName" maxlength="80" [(ngModel)]= "selectedEducation.universityName">
               <label for="startDate" class="col-form-label">Start Date:</label>
               <input type="Date" class="form-control" name="startDate" [(ngModel)]= "selectedEducation.startDate">
               <label for="enddate" class="col-form-label">End Date:</label>
@@ -106,8 +109,8 @@
               <input type="text" class="form-control" name="major" [(ngModel)]= "selectedEducation.major">
               <label for="degree" class="col-form-label">Degree Type:</label>
               <input type="text" class="form-control" name="degree" [(ngModel)]= "selectedEducation.degreeType">
-              <label for="gpa" class="col-form-label">GPA:</label>
-              <input type="number" class="form-control" name="gpa" [(ngModel)]= "selectedEducation.gpa">
+              <label for="gpa" class="col-form-label">GPA(/4.0):</label>
+              <input type="number" class="form-control" name="gpa" min = "1" max = "4" [(ngModel)]= "selectedEducation.gpa">
             </div>
           </form>
         </div>
@@ -138,10 +141,13 @@
           <div class="form-group">
             <label for="companyName" class="col-form-label">Company Name:</label>
             <input type="text" class="form-control" name="companyName" [(ngModel)]= "selectedExperience.companyName">
-            <label for="startDate" class="col-form-label">Start Date:</label>
-            <input type="Date" class="form-control" name="startDate" [(ngModel)]= "selectedExperience.startDate">
             <label for="title" class="col-form-label">Title:</label>
             <input type="text" class="form-control" name="title" [(ngModel)]= "selectedExperience.title">
+            <label for="startDate" class="col-form-label">Start Date:</label>
+            <input type="Date" class="form-control" name="startDate" [(ngModel)]= "selectedExperience.startDate">
+            <label for="endDate" class="col-form-label">End Date:</label>
+            <input type="Date" class="form-control" name="endDate" [(ngModel)]= "selectedExperience.endDate">
+           
           </div>
         </form>
       </div>
@@ -163,6 +169,7 @@
               <div *ngIf= "user.image">
 	              <img class="center" style=" border-radius: 50%; width: 50%;height: 50%;" src="{{IMAGEDIR  + user.image}}" >
 	            </div>
+
   	          <div *ngIf= "!user.image">
   	              <img class="center" style="border-radius: 50%; width: 50%;height: 50%; " src="assets/images/defaultImage.png">
   	          </div>
@@ -237,7 +244,7 @@
             <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="editExperience(experience)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
           </div>
           <div id="experienceTitle">{{experience.title}}</div>
-          <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
+          <div id="experienceStartDate">{{experience.startDate}} --- {{experience.endDate}}</div>&nbsp;
         </div>
      </div>
     </div>
