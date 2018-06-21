@@ -23,11 +23,19 @@
 #universityName {
   font-size: 20px;
 }
-
+.courseContent {
+  display: flex;
+  width:90%;
+}
+.skillContent {
+  display: flex;
+  width:90%;
+}
 .sticky {
   top: 0;
   width: 100%
 }
+
 
 .openBtn {
     background: #f1f1f1;
@@ -107,7 +115,7 @@
 }
 .jumbotron {
   background-color: lightblue;
-  margin-left: 5%; 
+  margin-left: 5%;
   margin-right: 5%;
 
 }
@@ -160,4 +168,18 @@ hr {
     border-top: 1px solid #ffff;
     margin: 1em 0;
     padding: 0;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }

@@ -68,6 +68,7 @@ const modifyExperience = function(req, res, _id) {
         experience.startDate = req.body.startDate;
         experience.endDate = req.body.endDate;
         experience.description = req.body.description;
+        experience.skills = req.body.skills;
         experience.save();
 
                             //TODO: Add more attributes of experiences.

@@ -41,6 +41,13 @@ export class SearchService {
       .catch(this.handleError);
   }
 
+  getUserBySkill(skill): void {
+    this.httpClient.get(`api/v1/users/experiences/${skill}/nums/${this._searchUserSource.value.length}`)
+      .toPromise()
+      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
+      .catch(this.handleError);
+  }
+
   resetSearchSource(): void {
       this._searchUserSource.next(this._emptyUsers);
   }

@@ -77,6 +77,7 @@ export class UserInfoListComponent implements OnInit {
     }
 
     getMoreUsers() {
+      console.log("s");
         this.dataService.getMoreUsers();
     }
 
@@ -84,17 +85,22 @@ export class UserInfoListComponent implements OnInit {
         switch(this.searchType) {
             case "People" : {
                 //console.log("search People");
-                this.searchService.getUsersByName(this.searchTerm)
+                this.searchService.getUsersByName(this.searchTerm);
                 break;
             }
 
             case "Education" : {
-                this.searchService.getUsersByEducation(this.searchTerm)
+                this.searchService.getUsersByEducation(this.searchTerm);
                 break;
             }
 
             case "Experience" : {
-                this.searchService.getUsersByExperience(this.searchTerm)
+                this.searchService.getUsersByExperience(this.searchTerm);
+                break;
+            }
+
+            case "Skill" : {
+                this.searchService.getUserBySkill(this.searchTerm);
                 break;
             }
         }

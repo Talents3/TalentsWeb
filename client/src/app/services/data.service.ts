@@ -132,13 +132,13 @@ export class DataService {
   }
 
   modifyExperience(experience): Promise<Experience> {
-    console.log("add Experience");
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'bearer ' + localStorage.getItem('token')
       })
     };
+    console.log(experience);
     return this.httpClient.put(`api/v1/experiences/${experience._id}`, experience, options)
                           .toPromise()
                           .then((res: any) => {

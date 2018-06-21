@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewChild, ViewContainerRef, ElementRef, TemplateRef, ComponentFactoryResolver, Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from "@angular/router";
 import { User } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
 import { Education } from '../../models/education.model';
 import { Experience } from '../../models/experience.model';
+import { Course } from '../../models/course.model';
+import { Skill } from '../../models/skill.model';
 import * as _ from 'lodash';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';// for file uploading
 
 const URL = 'http://localhost:3000/api/v1/upload/';   //hard code an address
 const TRANSURL = 'http://localhost:3000/api/v1/transcripts/'
+
 
 @Component({
   selector: 'app-user-detail',
@@ -17,6 +20,11 @@ const TRANSURL = 'http://localhost:3000/api/v1/transcripts/'
   styleUrls: ['./user-detail.component.css']
 })
 export class UserDetailComponent implements OnInit {
+
+  @ViewChild("courseContainer", {read: ViewContainerRef}) courseContainer: ViewContainerRef;
+  @ViewChild("courseContent") courseContent: TemplateRef<any>;
+  @ViewChild("skillContainer", {read: ViewContainerRef}) skillContainer: ViewContainerRef;
+  @ViewChild("skillContent") skillContent: TemplateRef<any>;
 
   user: User
   editIntroCardData = {
@@ -30,20 +38,23 @@ export class UserDetailComponent implements OnInit {
     image: '',
     needVisaSponsor: false
   };
-  IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image 
+  IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image
   Transcripts = 'http://localhost:3000/api/v1/getTranscripts/'; // transcripts
-  educations: Education[];
-  experiences: Experience[];
   selectedExperience: any;
   isEmptyExperience: boolean;
   selectedEducation: any;
   isAddingEducation: boolean;
   uploader: FileUploader ;
   transcriptUploader: FileUploader;
+  index = -1;
+  course: any;
+  addedCourses: any[] = [];
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
+  skillIndex = -1;
+  skill : any;
+  addedSkills: any[] = [];
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver) { }
   ngOnInit() {
-    
     this.route.params.subscribe(params => {
       this.dataService.getUser(+params['id'])
        .then(user => {
@@ -56,7 +67,7 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.id = user.id;
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
-            this.editIntroCardData.image = user.image;    
+            this.editIntroCardData.image = user.image;
         });
     });
 
@@ -70,9 +81,9 @@ export class UserDetailComponent implements OnInit {
          console.log(this.editIntroCardData.image);
          console.log('ImageUpload:uploaded:', response);
          alert('File uploaded successfully');
-       
+
      };   // upload transcript file method
-  }  
+  }
 
   deleteEducation(): void {
         console.log(this.selectedEducation);
@@ -91,7 +102,6 @@ export class UserDetailComponent implements OnInit {
     this.selectedEducation = _.cloneDeep(input);
     this.isAddingEducation = false;
     this.initTranscriptUPloader();
-
   }
 
   addEducation(): void {
@@ -126,6 +136,7 @@ export class UserDetailComponent implements OnInit {
                   });
             });
       } else {
+        this.readCourses();
           this.dataService.modifyEducation(this.selectedEducation)
             .then(education => {
                 console.log("Modify education :" + education.universityName);
@@ -168,6 +179,7 @@ export class UserDetailComponent implements OnInit {
                       });
                 });
           } else {
+            this.readSkills();
               this.dataService.modifyExperience(this.selectedExperience)
                 .then(experience => {
                     console.log("Modify experience :" + experience.companyName);
@@ -188,7 +200,7 @@ export class UserDetailComponent implements OnInit {
          console.log(this.editIntroCardData.image);
          console.log('ImageUpload:uploaded:', response);
          alert('File uploaded successfully');
-       
+
      };   // upload file method
   }
   addExperience(): void {
@@ -250,8 +262,62 @@ export class UserDetailComponent implements OnInit {
       } else console.log("did not modify your intro card:",this.user.image);
   }
 
-  sendEditIntroData() {  // send modified intro card to backend server
+  addCourse() {
+    var course = {
+      courseName: '',
+      courseCode: '',
+      coursegrade: ''
+    }
+    this.index = this.index + 1;
+    this.addedCourses[this.index] = course;
+    let view = this.courseContent.createEmbeddedView(this.index);
+    this.courseContainer.insert(view);
+  }
 
+  deleteCourse(course) {
+    var index = this.selectedEducation.courses.indexOf(course, 0);
+    if (index > -1) {
+      this.selectedEducation.courses.splice(index, 1);
+    }
+  }
+
+  readCourses() {
+    console.log(this.addedCourses);
+    this.selectedEducation.courses=this.selectedEducation.courses.concat(this.addedCourses);
+    this.addedCourses=[];
+    this.course = null;
+    this.index = -1;
+    this.courseContainer.clear();
+    console.log(this.selectedEducation.courses);
+  }
+
+  addSkill() {
+    var skill ={
+      skillName: ''
+    };
+    this.skillIndex = this.skillIndex + 1;
+    this.addedSkills[this.skillIndex] = skill;
+    console.log(this.addedSkills);
+    let view = this.skillContent.createEmbeddedView(this.skillIndex);
+    this.skillContainer.insert(view);
+  }
+
+  deleteSkill(skill) {
+    var index = this.selectedExperience.skills.indexOf(skill, 0);
+    if (index > -1) {
+      this.selectedExperience.skills.splice(index, 1);
+    }
+  }
+
+  readSkills() {
+    this.selectedExperience.skills=this.selectedExperience.skills.concat(this.addedSkills);
+    this.addedSkills=[];
+    this.skill = null;
+    this.skillIndex = -1;
+    this.skillContainer.clear();
+  }
+
+  sendEditIntroData() {  // send modified intro card to backend server
        console.log(this.editIntroCardData);
        this.dataService.modifyUser(this.editIntroCardData)
        .then(user => {
