@@ -17,7 +17,7 @@ export class UserInfoListComponent implements OnInit {
     searchUsers: User[];
     subscriptionUsers: Subscription;
     subscriptionSearchUsers: Subscription;
-    searchType: string = 'Choose Search Type';
+    searchType: string = 'People';
     searchTerm: string = '';
     debounceGetMoreUsers = _.debounce(() => this.getMoreUsers(), 500, {});
     debounceGetMoreSearchResults = _.debounce(() => this.getMoreSearchResult(), 500, {});

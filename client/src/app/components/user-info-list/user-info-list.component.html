@@ -11,13 +11,13 @@
 			Please don't put '/' into Search Input !
 </div>
 <div class="container" style="padding-top:3%; padding-left: 3%;padding-right: 3%;">
-	 <div class="row searchFilter"  >
+	 <div class="row searchFilter" >
          <div class="col-sm-12" >
           <div class="input-group" >
            <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" (keyup)="checkSearchInputValid()" [(ngModel)] = "searchTerm">
            <div class="input-group-btn" >
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >{{searchType}} &nbsp;</span> <span class="caret" >&nbsp;</span></button>
-            <div class="dropdown-menu dropdown-menu-right" >
+            <div class="dropdown-menu dropdown-menu-right " style="left: auto;" >
                <ul class="category_filters" >
                 <li >
                  <input type="radio" name="radios" id="People" (click)="setSearchType('People')" ><label class="category-label" for="People" >People</label>
