@@ -1,3 +1,4 @@
+import { Skill } from './skill.model';
 export class Experience {
   userEmail: string;
   companyName: string;
@@ -5,4 +6,5 @@ export class Experience {
   startDate: string;
   endDate: string;
   description: string;
+  skills: Skill[];
 }

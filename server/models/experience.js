@@ -10,6 +10,11 @@ var experienceSchema = mongoose.Schema({
           startDate: String,
           endDate: String,
           description: String,
+          skills: [
+                {
+                	skillName: String,
+                }
+ 	       ]
 });
 
 module.exports = mongoose.model("Experience", experienceSchema);

@@ -11,13 +11,13 @@
 			Please don't put '/' into Search Input !
 </div>
 <div class="container" style="padding-top:3%; padding-left: 3%;padding-right: 3%;">
-	 <div class="row searchFilter"  >
+	 <div class="row searchFilter" >
          <div class="col-sm-12" >
           <div class="input-group" >
            <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" (keyup)="checkSearchInputValid()" [(ngModel)] = "searchTerm">
            <div class="input-group-btn" >
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >{{searchType}} &nbsp;</span> <span class="caret" >&nbsp;</span></button>
-            <div class="dropdown-menu dropdown-menu-right" >
+            <div class="dropdown-menu dropdown-menu-right " style="left: auto;" >
                <ul class="category_filters" >
                 <li >
                  <input type="radio" name="radios" id="People" (click)="setSearchType('People')" ><label class="category-label" for="People" >People</label>
@@ -79,17 +79,17 @@
 									<div class="desc">Description</div>
 								</ng-template>
 
-								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
+								<ng-container *ngIf="user.experiences > 0; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
-				    			<div class="eduexp" *ngFor="let experience of user.experience | slice:0:1; let i = index"> {{experience.companyName}}</div>
+				    			<div class="eduexp" *ngFor="let experience of user.experiences | slice:0:1; let i = index "> {{experience.companyName}}</div>
 								</ng-template>
 								<ng-template #defaultExperience>
 				    			<div class="eduexp"> Experience</div>
 								</ng-template>
 
-								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
+								<ng-container *ngIf="user.educations.length > 0; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
-				    			<div class="eduexp"  *ngFor="let education of user.education | slice:0:1; let i = index" > {{education.universityName}}</div>
+				    			<div class="eduexp"  *ngFor="let education of user.educations | slice:0:1; let i = index " > {{education.universityName}}</div>
 								</ng-template>
 								<ng-template #defaultEducation>
 				    			<div class="eduexp">Education</div>
@@ -127,17 +127,17 @@
 									<div class="desc">Description</div>
 								</ng-template>
 
-								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
+								<ng-container *ngIf="user.experiences.length > 0; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
-				    			<div class="eduexp" *ngFor="let experience of user.experience | slice:0:1; let i = index"> {{experience.companyName}}</div>
+				    			<div class="eduexp" *ngFor="let experience of user.experiences | slice:0:1; let i = index"> {{experience.companyName}}</div>
 								</ng-template>
 								<ng-template #defaultExperience>
 				    			<div class="eduexp"> Experience</div>
 								</ng-template>
 
-								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
+								<ng-container *ngIf="user.educations.length > 0; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
-				    			<div class="eduexp"  *ngFor="let education of user.education | slice:0:1; let i = index" > {{education.universityName}}</div>
+				    			<div class="eduexp" *ngFor="let education of user.educations | slice:0:1; let i = index" > {{education.universityName}}</div>
 								</ng-template>
 								<ng-template #defaultEducation>
 				    			<div class="eduexp">Education</div>

@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const Experience = require('../models/experience');
 const Education = require('../models/education');
+const Project = require('../models/project');
 const Blog = require('../models/blog');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
@@ -10,6 +11,7 @@ const getUsers = function() {
     return new Promise((resolve, reject) => {
         User.find({})
             .limit(config.initialNumOfUsers)
+            .populate('educations').populate('experiences')
             .exec((err, users) => {
                 if (err) {
                     reject(err);
@@ -27,6 +29,7 @@ const getMoreUsers = function(curNum) {
         User.find({})
             .skip(curNum)
             .limit(config.numsPerPage)
+            .populate('educations').populate('experiences')
             .exec((err, users) => {
                 if (err) {
                     reject(err);
@@ -39,7 +42,7 @@ const getMoreUsers = function(curNum) {
 
 const getUser = function(id) {
     return new Promise((resolve, reject) => {
-        User.findOne({id: id}).populate('educations').populate('experiences').exec((err, user) => {
+        User.findOne({id: id}).populate('educations').populate('experiences').populate('projects').exec((err, user) => {
             if (err) {
                 reject(err);
             } else {

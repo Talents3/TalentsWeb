@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { Education } from '../models/education.model';
 import { Experience } from '../models/experience.model';
+import { Project } from '../models/project.model';
 
 @Injectable({
   providedIn: 'root'
@@ -133,14 +134,63 @@ export class DataService {
   }
 
   modifyExperience(experience): Promise<Experience> {
-    console.log("add Experience");
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'bearer ' + localStorage.getItem('token')
       })
     };
+    console.log(experience);
     return this.httpClient.put(`api/v1/experiences/${experience._id}`, experience, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
+  }
+
+  addProject(project): Promise<Project> {
+    console.log("add Project");
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.httpClient.post(`api/v1/projects`, project, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
+  }
+
+
+  deleteProject(_id): Promise<Project> {
+    console.log("delete Proejct");
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.httpClient.delete(`api/v1/projects/${_id}`, options)
+                          .toPromise()
+                          .then((res: any) => {
+                            return res;
+                          })
+                          .catch(this.handleError);
+  }
+
+  modifyProject(project): Promise<Project> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'bearer ' + localStorage.getItem('token')
+      })
+    };
+    console.log(project);
+    return this.httpClient.put(`api/v1/projects/${project._id}`, project, options)
                           .toPromise()
                           .then((res: any) => {
                             return res;

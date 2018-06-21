@@ -2,11 +2,10 @@ const User = require('../models/userModel');
 const Experience = require('../models/experience');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
-const authCheckerMiddleware = require('../middleware/auth_checker');
 
 const getExperiences = function(userEmail) {
   return new Promise((resolve, reject) => {
-    Experience.find({userEmail: userEmail}, (err, experience) => {
+    Experience.find({userEmail: userEmail}, (err, experiences) => {
       if (err) {
         reject(err);
       } else {
@@ -68,6 +67,7 @@ const modifyExperience = function(req, res, _id) {
         experience.startDate = req.body.startDate;
         experience.endDate = req.body.endDate;
         experience.description = req.body.description;
+        experience.skills = req.body.skills;
         experience.save();
 
                             //TODO: Add more attributes of experiences.
