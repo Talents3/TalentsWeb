@@ -1,4 +1,4 @@
-import { ViewChild, ViewContainerRef, ElementRef, TemplateRef, ComponentFactoryResolver, Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from "@angular/router";
 import { User } from '../../models/user.model';
@@ -21,11 +21,6 @@ const TRANSURL = 'http://talents3.com/api/v1/transcripts/'
 })
 export class UserDetailComponent implements OnInit {
 
-  @ViewChild("courseContainer", {read: ViewContainerRef}) courseContainer: ViewContainerRef;
-  @ViewChild("courseContent") courseContent: TemplateRef<any>;
-  @ViewChild("skillContainer", {read: ViewContainerRef}) skillContainer: ViewContainerRef;
-  @ViewChild("skillContent") skillContent: TemplateRef<any>;
-
   user: User
   editIntroCardData = {
     username: '',
@@ -40,13 +35,15 @@ export class UserDetailComponent implements OnInit {
     needVisaSponsor: false
   };
 
-  IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image
-  Transcripts = 'http://localhost:3000/api/v1/getTranscripts/'; // transcripts
+  IMAGEDIR = 'http://talents3.com/api/v1/getImages/'; // image
+  Transcripts = 'http://talents3.com/api/v1/getTranscripts/'; // transcripts
 
   selectedExperience: any;
   isEmptyExperience: boolean;
   selectedEducation: any;
   isAddingEducation: boolean;
+  selectedProject: any;
+  isEmptyProject: boolean;
   uploader: FileUploader ;
   transcriptUploader: FileUploader;
   index = -1;
@@ -56,7 +53,7 @@ export class UserDetailComponent implements OnInit {
   skillIndex = -1;
   skill : any;
   addedSkills: any[] = [];
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.dataService.getUser(+params['id'])
@@ -71,7 +68,7 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
             this.editIntroCardData.image = user.image;
-            this.editIntroCardData.address = user.address;    
+            this.editIntroCardData.address = user.address;
         });
     });
 
@@ -103,29 +100,24 @@ export class UserDetailComponent implements OnInit {
   }
 
   editEducation(input: any): void{   //edit education button pressed
+    this.addedCourses=[];
+    this.course = null;
+    this.index = -1;
     this.selectedEducation = _.cloneDeep(input);
     this.isAddingEducation = false;
     this.initTranscriptUPloader();
   }
 
   addEducation(): void {
+    this.addedCourses=[];
+    this.course = null;
+    this.index = -1;
     var emptyEducation = {
-        userEmail: localStorage.getItem("email"),  
-        universityName: '',
-        gpa: 0,
-        degreeType: '',
-        major: '',
-        startDate: '',
-        endDate: '',
-        inProgress: false,
-        transcripts: '',
-        courses: []
+        userEmail: localStorage.getItem("email")
     }
-    
-     this.selectedEducation = emptyEducation;
-     this.isAddingEducation = true;
-     this.initTranscriptUPloader();
-
+    this.selectedEducation = emptyEducation;
+    this.isAddingEducation = true;
+    this.initTranscriptUPloader();
   }
 
   saveEducation(): void {
@@ -166,9 +158,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   editExperience(input: any): void {
+    this.addedSkills=[];
+    this.skill = null;
+    this.skillIndex = -1;
     this.isEmptyExperience = false;
     this.selectedExperience = _.cloneDeep(input);
-    console.log(this.selectedExperience);
   }
 
   saveExperience(input:any): void {
@@ -208,21 +202,14 @@ export class UserDetailComponent implements OnInit {
      };   // upload file method
   }
   addExperience(): void {
+    this.addedSkills=[];
+    this.skill = null;
+    this.skillIndex = -1;
     var emptyExperience = {
-      userEmail: localStorage.getItem("email"),  
-      universityName: '',
-      gpa: 0,
-      degreeType: '',
-      major: '',
-      startDate: '',
-      endDate: '',
-      inProgress: false,
-      transcripts: '',
-      courses: []
+      userEmail: localStorage.getItem("email")
     }
     this.selectedExperience = emptyExperience;
     this.isEmptyExperience = true;
-
   }
 
   isMatched() {  // check whether this profile is matched with the logged in user
@@ -268,6 +255,50 @@ export class UserDetailComponent implements OnInit {
       } else console.log("did not modify your intro card:",this.user.image);
   }
 
+  addProject(): void {
+    this.addedSkills=[];
+    this.skill = null;
+    this.skillIndex = -1;
+
+    var emptyProject = {
+      userEmail: localStorage.getItem("email")
+    }
+    this.selectedProject = emptyProject;
+    this.isEmptyProject = true;
+  }
+
+  editProject(input: any): void {
+    this.addedSkills=[];
+    this.skill = null;
+    this.skillIndex = -1;
+    this.isEmptyProject = false;
+    this.selectedProject = _.cloneDeep(input);
+  }
+
+  saveProject(input:any): void {
+    console.log(this.selectedProject); // save this updated education
+          if (this.isEmptyProject) {
+              this.dataService.addProject(this.selectedProject)
+                .then(project => {
+                    console.log("Add Project : " + project.projectName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          } else {
+            this.readProjectSkills();
+              this.dataService.modifyProject(this.selectedProject)
+                .then(project => {
+                    console.log("Modify project :" + project.projectName);
+                    this.dataService.getUser(this.user.id)
+                      .then(user => {
+                        this.user = user;
+                      });
+                });
+          }
+  }
+
   addCourse() {
     var course = {
       courseName: '',
@@ -276,8 +307,6 @@ export class UserDetailComponent implements OnInit {
     }
     this.index = this.index + 1;
     this.addedCourses[this.index] = course;
-    let view = this.courseContent.createEmbeddedView(this.index);
-    this.courseContainer.insert(view);
   }
 
   deleteCourse(course) {
@@ -287,14 +316,24 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
+  deleteAddedCourse(course) {
+    var index = this.addedCourses.indexOf(course, 0);
+    if (index > -1) {
+      this.addedCourses.splice(index, 1);
+    }
+    this.index = this.index-1;
+  }
+
   readCourses() {
-    console.log(this.addedCourses);
     this.selectedEducation.courses=this.selectedEducation.courses.concat(this.addedCourses);
-    this.addedCourses=[];
-    this.course = null;
-    this.index = -1;
-    this.courseContainer.clear();
-    console.log(this.selectedEducation.courses);
+    for (var i = 0; i < this.selectedEducation.courses.length; i++) {
+      if (this.selectedEducation.courses[i].courseName == "") {
+        var index = this.selectedEducation.courses.indexOf(this.selectedEducation.courses[i], 0);
+        if (index > -1) {
+          this.selectedEducation.courses.splice(index, 1);
+        }
+      }
+    }
   }
 
   addSkill() {
@@ -303,9 +342,6 @@ export class UserDetailComponent implements OnInit {
     };
     this.skillIndex = this.skillIndex + 1;
     this.addedSkills[this.skillIndex] = skill;
-    console.log(this.addedSkills);
-    let view = this.skillContent.createEmbeddedView(this.skillIndex);
-    this.skillContainer.insert(view);
   }
 
   deleteSkill(skill) {
@@ -315,12 +351,59 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
+  deleteAddedSkill(skill) {
+    var index = this.addedSkills.indexOf(skill, 0);
+    if (index > -1) {
+      this.addedSkills.splice(index, 1);
+    }
+    this.skillIndex = this.skillIndex-1;
+  }
+
   readSkills() {
     this.selectedExperience.skills=this.selectedExperience.skills.concat(this.addedSkills);
-    this.addedSkills=[];
-    this.skill = null;
-    this.skillIndex = -1;
-    this.skillContainer.clear();
+    for (var i = 0; i < this.selectedExperience.skills.length; i++) {
+      if (this.selectedExperience.skills[i].skillName == "") {
+        var index = this.selectedExperience.skills.indexOf(this.selectedExperience.skills[i], 0);
+        if (index > -1) {
+          this.selectedExperience.skills.splice(index, 1);
+        }
+      }
+    }
+  }
+
+  addProjectSkill() {
+    var skill ={
+      skillName: ''
+    };
+    this.skillIndex = this.skillIndex + 1;
+    this.addedSkills[this.skillIndex] = skill;
+  }
+
+  deleteProjectSkill(skill) {
+    var index = this.selectedProject.skills.indexOf(skill, 0);
+    if (index > -1) {
+      this.selectedProject.skills.splice(index, 1);
+    }
+  }
+
+  deleteAddedProjectSkill(skill) {
+    var index = this.addedSkills.indexOf(skill, 0);
+    if (index > -1) {
+      this.addedSkills.splice(index, 1);
+    }
+    this.skillIndex = this.skillIndex-1;
+  }
+
+  readProjectSkills() {
+    this.selectedProject.skills=this.selectedProject.skills.concat(this.addedSkills);
+    for (var i = 0; i < this.selectedProject.skills.length; i++) {
+      if (this.selectedProject.skills[i].skillName == "") {
+        var index = this.selectedProject.skills.indexOf(this.selectedProject.skills[i], 0);
+        if (index > -1) {
+          this.selectedProject.skills.splice(index, 1);
+        }
+      }
+    }
   }
 
   sendEditIntroData() {  // send modified intro card to backend server

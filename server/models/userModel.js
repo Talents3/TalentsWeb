@@ -44,6 +44,13 @@ var UserSchema = new mongoose.Schema({
 
 	    }
     ],
+    projects: [
+	    {
+  	        type: mongoose.Schema.Types.ObjectId,
+            ref: "Project"
+
+	    }
+    ],
     blogs: [
       {
       	    type: mongoose.Schema.Types.ObjectId,
@@ -56,7 +63,7 @@ var UserSchema = new mongoose.Schema({
 
 // nev.configure({
 //     verificationURL: 'http://localhost:3000/api/v1/email-verification/${URL}',
-  
+
 //     transportOptions: {
 //         service: 'Gmail',
 //         auth: {
