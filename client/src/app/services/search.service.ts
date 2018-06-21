@@ -20,24 +20,33 @@ export class SearchService {
     return this._searchUserSource.asObservable();
   }
 
-  getUsersByName(name): void {
-    this.httpClient.get(`api/v1/users/name/${name}/nums/${this._searchUserSource.value.length}`)
+  getUsersByName(name): Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/name/${name}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
+      .then((users: any) => {
+        this._searchUserSource.next(this._searchUserSource.value.concat(users));
+        return users;
+      })
       .catch(this.handleError);
   }
 
-  getUsersByEducation(universityName): void {
-    this.httpClient.get(`api/v1/users/educations/${universityName}/nums/${this._searchUserSource.value.length}`)
+  getUsersByEducation(universityName): Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/educations/${universityName}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
+      .then((users: any) => {
+        this._searchUserSource.next(this._searchUserSource.value.concat(users));
+        return users;
+      })
       .catch(this.handleError);
   }
 
-  getUsersByExperience(info):  void {
-    this.httpClient.get(`api/v1/users/experiences/${info}/nums/${this._searchUserSource.value.length}`)
+  getUsersByExperience(info):  Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/experiences/${info}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
+      .then((users: any) => {
+        this._searchUserSource.next(this._searchUserSource.value.concat(users));
+        return users;
+      })
       .catch(this.handleError);
   }
 

@@ -20,26 +20,31 @@ export class UserInfoListComponent implements OnInit {
     searchType: string = 'Choose Search Type';
     searchTerm: string = '';
     debounceGetMoreUsers = _.debounce(() => this.getMoreUsers(), 500, {});
-    debounceGetMoreSearchResults = _.debounce(() => this.getMoreSearchResult(this.searchType), 500, {});
+    debounceGetMoreSearchResults = _.debounce(() => this.getMoreSearchResult(), 500, {});
     isSearchMode: boolean;
+    isReachTheEnd: boolean;
+    isSearchInputValid: boolean;
+    isSearchResultEmpty: boolean;
 
     constructor(private dataService: DataService, private searchService: SearchService) { }
 
     @HostListener("window:scroll", [])
     handleScroll() {
       let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-      if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50 )) {
+      if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50)) {
           if (!this.isSearchMode) {
             this.debounceGetMoreUsers();
           } else {
-            console.log("get more search result!!")
             this.debounceGetMoreSearchResults();
           }
       }
     }
 
     ngOnInit() {
+        this.isReachTheEnd = false;
         this.isSearchMode = false;
+        this.isSearchInputValid = true;
+        this.isSearchResultEmpty = false;
         this.subscriptionUsers = this.dataService.getUsers()
             .subscribe(users => this.users = users);
 
@@ -61,6 +66,7 @@ export class UserInfoListComponent implements OnInit {
         console.log("searchType: " + this.searchType);
         console.log("searchTerm: " + this.searchTerm);
         this.searchService.resetSearchSource();
+        this.isReachTheEnd = false;
 
         if (this.searchTerm == '') {
             this.dataService.getUsers();
@@ -69,7 +75,36 @@ export class UserInfoListComponent implements OnInit {
         }
 
         this.isSearchMode = true;
-        this.getMoreSearchResult(this.searchType);
+        this.isSearchResultEmpty = false;
+
+        switch(this.searchType) {
+            case "People" : {
+                this.searchService.getUsersByName(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+
+            case "Education" : {
+                this.searchService.getUsersByEducation(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+
+            case "Experience" : {
+                this.searchService.getUsersByExperience(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+        }
     }
 
     setSearchType(searchType: any) {
@@ -77,34 +112,65 @@ export class UserInfoListComponent implements OnInit {
     }
 
     getMoreUsers() {
-      console.log("s");
-        this.dataService.getMoreUsers();
+        if (this.isReachTheEnd) {
+            return;
+        }
+        console.log("get More users");
+        this.dataService.getMoreUsers().then(users => {
+            if (users.length == 0) {
+                this.isReachTheEnd = true;
+            }
+        });
     }
 
-    getMoreSearchResult(searchType) {
+    getMoreSearchResult() {
+        if (this.isReachTheEnd) {
+            return;
+        }
+        console.log("get More result");
         switch(this.searchType) {
             case "People" : {
-                //console.log("search People");
-                this.searchService.getUsersByName(this.searchTerm);
+                this.searchService.getUsersByName(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isReachTheEnd = true;
+                    }
+                })
                 break;
             }
 
             case "Education" : {
-                this.searchService.getUsersByEducation(this.searchTerm);
+                this.searchService.getUsersByEducation(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isReachTheEnd = true;
+                    }
+                })
                 break;
             }
 
             case "Experience" : {
-                this.searchService.getUsersByExperience(this.searchTerm);
+
+                this.searchService.getUsersByExperience(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isReachTheEnd = true;
+                    }
+                })
+
                 break;
             }
 
             case "Skill" : {
                 this.searchService.getUserBySkill(this.searchTerm);
-                break;
+
+                
             }
         }
     }
 
-
+    checkSearchInputValid() {
+        if (this.searchTerm.indexOf("/") !== -1) {
+            this.isSearchInputValid = false;
+        } else {
+            this.isSearchInputValid = true;
+        }
+    }
 }

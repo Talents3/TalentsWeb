@@ -10,8 +10,8 @@ import { Skill } from '../../models/skill.model';
 import * as _ from 'lodash';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';// for file uploading
 
-const URL = 'http://localhost:3000/api/v1/upload/';   //hard code an address
-const TRANSURL = 'http://localhost:3000/api/v1/transcripts/'
+const URL = 'http://talents3.com/api/v1/upload/';   //hard code an address
+const TRANSURL = 'http://talents3.com/api/v1/transcripts/'
 
 
 @Component({
@@ -29,6 +29,7 @@ export class UserDetailComponent implements OnInit {
   user: User
   editIntroCardData = {
     username: '',
+    address: '',
     age: 0,
     description:'',
     isMale: false,
@@ -38,8 +39,10 @@ export class UserDetailComponent implements OnInit {
     image: '',
     needVisaSponsor: false
   };
+
   IMAGEDIR = 'http://localhost:3000/api/v1/getImages/'; // image
   Transcripts = 'http://localhost:3000/api/v1/getTranscripts/'; // transcripts
+
   selectedExperience: any;
   isEmptyExperience: boolean;
   selectedEducation: any;
@@ -68,6 +71,7 @@ export class UserDetailComponent implements OnInit {
             this.editIntroCardData.needVisaSponsor= user.needVisaSponsor;
             this.editIntroCardData.newGrads = user.newGrads;
             this.editIntroCardData.image = user.image;
+            this.editIntroCardData.address = user.address;    
         });
     });
 
@@ -258,6 +262,8 @@ export class UserDetailComponent implements OnInit {
       } else if (this.editIntroCardData.needVisaSponsor != this.user.needVisaSponsor) {
         this.sendEditIntroData();
       } else if (this.editIntroCardData.image != this.user.image){
+        this.sendEditIntroData();
+      } else if (this.editIntroCardData.address != this.user.address){
         this.sendEditIntroData();
       } else console.log("did not modify your intro card:",this.user.image);
   }

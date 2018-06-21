@@ -1,14 +1,20 @@
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-
-
+<body>
+<div class="alert alert-danger alert-dismissible" role="alert" *ngIf="!isSearchInputValid">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			Please don't put '/' into Search Input !
+</div>
 <div class="container" style="padding-top:3%; padding-left: 3%;padding-right: 3%;">
 	 <div class="row searchFilter"  >
          <div class="col-sm-12" >
           <div class="input-group" >
-           <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" [(ngModel)] = "searchTerm">
+           <input id="table_filter" type="text" class="form-control"  placeholder= "Search" aria-label="Text input with segmented button dropdown" (keyup)="checkSearchInputValid()" [(ngModel)] = "searchTerm">
            <div class="input-group-btn" >
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >{{searchType}} &nbsp;</span> <span class="caret" >&nbsp;</span></button>
             <div class="dropdown-menu dropdown-menu-right" >
@@ -30,105 +36,119 @@
                 </li>
                </ul>
             </div>
-            <button id="searchBtn" type="button" class="btn btn-secondary btn-search" (click) = "getSearchUsers()" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+            <button id="searchBtn" type="button" class="btn btn-secondary btn-search" [disabled]="!isSearchInputValid" (click) = "getSearchUsers()" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
            </div>
           </div>
          </div>
       </div>
 </div>
 
+<br/>
+
+<div class="alert alert-danger alert-dismissible" role="alert" *ngIf="isSearchResultEmpty">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			Search Results No found
+</div>
+
 <div class="container" style="padding-left: 8%; padding-top: 5%; padding-right: 8%;">
-   <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+   <!-- <div class="row text-center" style="display:flex; flex-wrap: wrap;"> -->
 
 
 		<div *ngIf="!isSearchMode">
-	    <div class="col-md-3 col-sm-6" *ngFor="let user of users">
+	    <div class="col-lg-3 col-sm-6" *ngFor="let user of users" [routerLink]="['/users', user.id]">
 	    	<div class="thumbnail">
-	        <div class="card">
-						<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
-						<ng-template #userImage>
-	  					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
-						</ng-template>
-						<ng-template #defaultImage>
-							<img class="card-img-top" src="assets/images/defaultImage.png">
-						</ng-template>
+	        <div class="card hovercard">
+						<div class="cardheader"></div>
+						<div class="avatar">
+							<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
+							<ng-template #userImage>
+		  					<img src="{{'http://talents3.com/api/v1/getImages/' + user.image}}" alt="">
+							</ng-template>
+							<ng-template #defaultImage>
+								<img src="assets/images/defaultImage.png">
+							</ng-template>
+						</div>
 
-				  	<div class="card-body">
-							<p class="card-text">{{user.username}}</p>
-				    	<h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
+				  	<div class="info">
+							<div class="title">{{user.username}}</div>
+							  <h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
 								<ng-template #userDescription>
-									<p class="card-text">{{user.description}}</p>
+									<div class="desc">{{user.description}}</div>
 								</ng-template>
 								<ng-template #defaultDescription>
-									<p class="card-text">Description</p>
+									<div class="desc">Description</div>
 								</ng-template>
-				    	<ul class="list-group">
+
 								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
-				    			<li  *ngFor="let experience of user.experience | slice:0:1; let i = index" class="list-group-item"> {{experience.companyName}}</li>
+				    			<div class="eduexp" *ngFor="let experience of user.experience | slice:0:1; let i = index"> {{experience.companyName}}</div>
 								</ng-template>
 								<ng-template #defaultExperience>
-				    			<li  class="list-group-item">Experience</li>
+				    			<div class="eduexp"> Experience</div>
 								</ng-template>
 
 								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
-				    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
+				    			<div class="eduexp"  *ngFor="let education of user.education | slice:0:1; let i = index" > {{education.universityName}}</div>
 								</ng-template>
 								<ng-template #defaultEducation>
-				    			<li  class="list-group-item">Education</li>
+				    			<div class="eduexp">Education</div>
 								</ng-template>
-				    	</ul>
-				    	<a [routerLink]="['/users', user.id]" class="btn btn-primary" >Profile</a>
 				  	</div>
 			    </div>
 	      </div>
 	    </div>
 		</div>
+
+
 		<div *ngIf="isSearchMode">
-	    <div class="col-md-3 col-sm-6" *ngFor="let user of searchUsers">
+			<div class="col-lg-3 col-sm-6" *ngFor="let user of searchUsers" [routerLink]="['/users', user.id]">
 	    	<div class="thumbnail">
-	        <div class="card">
-						<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
-						<ng-template #userImage>
-	  					<img class="card-img-top" src="{{'http://localhost:3000/api/v1/getImages/' + user.image}}" alt="Card image cap">
-						</ng-template>
-						<ng-template #defaultImage>
-							<img class="card-img-top" src="assets/images/defaultImage.png">
-						</ng-template>
+	        <div class="card hovercard">
+						<div class="cardheader"></div>
 
-				  	<div class="card-body">
-							<p class="card-text">{{user.username}}</p>
-				    	<h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
+						<div class="avatar">
+							<ng-container *ngIf="user.image; then userImage; else defaultImage"></ng-container>
+							<ng-template #userImage>
+		  					<img src="{{'http://talents3.com/api/v1/getImages/' + user.image}}" alt="">
+							</ng-template>
+							<ng-template #defaultImage>
+								<img src="assets/images/defaultImage.png">
+							</ng-template>
+						</div>
+
+				  	<div class="info">
+							<div class="title">{{user.username}}</div>
+							  <h5 *ngIf="user.description; then userDescription; else defaultDescription" class="card-title">{{user.username}}</h5>
 								<ng-template #userDescription>
-									<p class="card-text">{{user.description}}</p>
+									<div class="desc">{{user.description}}</div>
 								</ng-template>
 								<ng-template #defaultDescription>
-									<p class="card-text">Description</p>
+									<div class="desc">Description</div>
 								</ng-template>
-				    	<ul class="list-group">
+
 								<ng-container *ngIf="user.experience; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
-				    			<li  *ngFor="let experience of user.experience | slice:0:1; let i = index" class="list-group-item"> {{experience.companyName}}</li>
+				    			<div class="eduexp" *ngFor="let experience of user.experience | slice:0:1; let i = index"> {{experience.companyName}}</div>
 								</ng-template>
 								<ng-template #defaultExperience>
-				    			<li  class="list-group-item">Experience</li>
+				    			<div class="eduexp"> Experience</div>
 								</ng-template>
 
 								<ng-container *ngIf="user.education; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
-				    			<li  *ngFor="let education of user.education | slice:0:1; let i = index" class="list-group-item"> {{education.universityName}}</li>
+				    			<div class="eduexp"  *ngFor="let education of user.education | slice:0:1; let i = index" > {{education.universityName}}</div>
 								</ng-template>
 								<ng-template #defaultEducation>
-				    			<li  class="list-group-item">Education</li>
+				    			<div class="eduexp">Education</div>
 								</ng-template>
-				    	</ul>
-				    	<a [routerLink]="['/users', user.id]" class="btn btn-primary" >Profile</a>
-				  	</div>
+						</div>
+
 			    </div>
 	      </div>
 	    </div>
 		</div>
-	</div>
 
-<</div>
+ <!-- </div> -->
+</div>
+</body>

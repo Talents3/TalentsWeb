@@ -9,7 +9,7 @@ export class User{
   image: string;
   backgroundImage: string;
   age: number;
-  adress: string;
+  address: string;
   phone: string;
   email: string;
   isMale: boolean;

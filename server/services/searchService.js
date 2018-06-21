@@ -3,25 +3,6 @@ const Education = require('../models/education');
 const Experience = require('../models/experience');
 const config = require('../config/database');
 
-// const getEmailsByUniversity = function(universityName) {
-//   return new Promise((resolve, reject) => {
-//       var emails = [];
-//       Education.find({universityName: {$regex : universityName, $options: 'i'}}, (err, educations) => {
-//           if (err) {
-//               reject(err);
-//           } else {
-//               educations.forEach((education) => {
-//                   if (!emails.includes(education.userEmail)) {
-//                       emails.push(education.userEmail);
-//                   }
-//               });
-//
-//               resolve(emails);
-//           }
-//       });
-//   });
-// }
-
 const getEmailsByUniversity = function(universityName, num) {
   return new Promise((resolve, reject) => {
       var emails = [];
