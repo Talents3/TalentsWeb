@@ -14,7 +14,7 @@ export class AboutModuleComponent implements OnInit {
   ruiDescription: string = 'description';
   haiyangDescription: string = 'description';
   youxingDescription: string = 'description';
-  teamDescription: string = 'team description team description team description team description';
+  teamDescription: string = 'Three new graduate students from NYU. ';
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
