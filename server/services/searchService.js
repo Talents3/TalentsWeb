@@ -53,6 +53,7 @@ const getUsersByName = function(name, num) {
         User.find({username: {$regex : name, $options: 'i'}})
             .skip(num)
             .limit(config.numsPerPage)
+            .populate('educations').populate('experiences')
             .exec(
               (err, users) => {
                   if (err) {
