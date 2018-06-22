@@ -165,8 +165,7 @@ export class UserDetailComponent implements OnInit {
     this.selectedExperience = _.cloneDeep(input);
   }
 
-  saveExperience(input:any): void {
-    console.log(this.selectedExperience); // save this updated education
+  saveExperience(input:any): void {// save this updated education
           if (this.isEmptyExperience) {
               this.dataService.addExperience(this.selectedExperience)
                 .then(experience => {
@@ -275,8 +274,7 @@ export class UserDetailComponent implements OnInit {
     this.selectedProject = _.cloneDeep(input);
   }
 
-  saveProject(input:any): void {
-    console.log(this.selectedProject); // save this updated education
+  saveProject(input:any): void {// save this updated education
           if (this.isEmptyProject) {
               this.dataService.addProject(this.selectedProject)
                 .then(project => {
@@ -367,7 +365,9 @@ export class UserDetailComponent implements OnInit {
         if (index > -1) {
           this.selectedExperience.skills.splice(index, 1);
         }
+        i--;
       }
+
     }
   }
 
@@ -402,6 +402,7 @@ export class UserDetailComponent implements OnInit {
         if (index > -1) {
           this.selectedProject.skills.splice(index, 1);
         }
+        i--;
       }
     }
   }

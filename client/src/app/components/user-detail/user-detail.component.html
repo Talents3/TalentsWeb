@@ -136,7 +136,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color:#FF0000; float: left;" (click)= "deleteEducation(selectedEducation)" *ngIf="!isAddingEducation">Delete</button>
-          <button type="button" class="btn btn-primary" (click)= "readCourses()">read</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal" (click)= "saveEducation(selectedEducation)">Save</button>
         </div>
       </div>
@@ -164,10 +163,14 @@
             <input type="text" class="form-control" name="companyName" [(ngModel)]= "selectedExperience.companyName">
             <label for="title" class="col-form-label">Title:</label>
             <input type="text" class="form-control" name="title" [(ngModel)]= "selectedExperience.title">
-
+            <label for="startDate" class="col-form-label">Start Date:</label>
+            <input type="date" class="form-control" name="startDate" [(ngModel)]= "selectedExperience.startDate">
+            <label for="endDate" class="col-form-label">End Date:</label>
+            <input type="date" class="form-control" name="endDate" [(ngModel)]= "selectedExperience.endDate">
+            <label for="projectContent" class="col-form-label">Job Description:</label>
+            <input type="text" class="form-control" name="projectContent" [(ngModel)]= "selectedExperience.description">
             <label for="title" class="col-form-label">Skills:</label>
             <button type="button" class=" btn btn-outline-secondary btn-sm float-right" align="center" (click)="addSkill()"><img class="float-right" style="width: 50%;height: 50%; " src="assets/images/add-icon.png"></button>&nbsp;
-
             <div *ngFor="let selectedSkill of selectedExperience.skills;let index = index;">
               <div class="skillContent">
                           <input type="text" class="form-control" id="skillContent" name="skillName-{{index}}" placeholder="skill name" [(ngModel)]= "selectedSkill.skillName">&nbsp;&nbsp;
@@ -215,6 +218,8 @@
             <input type="date" class="form-control" name="startDate" [(ngModel)]= "selectedProject.startDate">
             <label for="endDate" class="col-form-label">Project End Date:</label>
             <input type="date" class="form-control" name="endDate" [(ngModel)]= "selectedProject.endDate">
+            <label for="projectContent" class="col-form-label">Project Content:</label>
+            <input type="text" class="form-control" name="projectContent" [(ngModel)]= "selectedProject.projectContent">
             <label for="skills" class="col-form-label">Skills:</label>
             <button type="button" class=" btn btn-outline-secondary btn-sm float-right" align="center" (click)="addProjectSkill()"><img class="float-right" style="width: 50%;height: 50%; " src="assets/images/add-icon.png"></button>&nbsp;
             <div *ngFor="let selectedSkill of selectedProject.skills;let index = index;">
@@ -336,11 +341,11 @@
             <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editExperienceModal" (click)="editExperience(experience)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
           </div>
           <div id="experienceTitle">{{experience.title}}</div>
-
-          <div id="experienceStartDate">{{experience.startDate}}</div>&nbsp;
-          <div style="display: flex;">
+          <div>{{experience.startDate}} --- {{experience.endDate}}</div>
+          <div>Job Description: {{experience.description}}</div>
+          <div>
             <div >Core Skills:</div>
-            <div *ngFor="let skill of experience.skills" style="padding-left: 15px;"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>
+            <div *ngFor="let skill of experience.skills" style="padding-right: 15px; display: inline-block"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>
           </div>
 
         </div>
@@ -361,11 +366,11 @@
           <div class="modificationButtons" style="float:right;" *ngIf="isMatched()">
             <button type="button" class=" btn btn-outline-secondary btn-sm" align="center" data-toggle="modal" data-target="#editProjectModal" (click)="editProject(project)"><img class="float-left" style=" width: 100%;height: 100%; float:right;" src="assets/images/edit-icon.png"></button>
           </div>
-          <div id="projectStartDate">{{project.startDate}}</div>&nbsp;
-          <div id="projectEndDate">{{project.endDate}}</div>&nbsp;
-          <div style="display: flex;">
+          <div>{{project.startDate}} --- {{project.endDate}}</div>
+          <div>Project Content: {{project.projectContent}}</div>
+          <div>
             <div >Core Skills:</div>
-            <div *ngFor="let skill of project.skills" style="padding-left: 15px;"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>
+            <div *ngFor="let skill of project.skills" style="padding-right: 15px; display: inline-block;"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>
           </div>
         </div>
       </div>
