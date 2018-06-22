@@ -23,11 +23,11 @@ const DIR = './uploads';
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
       
-      cb(null, DIR );
+      cb(null, DIR + '/' + file.fieldname );
     },
     filename: (req, file, cb) => {
 
-      cb(null, file.fieldname + '-' + Date.now()  +  '-' + file.originalname);
+      cb(null, Date.now()  +  '-' + file.originalname);
     }
 });
 let upload = multer({storage: storage});
@@ -138,12 +138,29 @@ app.post('/api/v1/transcripts',upload.single('transcript'), function (req, res) 
 // send transcript files to front end
 app.get('/getTranscripts/:filename', function (req, res) {
 	const filename = req.params.filename;
-     res.sendFile(__dirname + '/uploads/' + filename);
+     res.sendFile(__dirname + '/uploads/transcript/' + filename, function(err){
+     	if(err){
+     		res.render('error');
+     	}
+     });
 });
 // send files to front end
 app.get('/api/v1/getImages/:filename', function (req, res) {
 	const filename = req.params.filename;
-     res.sendFile(__dirname + '/uploads/' + filename);
+     res.sendFile(__dirname + '/uploads/photo/' + filename, function(err){
+     	if (err){
+     		res.sendFile(__dirname + '/uploads/background/error.png');
+     	}
+     });
+});
+
+app.get('/api/v1/getBackground/:filename', function(req,res){
+    const filename = req.params.fieldname;
+     res.sendFile(__dirname + '/uploads/background/' + filename, function(err){
+     	if(err){
+     		res.sendFile(__dirname + '/uploads/background/error.png');
+     	}
+     });
 });
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -189,4 +206,4 @@ app.use(function(req, res, next) {
 // });
 
 //launch application,listen on port3000
-app.listen(3000, () => console.log('Example app listening !'));
+app.listen(80, () => console.log('Example app listening !'));
