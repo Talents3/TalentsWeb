@@ -63,13 +63,29 @@ const modifyProject = function(req, res, _id) {
         reject("project Not Found!!!");
         return res.status(400).send('project Not Found!');
       } else {
-        project.companyName = req.body.companyName;
-        project.startDate = req.body.startDate;
-        project.endDate = req.body.endDate;
-        project.projectContent = req.body.projectContent;
-        project.skills = req.body.skills;
-        project.save();
-        resolve(project);
+        User.findOne({email: project.userEmail}, (err, user) => {
+          if (err) {
+            resolve(err);
+            return;
+          } else if (!user){
+            resolve('user no found');
+            return;
+          } else {
+            project.companyName = req.body.companyName;
+            project.startDate = req.body.startDate;
+            project.endDate = req.body.endDate;
+            project.projectContent = req.body.projectContent;
+            project.skills = req.body.skills;
+            project.save();
+            project.skills.forEach((skill) => {
+                if (!user.skills.includes(skill.skillName)) {
+                    user.skills.push(skill.skillName);
+                }
+            });
+            user.save();
+            resolve(project);
+          }
+        });
       }
     });
   });

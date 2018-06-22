@@ -26,7 +26,10 @@ var UserSchema = new mongoose.Schema({
     usAuthorization: Boolean,
     needVisaSponsor: Boolean,
     newGrads: Boolean,
-    skills: [String],
+    skills: [{
+        type: String,
+        "_id": false
+    }],
     links: [String],
     certificates: [String],
     experiences: [

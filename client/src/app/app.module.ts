@@ -12,6 +12,7 @@ import{ DataService } from './services/data.service';
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { AboutModuleComponent } from './components/about-module/about-module.component';
+import { ErrorComponent } from './components/error/error.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { AboutModuleComponent } from './components/about-module/about-module.com
     RegisterModuleComponent,
     LoginModuleComponent,
     FileSelectDirective,
-    AboutModuleComponent
+    AboutModuleComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
