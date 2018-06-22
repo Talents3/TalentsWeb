@@ -4,7 +4,7 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
 import { RegisterModuleComponent } from './components/register-module/register-module.component';
 import { LoginModuleComponent } from './components/login-module/login-module.component';
 import { AboutModuleComponent } from './components/about-module/about-module.component';
-
+import { ErrorComponent} from './components/error/error.component';
 const routes: Routes = [
     {
         path: '',
@@ -34,8 +34,12 @@ const routes: Routes = [
         component: AboutModuleComponent
     },
     {
+        path: '404',
+        component: ErrorComponent
+    },
+    {
         path: '**',
-        redirectTo: 'users'
+        redirectTo: '/404'
     }
 
 ]

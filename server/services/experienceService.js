@@ -62,16 +62,30 @@ const modifyExperience = function(req, res, _id) {
         reject("Experience Not Found!!!");
         return res.status(400).send('Experience Not Found!');
       } else {
-        experience.companyName = req.body.companyName;
-        experience.title = req.body.title;
-        experience.startDate = req.body.startDate;
-        experience.endDate = req.body.endDate;
-        experience.description = req.body.description;
-        experience.skills = req.body.skills;
-        experience.save();
-
-                            //TODO: Add more attributes of experiences.
-        resolve(experience);
+          User.findOne({email: experience.userEmail}, (err, user) => {
+              if (err) {
+                resolve(err);
+                return;
+              } else if (!user){
+                resolve('user no found');
+                return;
+              } else {
+                experience.companyName = req.body.companyName;
+                experience.title = req.body.title;
+                experience.startDate = req.body.startDate;
+                experience.endDate = req.body.endDate;
+                experience.description = req.body.description;
+                experience.skills = req.body.skills;
+                experience.save();
+                experience.skills.forEach((skill) => {
+                    if (!user.skills.includes(skill.skillName)) {
+                        user.skills.push(skill.skillName);
+                    } 
+                });
+                user.save();
+                resolve(experience);
+              }
+          });
       }
     });
   });

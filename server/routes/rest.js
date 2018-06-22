@@ -220,10 +220,20 @@ router.get('/users/experiences/:info/nums/:num', (req, res) => {
       .catch(err => console.log("Failed: " + err));
 })
 
-router.get('/users/experiences/:skill/nums/:num', (req, res) => {
-    const info = req.params.skill;
+// Search Users By Skills based on curruent search result
+router.get('/users/skills/:skill/nums/:num', (req, res) => {
+    const skill = req.params.skill;
     const num = req.params.num;
-    searchService.getUsersBySkill(info, +num)
+    searchService.getUsersBySkill(skill, +num)
+      .then(users => res.json(users))
+      .catch(err => console.log("Failed: " + err));
+})
+
+// Search Users By Project(projectName or projectContent) based on curruent search result
+router.get('/users/projects/:info/nums/:num', (req, res) => {
+    const info = req.params.info;
+    const num = req.params.num;
+    searchService.getUsersByProject(info, +num)
       .then(users => res.json(users))
       .catch(err => console.log("Failed: " + err));
 })

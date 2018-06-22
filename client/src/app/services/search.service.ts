@@ -50,10 +50,23 @@ export class SearchService {
       .catch(this.handleError);
   }
 
-  getUserBySkill(skill): void {
-    this.httpClient.get(`api/v1/users/experiences/${skill}/nums/${this._searchUserSource.value.length}`)
+  getUsersBySkill(skill): Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/skills/${skill}/nums/${this._searchUserSource.value.length}`)
       .toPromise()
-      .then((users: any) => this._searchUserSource.next(this._searchUserSource.value.concat(users)))
+      .then((users: any) => {
+        this._searchUserSource.next(this._searchUserSource.value.concat(users));
+        return users;
+      })
+      .catch(this.handleError);
+  }
+
+  getUsersByProject(info): Promise<User[]> {
+    return this.httpClient.get(`api/v1/users/projects/${info}/nums/${this._searchUserSource.value.length}`)
+      .toPromise()
+      .then((users: any) => {
+        this._searchUserSource.next(this._searchUserSource.value.concat(users));
+        return users;
+      })
       .catch(this.handleError);
   }
 

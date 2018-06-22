@@ -104,6 +104,24 @@ export class UserInfoListComponent implements OnInit {
                 })
                 break;
             }
+
+            case "Project" : {
+                this.searchService.getUsersByProject(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
+
+            case "Skill" : {
+                this.searchService.getUsersBySkill(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isSearchResultEmpty = true;
+                    }
+                })
+                break;
+            }
         }
     }
 
@@ -158,10 +176,26 @@ export class UserInfoListComponent implements OnInit {
                 break;
             }
 
-            case "Skill" : {
-                this.searchService.getUserBySkill(this.searchTerm);
+            case "Project" : {
 
-                
+                this.searchService.getUsersByProject(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isReachTheEnd = true;
+                    }
+                })
+
+                break;
+            }
+
+            case "Skill" : {
+
+                this.searchService.getUsersBySkill(this.searchTerm).then(users => {
+                    if (users.length == 0) {
+                        this.isReachTheEnd = true;
+                    }
+                })
+
+                break;
             }
         }
     }

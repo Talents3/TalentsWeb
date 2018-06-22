@@ -58,6 +58,9 @@ export class UserDetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.dataService.getUser(+params['id'])
        .then(user => {
+            if (user == null) {
+                this.router.navigate(['404']);
+            }
             this.user = user;
             this.editIntroCardData.username = user.username;
             this.editIntroCardData.age = user.age;
