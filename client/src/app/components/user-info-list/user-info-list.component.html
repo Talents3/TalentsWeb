@@ -79,7 +79,7 @@
 									<div class="desc">Description</div>
 								</ng-template>
 
-								<ng-container *ngIf="user.experiences > 0; then userExperience; else defaultExperience"></ng-container>
+								<ng-container *ngIf="user.experiences.length > 0; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
 				    			<div class="eduexp" *ngFor="let experience of user.experiences | slice:0:1; let i = index "> {{experience.companyName}}</div>
 								</ng-template>
@@ -129,7 +129,7 @@
 
 								<ng-container *ngIf="user.experiences.length > 0; then userExperience; else defaultExperience"></ng-container>
 								<ng-template #userExperience>
-				    			<div class="eduexp" *ngFor="let experience of user.experiences | slice:0:1; let i = index"> {{experience.companyName}}</div>
+				    			<div class="eduexp" *ngFor="let experience of user.experiences | slice:0:1; let i = index "> {{experience.companyName}}</div>
 								</ng-template>
 								<ng-template #defaultExperience>
 				    			<div class="eduexp"> Experience</div>
@@ -137,7 +137,7 @@
 
 								<ng-container *ngIf="user.educations.length > 0; then userEducation; else defaultEducation"></ng-container>
 								<ng-template #userEducation>
-				    			<div class="eduexp" *ngFor="let education of user.educations | slice:0:1; let i = index" > {{education.universityName}}</div>
+				    			<div class="eduexp" *ngFor="let education of user.educations | slice:0:1; let i = index " > {{education.universityName}}</div>
 								</ng-template>
 								<ng-template #defaultEducation>
 				    			<div class="eduexp">Education</div>
