@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const Education = require('../models/education');
 const Experience = require('../models/experience');
+const Project = require('../models/project');
 
 //For router.put/post
 const checkUserEmail = (req, res, next) => {
@@ -99,7 +100,6 @@ const checkDeleteExperience = (req, res, next) => {
 }
 
 const checkDeleteProject = (req, res, next) => {
-    //console.log('auth_checker: req: ' + req.headers);
     Project.findById(req.params._id, (err, project) => {
       if (!project) {
           return next('Project does not exist');

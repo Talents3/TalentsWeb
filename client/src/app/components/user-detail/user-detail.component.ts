@@ -274,6 +274,18 @@ export class UserDetailComponent implements OnInit {
     this.selectedProject = _.cloneDeep(input);
   }
 
+  deleteProject(): void {
+            // delete this education by parsing its id
+    this.dataService.deleteProject(this.selectedProject._id)
+                    .then(project => {
+                      console.log("Delete: " + project);
+                      this.dataService.getUser(this.user.id)
+                                      .then(user => {
+                                        this.user = user;
+                                      });
+                    });
+  }
+
   saveProject(input:any): void {// save this updated education
           if (this.isEmptyProject) {
               this.dataService.addProject(this.selectedProject)
