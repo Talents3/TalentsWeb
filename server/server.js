@@ -23,15 +23,72 @@ const DIR = './uploads';
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
       
-      cb(null, DIR );
+      cb(null, DIR + '/' + file.fieldname );
     },
     filename: (req, file, cb) => {
 
-      cb(null, file.fieldname + '-' + Date.now()  +  '-' + file.originalname);
+      cb(null, Date.now()  +  '-' + file.originalname);
     }
 });
 let upload = multer({storage: storage});
 
+
+
+
+//app.use(schedule.schedule());  //use shedule
+var nodemailer = require('nodemailer');
+var config = require('./config/database');
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: config.emailAccount,
+    pass: config.emailPassword
+  }
+});
+var schedule = require('node-schedule');
+var y = { ccName: '🐷', receiverName: 'rui', bccAddress: 'yg1497@nyu.edu', receiverAddress: 'rz1113@nyu.edu'};
+var j = schedule.scheduleJob('0 * * * * *', function(x){
+    var mailOptions = {
+                    from: 'talents3Web@gmail.com',
+                    to: x.receiverAddress, 
+                    bcc: x.bccAddress,
+                    subject: 'Testing email',
+                    text: 'Dear ' + x.receiverName + ',',
+                    html: {path: 'http://localhost:3000/getViews/5'}                 
+                     };
+    transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                });
+ 
+  
+}.bind(null, y));
+j.cancel();
+
+
+app.set("view engine", "ejs");
+
+app.get('/getViews/:id', function(req,res){
+   const id = +req.params.id;
+   console.log("hit it",id);
+   User.findOne({id: id}).populate('educations').populate('experiences').exec((err, finduser) => {
+       if(err){
+       	console.log(err);
+       }
+       else {
+
+       	res.render("profileView", {user: finduser});
+	   }
+   });
+   
+
+});
+
+// end here
 
 
 
@@ -81,12 +138,29 @@ app.post('/api/v1/transcripts',upload.single('transcript'), function (req, res) 
 // send transcript files to front end
 app.get('/getTranscripts/:filename', function (req, res) {
 	const filename = req.params.filename;
-     res.sendFile(__dirname + '/uploads/' + filename);
+     res.sendFile(__dirname + '/uploads/transcript/' + filename, function(err){
+     	if(err){
+     		res.render('error');
+     	}
+     });
 });
 // send files to front end
 app.get('/api/v1/getImages/:filename', function (req, res) {
 	const filename = req.params.filename;
-     res.sendFile(__dirname + '/uploads/' + filename);
+     res.sendFile(__dirname + '/uploads/photo/' + filename, function(err){
+     	if (err){
+     		res.sendFile(__dirname + '/uploads/background/error.png');
+     	}
+     });
+});
+
+app.get('/api/v1/getBackground/:filename', function(req,res){
+    const filename = req.params.fieldname;
+     res.sendFile(__dirname + '/uploads/background/' + filename, function(err){
+     	if(err){
+     		res.sendFile(__dirname + '/uploads/background/error.png');
+     	}
+     });
 });
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -98,7 +172,7 @@ app.use((req, res) => {
 
 var morgan = require('morgan');
 var mongoose = require('mongoose');
-var config = require('./config/database');
+
 mongoose.Promise = require('bluebird');
 
 
