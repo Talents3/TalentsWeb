@@ -9,26 +9,12 @@ import { DataService } from '../../services/data.service';
 })
 export class AboutModuleComponent implements OnInit {
 
-  users: User[] = [];
-  usersId : Array<number>;
-  ruiDescription: string = 'description';
-  haiyangDescription: string = 'description';
-  youxingDescription: string = 'description';
-  teamDescription: string = 'Three new graduate students from NYU. ';
-  constructor(private dataService: DataService) { }
+  
 
   ngOnInit() {
-    this.usersId = [4,5,6];
-    this.getUsers();
+    
   }
 
-  getUsers() {
-    this.usersId.forEach(userId => {
-      this.dataService.getUser(userId).then(
-        user => {
-                    this.users.push(user);
-      });
-    });
-  }
+ 
 
 }

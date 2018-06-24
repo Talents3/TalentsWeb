@@ -35,7 +35,7 @@ nev.configure({
     verifyMailOptions: {
         from: 'Do Not Reply <talents3Web@@gmail.com>',
         subject: 'Please confirm account',
-        html: 'Click the following link to confirm your account:</p><p>${URL}</p>',
+        html: "Click the following link to confirm your account:</p><p>${URL}</p> <p> Sincerely, </br> <a href = 'http://talents3.com' >talents3 team </a> </p>",
         text: 'Please confirm your account by clicking the following link: ${URL}'
     }
 }, function(error, options){
