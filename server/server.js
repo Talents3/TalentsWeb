@@ -19,6 +19,19 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 const DIR = './uploads';
+const Education = require('./models/education');
+var nodemailer = require('nodemailer');   // for sending email
+var config = require('./config/database');
+var PotentialUser = require('./models/potentialUser');  // for sending email to potential users
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: config.emailAccount,
+    pass: config.emailPassword
+  }
+});
+var schedule = require('node-schedule'); // schedule a job
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,46 +46,96 @@ let storage = multer.diskStorage({
 let upload = multer({storage: storage});
 
 
+const photoFolder = './uploads/photo';     // delete useless photos in server
+const transcriptFolder = './uploads/transcript';
+
+var deletePhotos = schedule.scheduleJob('0 0 0 * * *', function() {
+  var filenames = [];
+  fs.readdir(photoFolder, (err, files) =>{
+      for(var i =0;i<files.length;i++){
+        filenames.push(files[i]);
+        
+      }
+        filenames.forEach(file => {
+       User.findOne({image: file}, (error,user) => {
+          if (error) {
+              throw error;
+          } else{
+            if(!user){
+             fs.unlink(photoFolder+'/'+file, function(err){
+              if(err) throw err;
+             });
+             
+            }
+          }
+       })
+  });
+     
+  });
+  
+
+});
+
+
+var deleteTranscript = schedule.scheduleJob('0 0 1 * * *', function() {    // delete useless transcript everyday at 1:00:00
+  var filenames = [];
+  fs.readdir(transcriptFolder, (err, files) =>{
+      for(var i =0;i<files.length;i++){
+        filenames.push(files[i]);
+        
+      }
+        filenames.forEach(file => {
+       Education.findOne({transcripts: file}, (error,education) => {
+          if (error) {
+              throw error;
+          } else{
+            if(!education){
+             fs.unlink(transcriptFolder+'/'+file, function(err){
+              if(err) throw err;
+             });
+             
+            }
+          }
+       })
+  });
+     
+  });
+  
+
+});
+
 
 
 //app.use(schedule.schedule());  //use shedule
-var nodemailer = require('nodemailer');
-var config = require('./config/database');
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: config.emailAccount,
-    pass: config.emailPassword
-  }
-});
-var schedule = require('node-schedule');
-var y = { ccName: '🐷', receiverName: 'rui', bccAddress: 'yg1497@nyu.edu', receiverAddress: 'rz1113@nyu.edu'};
-var j = schedule.scheduleJob('0 * * * * *', function(x){
-    var mailOptions = {
+
+var sendInvitationEmail = schedule.scheduleJob('0 0 8 * * *', function(){  // send invitation emails to our potential users everyday at 8 am
+    PotentialUser.find({}, (err, users) => {
+       users.forEach(user => {
+         var mailOptions = {
                     from: 'talents3Web@gmail.com',
-                    to: x.receiverAddress, 
-                    bcc: x.bccAddress,
-                    subject: 'Testing email',
-                    text: 'Dear ' + x.receiverName + ',',
-                    html: {path: 'http://localhost:3000/getViews/5'}                 
+                    to: user.email,
+                    subject: 'Invitation Email From Talents3 Team',
+                    text: 'Hi ' + user.username  + ',',
+                    html: "<p>Hi " + user.username + ','+ "</p><p>We are three new grads from NYU engineering school. As new grads we know how difficult for new grads to find jobs, so we built talents3 websites to help students to apply positions and make their life easier. Within talents3.com, all you need to do is getting registered and update your profile page once, then we will match your skills, education, and experiences with different positions, and send your profile page to their recuiters and human resource managers.  No more searching or reading thoundsands of job descriptions by yourself.</p><p>So join <a href='http://talents3.com'>talents3.com</a> family, this summer, you will not be alone, we are gonna keep fighting together. Temporary, we are only focus on helping engineering students, because we are engineers, and we know engineering positions better. </p><br> You can sign up now by clicking <a href='http://talents3.com/register'>here.</a><p>Sincerely, <br> <a href='http://talents3.com/about'>talents3 team <br> (Youxing Gao,Rui Zhang,Liam) </a> </p> "              
                      };
     transporter.sendMail(mailOptions, function(error, info){
                     if (error) {
-                      console.log(error);
+                      throw error;
                     } else {
                       console.log('Email sent: ' + info.response);
                     }
                 });
- 
-  
-}.bind(null, y));
-j.cancel();
+
+       })
+    })
+});
+//sendInvitationEmail.cancel();
 
 
 app.set("view engine", "ejs");
 
-app.get('/getViews/:id', function(req,res){
+app.get('/getViews/user/:id', function(req,res){
    const id = +req.params.id;
    console.log("hit it",id);
    User.findOne({id: id}).populate('educations').populate('experiences').exec((err, finduser) => {
@@ -206,4 +269,4 @@ app.use(function(req, res, next) {
 // });
 
 //launch application,listen on port3000
-app.listen(80, () => console.log('Example app listening !'));
+app.listen(3000, () => console.log('Example app listening !'));
