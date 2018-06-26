@@ -6,13 +6,17 @@ Talens3 Website (http://talents3.com)
 
 A single-page web application with Angular6 frontend framework, NodeJs and Express backend server and online MongoDB database
 
+### Built With
+
+* [Angular](https://angular.io/) - The web framework used
+* [MongoDB](https://mlab.com/) - Online MongoDB
+* [NodeJS](https://nodejs.org/en/) - The web backend server
+* [ExpressJS](https://expressjs.com/) - The web backend server api
+
 ### Prerequisites
 
 You will need node and npm installed globally on your machine.
 
-```
-Give examples
-```
 
 ### Installing
 
@@ -20,7 +24,6 @@ Install latest Angular
 
 ```
 sudo npm install -g @angular/cli@latest
-
 ```
 
 Build frontend Angular module
@@ -28,7 +31,6 @@ Build frontend Angular module
 ```
 cd client
 ng build
-
 ```
 
 Install backend Libraries
@@ -36,7 +38,6 @@ Install backend Libraries
 ```
 cd server
 npm install
-
 ```
 
 Setup the port you want to use, change ./server/server.js like this,
@@ -66,13 +67,15 @@ npm start
 
 
 
-## Running the tests
+## Project Structure
 
-Explain how to run the automated tests for this system
+![Optional Text](./demoImages/FRONTEND_STRUCTURE.png)
 
-### Break down into end to end tests
+![Optional Text](./demoImages/BACKEND_STRUCTURE.png)
 
-Explain what these tests test and why
+### MVC model
+
+A Model–view–controller design pattern decouples major components
 
 ```
 Give an example
@@ -89,12 +92,5 @@ Give an example
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Angular](https://angular.io/) - The web framework used
-* [MongoDB](https://mlab.com/) - Online MongoDB
-* [NodeJS](https://nodejs.org/en/) - The web backend server
-* [ExpressJS](https://expressjs.com/) - The web backend server api
 
 
