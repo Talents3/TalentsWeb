@@ -16,21 +16,55 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Install latest Angular
 
 ```
-Give the example
-```
-
-And repeat
+sudo npm install -g @angular/cli@latest
 
 ```
-until finished
+
+Build frontend Angular module
+
+```
+cd client
+ng build
+
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Install backend Libraries
+
+```
+cd server
+npm install
+
+```
+
+Setup the port you want to use, change ./server/server.js like this,
+
+```
+app.listen(3000, () => console.log('Example app listening !'));
+```
+Setup the configuaration at ./server/config/database.js like this, 
+
+```
+module.exports = {
+  'secret':'yourSecret',
+  'database': 'your mongo db setup', (mongodb:/***:***@****.mlab.com:51210/talents-web-user-db)
+  'numsPerPage': 30,
+  'initialNumOfUsers': 30,
+  'emailAccount': 'email', 
+  'emailPassword': 'password'
+};
+
+```
+
+Start the server and 
+
+```
+npm start
+```
+
+
 
 ## Running the tests
 
@@ -56,9 +90,11 @@ Give an example
 
 Add additional notes about how to deploy this on a live system
 
+## Built With
 
-## Acknowledgments
+* [Angular](https://angular.io/) - The web framework used
+* [MongoDB](https://mlab.com/) - Online MongoDB
+* [NodeJS](https://nodejs.org/en/) - The web backend server
+* [ExpressJS](https://expressjs.com/) - The web backend server api
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+
