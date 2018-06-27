@@ -268,13 +268,13 @@ const getMoreUsers = function(curNum) {
 ### Register 
 In fronetend side, we check if the email is a vaild one. Then make sure the password and confirm password is match. The valid sign up data will pass to backend server.
 
-In server side, we create a temporary user account with username, email, password and one-week expire date. The password passed by user will be hashed by [bcrypt-nodejs] (https://www.npmjs.com/package/bcrypt-nodejs) and replace with the original password. Then an verified email will be send to the user with the encode password.
+In server side, we create a temporary user account with username, email, password and one-week expire date. The password passed by user will be hashed by [bcrypt-nodejs](https://www.npmjs.com/package/bcrypt-nodejs) and replace with the original password. Then an verified email will be send to the user with the encode password.
 
 Once the user click the link in the email, server will decode the password and verify it. If the verifcation pass, a new user will be created and save to database.
 
 Check the details at :
-*[userModel](./server/models/userModel.js) 
-*[authenticationService](./server/services/authenticationService.js)
+* [userModel](./server/models/userModel.js) 
+* [authenticationService](./server/services/authenticationService.js)
 
 
 ### Login 
@@ -284,9 +284,17 @@ We use [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) to assign a to
 Client will check the token in localStorage to determine who's logging in. The token will be used on futher authentication check when user edit information.
 
 Check the details at :
-*[tempUserModel](./server/models/tempUserModel.js)
-*[userModel](./server/models/userModel.js) 
-*[authenticationService](./server/services/authenticationService.js)
+* [tempUserModel](./server/models/tempUserModel.js)
+* [userModel](./server/models/userModel.js) 
+* [authenticationService](./server/services/authenticationService.js)
+
+### Authentication Checker Middleware
+
+When user want to edit information, token is required in the http header. In server side, token will be decoded as a decodeEmail. If the decodedEmail match the userEmail, server will handle the edit request. 
+
+Check the details at:
+* [AuthCheckMiddleware](./server/middleware/auth_checker.js)
+* [How to use middleware in router](./server/routes/rest.js)
 
 
 ## Deployment 
