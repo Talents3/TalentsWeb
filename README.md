@@ -239,7 +239,7 @@ getMoreUsers(): Promise<User[]> {
  }
 ```
 
-NodeJS service will find results in database and return a spcific amount of data back based on the current loadded number pass in the get request.
+NodeJS service will find results in database and return a specific amount of data back based on the current loadded number pass in the get request.
 
 ```
 router.get('/users/nums/:num', (req, res) => {
@@ -264,8 +264,19 @@ const getMoreUsers = function(curNum) {
     })
 }
 ```
+## Authentication
+### Register 
+In fronetend side, we check if the email is a vaild one. Then make sure the password and confirm password is match. The valid sign up data will pass to backend server.
+
+In server side, we create a temporary user account with username, email, password and one-week expire date. The password passed by user will be hashed by * bcrypt-nodejs (https://www.npmjs.com/package/bcrypt-nodejs) and replace with the original password. Then an verified email will be send to the user with the encode password.
+Check the details at tempUserModel(./server/models/tempUserModel.js) and authenticationService(./server/services/authenticationService.js)
+
+Once the user click the link in the email, server will decode the password and verify it. If the verifcation pass, a new user will be created and save to database.
+```
+```
+
 
 ## Deployment 
 
-Set up an was account, and launch a EC2 instance in any place you want. For our web server, we launch the instance in North Virginia. Follow the instructions here https://aws.amazon.com/premiumsupport/knowledge-center/create-linux-instance/, you can launch your instance quickly. Please remember after launched your instance, you should add your security group, because our server listens on port 80,  need to make sure TCP port range can cover this port. After launch it, you need to connect to your linux instance, follow the instructions here https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html.  Then in your instance terminal go to your root directory , and install npm, yarn, node, git, angular and other useful packages globally. Remember one thing, when you installing angular, you should better install yarn first, and use yarn to help you install angular cli, this will make your life easier.  After installed all these necessary tools, use git clone to download your code from your own repository(next time use git pull to update). Go to client directory, and run this command, “ng build”, then go to server directory, run, “nobup node server.js&” (this will make your server running in background).
+Set up an was account, and launch a EC2 instance in any place you want. For our web server, we launch the instance in North Virginia. Follow the instructions here https://aws.amazon.com/premiumsupport/knowledge-center/create-linux-instance/, you can launch your instance quickly. Please remember after launched your instance, you should add your security group, because our server listens on port 80,  need to make sure TCP port range can cover this port. After launch it, you need to connect to your linux instance, follow the instructions here https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html .Then in your instance terminal go to your root directory , and install npm, yarn, node, git, angular and other useful packages globally. Remember one thing, when you installing angular, you should better install yarn first, and use yarn to help you install angular cli, this will make your life easier.  After installed all these necessary tools, use git clone to download your code from your own repository(next time use git pull to update). Go to client directory, and run this command, “ng build”, then go to server directory, run, “nobup node server.js&” (this will make your server running in background).
 
