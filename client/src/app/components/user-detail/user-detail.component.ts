@@ -124,7 +124,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   saveEducation(): void {
-      console.log(this.selectedEducation); // save this updated education
+      this.readCourses();
       if (this.isAddingEducation) {
           this.dataService.addEducation(this.selectedEducation)
             .then(education => {
@@ -135,7 +135,6 @@ export class UserDetailComponent implements OnInit {
                   });
             });
       } else {
-        this.readCourses();
           this.dataService.modifyEducation(this.selectedEducation)
             .then(education => {
                 console.log("Modify education :" + education.universityName);
@@ -169,17 +168,16 @@ export class UserDetailComponent implements OnInit {
   }
 
   saveExperience(input:any): void {// save this updated education
+      this.readSkills();
           if (this.isEmptyExperience) {
               this.dataService.addExperience(this.selectedExperience)
                 .then(experience => {
-                    console.log("Add experience : " + experience.companyName);
                     this.dataService.getUser(this.user.id)
                       .then(user => {
                         this.user = user;
                       });
                 });
           } else {
-            this.readSkills();
               this.dataService.modifyExperience(this.selectedExperience)
                 .then(experience => {
                     console.log("Modify experience :" + experience.companyName);
@@ -290,6 +288,8 @@ export class UserDetailComponent implements OnInit {
   }
 
   saveProject(input:any): void {// save this updated education
+    this.readProjectSkills();
+    console.log(this.selectedProject);
           if (this.isEmptyProject) {
               this.dataService.addProject(this.selectedProject)
                 .then(project => {
@@ -300,7 +300,6 @@ export class UserDetailComponent implements OnInit {
                       });
                 });
           } else {
-            this.readProjectSkills();
               this.dataService.modifyProject(this.selectedProject)
                 .then(project => {
                     console.log("Modify project :" + project.projectName);
@@ -338,7 +337,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   readCourses() {
-    this.selectedEducation.courses=this.selectedEducation.courses.concat(this.addedCourses);
+    if (this.selectedEducation.courses == null) {
+      this.selectedEducation.courses = this.addedCourses;
+    } else {
+      this.selectedEducation.courses = this.selectedEducation.courses.concat(this.addedCourses);
+    }
     for (var i = 0; i < this.selectedEducation.courses.length; i++) {
       if (this.selectedEducation.courses[i].courseName == "") {
         var index = this.selectedEducation.courses.indexOf(this.selectedEducation.courses[i], 0);
@@ -373,7 +376,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   readSkills() {
-    this.selectedExperience.skills=this.selectedExperience.skills.concat(this.addedSkills);
+    if (this.selectedExperience.skills == null) {
+      this.selectedExperience.skills = this.addedSkills;
+    } else {
+      this.selectedExperience.skills=this.selectedExperience.skills.concat(this.addedSkills);
+    }
     for (var i = 0; i < this.selectedExperience.skills.length; i++) {
       if (this.selectedExperience.skills[i].skillName == "") {
         var index = this.selectedExperience.skills.indexOf(this.selectedExperience.skills[i], 0);
@@ -410,7 +417,11 @@ export class UserDetailComponent implements OnInit {
   }
 
   readProjectSkills() {
-    this.selectedProject.skills=this.selectedProject.skills.concat(this.addedSkills);
+    if (this.selectedProject.skills == null) {
+      this.selectedProject.skills = this.addedSkills;
+    } else {
+      this.selectedProject.skills = this.selectedProject.skills.concat(this.addedSkills);
+    }
     for (var i = 0; i < this.selectedProject.skills.length; i++) {
       if (this.selectedProject.skills[i].skillName == "") {
         var index = this.selectedProject.skills.indexOf(this.selectedProject.skills[i], 0);

@@ -220,6 +220,8 @@
             <input type="date" class="form-control" name="endDate" [(ngModel)]= "selectedProject.endDate">
             <label for="projectContent" class="col-form-label">Project Content:</label>
             <input type="text" class="form-control" name="projectContent" [(ngModel)]= "selectedProject.projectContent">
+            <label for="projectLink" class="col-form-label">Project Link:</label>
+            <input type="text" class="form-control" name="projectLink" [(ngModel)]= "selectedProject.projectLink">
             <label for="skills" class="col-form-label">Skills:</label>
             <button type="button" class=" btn btn-outline-secondary btn-sm float-right" align="center" (click)="addProjectSkill()"><img class="float-right" style="width: 50%;height: 50%; " src="assets/images/add-icon.png"></button>&nbsp;
             <div *ngFor="let selectedSkill of selectedProject.skills;let index = index;">
@@ -368,6 +370,9 @@
           </div>
           <div>{{project.startDate}} --- {{project.endDate}}</div>
           <div>Project Content: {{project.projectContent}}</div>
+          <div *ngIf="project.projectLink"> Project Link:
+            <a href='{{project.projectLink}}'>{{project.projectLink}}</a>
+          </div>
           <div>
             <div >Core Skills:</div>
             <div *ngFor="let skill of project.skills" style="padding-right: 15px; display: inline-block;"><span class="badge badge-primary" style="background-color: #4842a9">{{skill.skillName}}</span></div>

@@ -34,7 +34,7 @@ const addProject = function(req, res) {
         reject("User not found!");
         return res.status(400).send('User Not Found');
       } else {
-        Project.findOne({companyName: req.body.companyName,
+        Project.findOne({companyName: req.body.projectName,
                             startDate: req.body.startDate,
                             endDate: req.body.endDate,
                             userEmail: req.body.userEmail}, (err, project) => {
@@ -75,6 +75,7 @@ const modifyProject = function(req, res, _id) {
             project.startDate = req.body.startDate;
             project.endDate = req.body.endDate;
             project.projectContent = req.body.projectContent;
+            project.projectLink = req.body.projectLink;
             project.skills = req.body.skills;
             project.save();
             project.skills.forEach((skill) => {

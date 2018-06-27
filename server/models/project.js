@@ -9,6 +9,7 @@ var projectSchema = mongoose.Schema({
           startDate: String,
           endDate: String,
           projectContent: String,
+          projectLink: String,
           skills: [
                 {
                 	skillName: String,
