@@ -101,7 +101,6 @@ export class DataService {
   }
 
   addExperience(experience): Promise<Experience> {
-    console.log("add Experience");
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

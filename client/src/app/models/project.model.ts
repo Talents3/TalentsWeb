@@ -5,5 +5,6 @@ export class Project {
   projectContent: string;
   startDate: string;
   endDate: string;
+  projectLink: string;
   skills: Skill[];
 }
